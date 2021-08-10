@@ -1,6 +1,7 @@
-# midowe_app
+# Midowe
+Plataforma de angariação de fundos e apoio a causas sociais
 
-Midowe app
+
 
 ## Getting Started
 
