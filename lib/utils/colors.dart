@@ -7,6 +7,6 @@ class Constants {
 
   static final Color secondaryColor = Color.fromRGBO(33, 45, 82, 1);
   static final Color secondaryColor1 = Color.fromRGBO(63, 58, 79, 1.0);
-
-
+  static final Color secondaryColor2 = Color.fromRGBO(144, 143, 203, 1.0);
+  static final Color secondaryColor3 = Color.fromRGBO(239, 240, 246, 1.0);
 }

@@ -6,8 +6,7 @@ import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/campaign_list_view.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
 
-class Welcome extends StatelessWidget{
-
+class Welcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
@@ -37,7 +36,10 @@ class Welcome extends StatelessWidget{
                   SizedBox(
                     height: 50.0,
                   ),
-                  Image(image: AssetImage("assets/images/logo.png"), height: 65,),
+                  Image(
+                    image: AssetImage("assets/images/logo.png"),
+                    height: 65,
+                  ),
                   Text(
                     "Plataforma de angariação de fundos e apoio a causas sociais",
                     textAlign: TextAlign.center,
@@ -79,10 +81,9 @@ class Welcome extends StatelessWidget{
                                 fontWeight: FontWeight.bold),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () async {
-                              // todo
+                                // todo
                               }),
-                      ])
-                  ),
+                      ])),
                   SizedBox(
                     height: 45.0,
                   ),
@@ -94,5 +95,4 @@ class Welcome extends StatelessWidget{
       ),
     );
   }
-
 }
