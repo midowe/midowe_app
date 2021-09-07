@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:midowe_app/utils/colors.dart';
+import 'package:midowe_app/utils/helper.dart';
+import 'package:midowe_app/views/campaign_profile_view.dart';
+import 'package:midowe_app/views/campaign_register_view.dart';
+import 'package:midowe_app/views/category_campaign_view.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
 import 'package:midowe_app/widgets/title_subtitle_heading.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -9,16 +13,17 @@ class CampaignList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          HeaderArea(),
-          FeaturedArea(),
-          CategoriesArea(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            HeaderArea(),
+            FeaturedArea(),
+            CategoriesArea(),
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
 
@@ -35,7 +40,7 @@ class HeaderArea extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            height: 40,
+            height: 45,
           ),
           Row(
             children: [
@@ -94,7 +99,7 @@ class HeaderArea extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: 73,
+            height: 53,
           ),
           SizedBox(
             width: 220,
@@ -104,7 +109,7 @@ class HeaderArea extends StatelessWidget {
                   CupertinoIcons.plus,
                 ),
                 onPressed: () {
-                  // todo
+                  Helper.nextPage(context, CampaignRegisterView());
                 }),
           ),
         ],
@@ -136,14 +141,26 @@ class FeaturedArea extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 children: [
                   SizedBox(width: 15),
-                  _composeItem("Abertura de furo de agua",
-                      "https://picsum.photos/300/250"),
-                  _composeItem("Construção de uma escola na zona",
-                      "https://picsum.photos/300/201"),
-                  _composeItem("Apoiar a reabilitação da estrada",
-                      "https://picsum.photos/300/202"),
-                  _composeItem("Produção do meu último album",
-                      "https://picsum.photos/200/210"),
+                  _composeItem(
+                    "Abertura de furo de agua",
+                    "https://picsum.photos/300/250",
+                    context,
+                  ),
+                  _composeItem(
+                    "Construção de uma escola na zona",
+                    "https://picsum.photos/300/201",
+                    context,
+                  ),
+                  _composeItem(
+                    "Apoiar a reabilitação da estrada",
+                    "https://picsum.photos/300/202",
+                    context,
+                  ),
+                  _composeItem(
+                    "Produção do meu último album",
+                    "https://picsum.photos/200/210",
+                    context,
+                  ),
                   SizedBox(width: 15),
                 ],
               )),
@@ -152,9 +169,11 @@ class FeaturedArea extends StatelessWidget {
     );
   }
 
-  Widget _composeItem(String title, String imageUrl) {
+  Widget _composeItem(String title, String imageUrl, BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Helper.nextPage(context, CampaignProfileView());
+      },
       customBorder: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Container(
@@ -201,37 +220,50 @@ class CategoriesArea extends StatelessWidget {
       alignment: Alignment.topLeft,
       padding: EdgeInsets.all(20.0),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        _composeCategory(
-            "Solidariedade", "Campanhas sobre saúde, doenças e caridade"),
-        _composeCategory("Educação", "Construção de escolas"),
-        _composeCategory("Saúde", "Despesas médicas"),
+        _composeCategory("Solidariedade",
+            "Campanhas sobre saúde, doenças e caridade", context),
+        _composeCategory("Educação", "Construção de escolas", context),
+        _composeCategory("Saúde", "Despesas médicas", context),
       ]),
     );
   }
 
-  Widget _composeCategory(String title, String description) {
+  Widget _composeCategory(
+      String title, String description, BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 10.0, bottom: 20.0),
+      padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         TitleSubtitleHeading(
           title,
           description,
         ),
         SizedBox(height: 10),
-        _composeTopList(),
+        _composeTopList(context),
+        Center(
+          child: IconButton(
+            icon: Icon(
+              CupertinoIcons.chevron_compact_down,
+            ),
+            onPressed: () {
+              Helper.nextPage(context, CategoryCampaignView());
+            },
+          ),
+        )
       ]),
     );
   }
 
-  Widget _composeTopList() {
+  Widget _composeTopList(BuildContext context) {
     return Column(
-      children: [_composeTopListItem(), _composeTopListItem()],
+      children: [_composeTopListItem(context), _composeTopListItem(context)],
     );
   }
 
-  Widget _composeTopListItem() {
+  Widget _composeTopListItem(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Helper.nextPage(context, CampaignProfileView());
+      },
       customBorder: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Padding(

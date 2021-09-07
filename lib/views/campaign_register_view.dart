@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class CampaignDonateView extends StatelessWidget {
+class CampaignRegisterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text("Campaign donate"),
+        child: Text("Campaign profile"),
       ),
     );
   }
