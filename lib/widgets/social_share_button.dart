@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:midowe_app/utils/colors.dart';
 
 class SocialShareButton extends StatelessWidget {
   final VoidCallback onPressed;

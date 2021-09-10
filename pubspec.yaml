@@ -29,6 +29,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   transparent_image: ^2.0.0
   font_awesome_flutter: ^9.1.0
+  provider: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -55,6 +56,9 @@ flutter:
     - assets/images/logo-white.png
     - assets/images/hero-image.png
     - assets/images/hero-image-wide.png
+    - assets/images/hands-holding-words-thank-you.png
+    - assets/images/verified-user.png
+    - assets/images/sad.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -6,11 +6,14 @@ import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/campaign_donate_view.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
 import 'package:midowe_app/widgets/social_share_button.dart';
+import 'package:midowe_app/widgets/thank_you_dialog.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class CampaignProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    //Future.delayed(Duration.zero, () => _showSuccessDialog(context));
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -23,6 +26,26 @@ class CampaignProfileView extends StatelessWidget {
       ),
     );
   }
+
+  void _showSuccessDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+          child: Container(
+            height: 430,
+            child: ThankYouDialogBox(
+                amount: "100MT",
+                paymentMethod: "M-Pesa",
+                userPhone: "842058817",
+                userName: "Américo Chaquisse"),
+          ),
+        );
+      },
+    );
+  }
 }
 
 class CampaignProfileHeader extends StatelessWidget {
@@ -33,8 +56,9 @@ class CampaignProfileHeader extends StatelessWidget {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(30),
-              bottomRight: Radius.circular(30)),
+            bottomLeft: Radius.circular(30),
+            bottomRight: Radius.circular(30),
+          ),
           child: FadeInImage.memoryNetwork(
             placeholder: kTransparentImage,
             image: "https://picsum.photos/600/400",
@@ -55,6 +79,23 @@ class CampaignProfileHeader extends StatelessWidget {
 class CampaignProfileBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _composeContentArea(context),
+          _composeOtherPicturesArea(),
+          _composeShareArea(),
+          _composeDonationsArea(),
+          SizedBox(
+            height: 40,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _composeContentArea(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
       child: Column(
@@ -103,12 +144,6 @@ class CampaignProfileBody extends StatelessWidget {
               fontSize: 15.5,
             ),
           ),
-          _composeOtherPicturesArea(),
-          _composeShareArea(),
-          _composeDonationsArea(),
-          SizedBox(
-            height: 40,
-          ),
         ],
       ),
     );
@@ -121,9 +156,12 @@ class CampaignProfileBody extends StatelessWidget {
         SizedBox(
           height: 35,
         ),
-        Text(
-          "Outras imagens",
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+          child: Text(
+            "Outras imagens",
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+          ),
         ),
         SizedBox(
           height: 20,
@@ -135,6 +173,7 @@ class CampaignProfileBody extends StatelessWidget {
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               children: [
+                SizedBox(width: 20),
                 Container(
                   width: 140,
                   height: 140,
@@ -186,6 +225,7 @@ class CampaignProfileBody extends StatelessWidget {
                           ).image),
                       borderRadius: BorderRadius.all(Radius.circular(15))),
                 ),
+                SizedBox(width: 20),
               ],
             )),
       ],
@@ -193,66 +233,71 @@ class CampaignProfileBody extends StatelessWidget {
   }
 
   Widget _composeShareArea() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 35,
-        ),
-        Text(
-          "Partilhar nas redes sociais",
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        Wrap(
-          spacing: 15.0,
+    return Container(
+        padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SocialShareButton(
-              icon: Icon(FontAwesomeIcons.facebook),
-              onPressed: () {},
+            SizedBox(
+              height: 35,
             ),
-            SocialShareButton(
-              icon: Icon(FontAwesomeIcons.whatsapp),
-              onPressed: () {},
+            Text(
+              "Partilhar nas redes sociais",
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
             ),
-            SocialShareButton(
-              icon: Icon(FontAwesomeIcons.twitter),
-              onPressed: () {},
+            SizedBox(
+              height: 15,
             ),
-            SocialShareButton(
-              icon: Icon(FontAwesomeIcons.linkedin),
-              onPressed: () {},
+            Wrap(
+              spacing: 15.0,
+              children: [
+                SocialShareButton(
+                  icon: Icon(FontAwesomeIcons.facebook),
+                  onPressed: () {},
+                ),
+                SocialShareButton(
+                  icon: Icon(FontAwesomeIcons.whatsapp),
+                  onPressed: () {},
+                ),
+                SocialShareButton(
+                  icon: Icon(FontAwesomeIcons.twitter),
+                  onPressed: () {},
+                ),
+                SocialShareButton(
+                  icon: Icon(FontAwesomeIcons.linkedin),
+                  onPressed: () {},
+                )
+              ],
             )
           ],
-        )
-      ],
-    );
+        ));
   }
 
   Widget _composeDonationsArea() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 35,
-        ),
-        Text(
-          "Doações recebidas",
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        Text(
-          "Nenhuma doação recebida até agora",
-          style: TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              fontStyle: FontStyle.italic),
-        ),
-      ],
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 35,
+          ),
+          Text(
+            "Doações recebidas",
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text(
+            "Nenhuma doação recebida até agora",
+            style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+                fontStyle: FontStyle.italic),
+          ),
+        ],
+      ),
     );
   }
 }
