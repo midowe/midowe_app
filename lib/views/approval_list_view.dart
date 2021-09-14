@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:midowe_app/utils/helper.dart';
-import 'package:midowe_app/views/campaign_profile_view.dart';
+import 'package:midowe_app/views/approval_profile_view.dart';
 import 'package:midowe_app/widgets/campaign_list_item.dart';
 import 'package:midowe_app/widgets/title_subtitle_heading.dart';
 
-import 'approval_profile_view.dart';
-
-class CategoryCampaignView extends StatelessWidget {
-  final String title, description;
-
-  CategoryCampaignView({required this.title, required this.description});
-
+class ApprovalListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,8 +31,8 @@ class CategoryCampaignView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TitleSubtitleHeading(
-                          this.title,
-                          this.description,
+                          "Pendentes de aprovação",
+                          "Possui 4 campanhas pendentes de aprovação",
                         ),
                         SizedBox(
                           height: 20,
@@ -65,7 +59,7 @@ class CategoryCampaignView extends StatelessWidget {
           donatedAmount: 6000,
           targetAmount: 8000,
           onPressed: () {
-            Helper.nextPage(context, CampaignProfileView());
+            Helper.nextPage(context, ApprovalProfileView());
           },
         ),
         CampaignListItem(

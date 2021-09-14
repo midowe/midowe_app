@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:midowe_app/utils/colors.dart';
 import 'package:midowe_app/utils/helper.dart';
+import 'package:midowe_app/views/approval_list_view.dart';
 import 'package:midowe_app/views/campaign_profile_view.dart';
 import 'package:midowe_app/views/campaign_register_view.dart';
 import 'package:midowe_app/views/category_campaign_view.dart';
 import 'package:midowe_app/views/user_register_view.dart';
+import 'package:midowe_app/widgets/campaign_list_item.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
 import 'package:midowe_app/widgets/title_subtitle_heading.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -77,7 +79,9 @@ class HeaderArea extends StatelessWidget {
                     width: 10,
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Helper.nextPage(context, ApprovalListView());
+                    },
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
                       minimumSize: Size(41, 40),
@@ -88,7 +92,7 @@ class HeaderArea extends StatelessWidget {
                           borderRadius: BorderRadius.circular(30)),
                     ),
                     child: Icon(
-                      Icons.settings_outlined,
+                      Icons.checklist,
                       color: Colors.black87,
                     ),
                   )
@@ -246,7 +250,8 @@ class CategoriesArea extends StatelessWidget {
               CupertinoIcons.chevron_compact_down,
             ),
             onPressed: () {
-              Helper.nextPage(context, CategoryCampaignView());
+              Helper.nextPage(context,
+                  CategoryCampaignView(title: title, description: description));
             },
           ),
         )
@@ -256,79 +261,26 @@ class CategoriesArea extends StatelessWidget {
 
   Widget _composeTopList(BuildContext context) {
     return Column(
-      children: [_composeTopListItem(context), _composeTopListItem(context)],
-    );
-  }
-
-  Widget _composeTopListItem(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Helper.nextPage(context, CampaignProfileView());
-      },
-      customBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20))),
-      child: Padding(
-        padding: EdgeInsets.only(top: 10, bottom: 10),
-        child: Row(
-          children: [
-            Container(
-              width: 70,
-              height: 70,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: FadeInImage.memoryNetwork(
-                        placeholder: kTransparentImage,
-                        image: "https://picsum.photos/300/280",
-                      ).image),
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            Expanded(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Vamos dar as crianças do Centro Kurandzana um lar",
-                  style: TextStyle(
-                    color: Constants.secondaryColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  "29% - Meta: 68.000,00",
-                  style: TextStyle(
-                    color: Constants.secondaryColor2,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-              ],
-            )),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-              decoration: BoxDecoration(
-                  color: Constants.secondaryColor3,
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
-              child: Text(
-                "Doar",
-                style: TextStyle(color: Constants.primaryColor),
-              ),
-            ),
-          ],
+      children: [
+        CampaignListItem(
+          title: "Vamos dar as crianças do Centro Kurandzana um lar",
+          imageUrl: "https://picsum.photos/300/280",
+          donatedAmount: 6000,
+          targetAmount: 8000,
+          onPressed: () {
+            Helper.nextPage(context, CampaignProfileView());
+          },
         ),
-      ),
+        CampaignListItem(
+          title: "Vamos dar as crianças do Centro Kurandzana um lar",
+          imageUrl: "https://picsum.photos/300/280",
+          donatedAmount: 6000,
+          targetAmount: 8000,
+          onPressed: () {
+            Helper.nextPage(context, CampaignProfileView());
+          },
+        ),
+      ],
     );
   }
 }

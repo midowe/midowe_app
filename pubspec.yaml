@@ -59,6 +59,7 @@ flutter:
     - assets/images/hands-holding-words-thank-you.png
     - assets/images/verified-user.png
     - assets/images/sad.png
+    - assets/images/approved.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

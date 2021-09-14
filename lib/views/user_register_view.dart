@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:midowe_app/utils/colors.dart';
 import 'package:midowe_app/utils/helper.dart';
+import 'package:midowe_app/views/campaign_register_view.dart';
 import 'package:midowe_app/views/user_login_view.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
 import 'package:midowe_app/widgets/social_share_button.dart';
@@ -48,7 +49,7 @@ class UserRegisterView extends StatelessWidget {
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: _composeFormBody(),
+                        child: _composeFormBody(context),
                       ),
                       SizedBox(
                         height: 50,
@@ -66,7 +67,7 @@ class UserRegisterView extends StatelessWidget {
     );
   }
 
-  Widget _composeFormBody() {
+  Widget _composeFormBody(BuildContext context) {
     return Column(
       children: [
         TextFormField(
@@ -140,7 +141,9 @@ class UserRegisterView extends StatelessWidget {
           child: PrimaryButtonIcon(
             text: "Criar conta",
             icon: Icon(CupertinoIcons.arrow_right),
-            onPressed: () {},
+            onPressed: () {
+              Helper.nextPage(context, CampaignRegisterView());
+            },
           ),
         )
       ],
@@ -194,7 +197,7 @@ class UserRegisterView extends StatelessWidget {
               style: TextStyle(color: Colors.black87, fontSize: 15),
             ),
             TextSpan(
-                text: "Efectuar o login",
+                text: "Entrar",
                 style: TextStyle(
                     color: Constants.primaryColor,
                     decoration: TextDecoration.underline,
