@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:midowe_app/utils/colors.dart';
+import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/widgets/primary_outline_button.dart';
 
 class ThankYouDialogBox extends StatelessWidget {

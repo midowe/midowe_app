@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:midowe_app/utils/colors.dart';
+import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/campaign_register_view.dart';
 import 'package:midowe_app/views/user_login_view.dart';

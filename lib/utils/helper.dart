@@ -8,4 +8,10 @@ class Helper {
       }),
     );
   }
+
+  static void nextPageNoBack(BuildContext context, Widget page) {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => page),
+        (Route<dynamic> route) => false);
+  }
 }

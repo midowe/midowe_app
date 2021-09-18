@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:midowe_app/models/amount_model.dart';
 import 'package:provider/provider.dart';
-import 'package:midowe_app/utils/colors.dart';
+import 'package:midowe_app/utils/constants.dart';
 
 class AmountPicker extends StatefulWidget {
   @override

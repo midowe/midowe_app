@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:midowe_app/models/campaign_model.dart';
-import 'package:midowe_app/utils/colors.dart';
+import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/widgets/campaign_profile.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
 import 'package:midowe_app/widgets/primary_outline_button.dart';

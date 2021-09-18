@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'colors.dart';
+import 'constants.dart';
 
 ThemeData applicationTheme(BuildContext context) {
   return Theme.of(context).copyWith(

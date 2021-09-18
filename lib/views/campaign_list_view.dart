@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:midowe_app/utils/colors.dart';
+import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/approval_list_view.dart';
 import 'package:midowe_app/views/campaign_profile_view.dart';
-import 'package:midowe_app/views/campaign_register_view.dart';
 import 'package:midowe_app/views/category_campaign_view.dart';
 import 'package:midowe_app/views/user_register_view.dart';
 import 'package:midowe_app/widgets/campaign_list_item.dart';
@@ -12,7 +11,7 @@ import 'package:midowe_app/widgets/primary_button_icon.dart';
 import 'package:midowe_app/widgets/title_subtitle_heading.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-class CampaignList extends StatelessWidget {
+class CampaignListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

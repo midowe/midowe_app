@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:midowe_app/utils/colors.dart';
+import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/campaign_list_view.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Welcome extends StatelessWidget {
   @override
@@ -58,9 +60,7 @@ class Welcome extends StatelessWidget {
                       icon: Icon(
                         CupertinoIcons.arrow_right,
                       ),
-                      onPressed: () {
-                        Helper.nextPage(context, CampaignList());
-                      }),
+                      onPressed: () => _actionContinue(context)),
                   SizedBox(
                     height: 50.0,
                   ),
@@ -81,6 +81,13 @@ class Welcome extends StatelessWidget {
                                 fontWeight: FontWeight.bold),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () async {
+                                var url =
+                                    "https://midowe.co.mz/termos-e-condicoes";
+                                if (await canLaunch(url)) {
+                                  await launch(url);
+                                } else {
+                                  throw 'Could not launch $url';
+                                }
                                 // todo
                               }),
                       ])),
@@ -94,5 +101,12 @@ class Welcome extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _actionContinue(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool(Constants.PREF_ACCEPTED_TERMS, true);
+
+    Helper.nextPageNoBack(context, CampaignListView());
   }
 }

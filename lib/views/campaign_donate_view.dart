@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:midowe_app/models/amount_model.dart';
-import 'package:midowe_app/utils/colors.dart';
+import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/widgets/amount_picker.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
 import 'package:provider/provider.dart';

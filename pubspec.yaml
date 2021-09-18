@@ -30,6 +30,10 @@ dependencies:
   transparent_image: ^2.0.0
   font_awesome_flutter: ^9.1.0
   provider: ^6.0.0
+  effective_dart: ^1.3.1
+  expandable: ^5.0.1
+  url_launcher: ^6.0.7
+  shared_preferences: ^2.0.7
 
 dev_dependencies:
   flutter_test:
@@ -57,9 +61,8 @@ flutter:
     - assets/images/hero-image.png
     - assets/images/hero-image-wide.png
     - assets/images/hands-holding-words-thank-you.png
-    - assets/images/verified-user.png
-    - assets/images/sad.png
     - assets/images/approved.png
+    - assets/images/people-gratitude.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
