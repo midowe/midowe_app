@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:midowe_app/models/campaign_model.dart';
 import 'package:midowe_app/utils/constants.dart';
-import 'package:midowe_app/widgets/social_share_button.dart';
+import 'package:midowe_app/widgets/social_icon_button.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class CampaignProfile extends StatelessWidget {
@@ -208,19 +208,19 @@ class CampaignProfile extends StatelessWidget {
             Wrap(
               spacing: 15.0,
               children: [
-                SocialShareButton(
+                SocialIconButton(
                   icon: Icon(FontAwesomeIcons.facebook),
                   onPressed: () {},
                 ),
-                SocialShareButton(
+                SocialIconButton(
                   icon: Icon(FontAwesomeIcons.whatsapp),
                   onPressed: () {},
                 ),
-                SocialShareButton(
+                SocialIconButton(
                   icon: Icon(FontAwesomeIcons.twitter),
                   onPressed: () {},
                 ),
-                SocialShareButton(
+                SocialIconButton(
                   icon: Icon(FontAwesomeIcons.linkedin),
                   onPressed: () {},
                 )

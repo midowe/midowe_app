@@ -7,7 +7,7 @@ import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/campaign_register_view.dart';
 import 'package:midowe_app/views/user_login_view.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
-import 'package:midowe_app/widgets/social_share_button.dart';
+import 'package:midowe_app/widgets/social_icon_button.dart';
 
 class UserRegisterView extends StatelessWidget {
   @override
@@ -164,19 +164,19 @@ class UserRegisterView extends StatelessWidget {
         Wrap(
           spacing: 15.0,
           children: [
-            SocialShareButton(
+            SocialIconButton(
               icon: Icon(FontAwesomeIcons.facebook),
               onPressed: () {},
             ),
-            SocialShareButton(
+            SocialIconButton(
               icon: Icon(FontAwesomeIcons.google),
               onPressed: () {},
             ),
-            SocialShareButton(
+            SocialIconButton(
               icon: Icon(FontAwesomeIcons.twitter),
               onPressed: () {},
             ),
-            SocialShareButton(
+            SocialIconButton(
               icon: Icon(FontAwesomeIcons.linkedin),
               onPressed: () {},
             )
