@@ -34,6 +34,6 @@ class MyApp extends StatelessWidget {
     if (accepted != null && accepted) {
       return CampaignListView();
     }
-    return Welcome();
+    return WelcomeView();
   }
 }

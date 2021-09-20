@@ -3,8 +3,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:midowe_app/utils/constants.dart';
+import 'package:midowe_app/utils/decorators.dart';
+import 'package:midowe_app/utils/validators.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
-import 'package:midowe_app/widgets/social_share_button.dart';
+import 'package:midowe_app/widgets/social_login_buttons.dart';
 
 class UserLoginView extends StatelessWidget {
   @override
@@ -46,13 +48,35 @@ class UserLoginView extends StatelessWidget {
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: _composeFormBody(),
+                        child: LoginForm(),
                       ),
                       SizedBox(
                         height: 50,
                       ),
-                      _composeSocialLogin(),
-                      _composeAskToLogin(context)
+                      SocialLoginButtons(),
+                      Container(
+                        padding: EdgeInsets.only(top: 40, bottom: 20),
+                        child: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(children: [
+                              TextSpan(
+                                text: "Não possui conta? ",
+                                style: TextStyle(
+                                    color: Colors.black87, fontSize: 15),
+                              ),
+                              TextSpan(
+                                  text: "Criar conta",
+                                  style: TextStyle(
+                                      color: Constants.primaryColor,
+                                      decoration: TextDecoration.underline,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () async {
+                                      Navigator.pop(context);
+                                    }),
+                            ])),
+                      )
                     ],
                   ),
                 ),
@@ -63,124 +87,49 @@ class UserLoginView extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _composeFormBody() {
-    return Column(
-      children: [
-        TextFormField(
-          decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-              prefixIcon: Icon(
-                FontAwesomeIcons.phoneAlt,
-                color: Constants.palidGray,
-                size: 15,
-              ),
-              fillColor: Constants.secondaryColor4,
-              enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent),
-                  borderRadius: BorderRadius.all(Radius.circular(30.0))),
-              border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent),
-                  borderRadius: BorderRadius.all(Radius.circular(30.0))),
-              hintStyle: TextStyle(color: Constants.palidGray),
-              filled: true,
-              hintText: "Número de telefone"),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        TextFormField(
-          decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-              prefixIcon: Icon(
-                FontAwesomeIcons.lock,
-                color: Constants.palidGray,
-                size: 15,
-              ),
-              fillColor: Constants.secondaryColor4,
-              enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent),
-                  borderRadius: BorderRadius.all(Radius.circular(30.0))),
-              border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent),
-                  borderRadius: BorderRadius.all(Radius.circular(30.0))),
-              hintStyle: TextStyle(color: Constants.palidGray),
-              filled: true,
-              hintText: "Password"),
-        ),
-        SizedBox(
-          height: 30,
-        ),
-        SizedBox(
-          width: 200,
-          child: PrimaryButtonIcon(
-            text: "Entrar",
-            icon: Icon(CupertinoIcons.arrow_right),
-            onPressed: () {},
+class LoginForm extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => LoginFormState();
+}
+
+class LoginFormState extends State<LoginForm> {
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          TextFormField(
+            validator: validateRequiredField,
+            decoration: inputBorderlessRounded("Telefone ou email"),
           ),
-        )
-      ],
+          SizedBox(
+            height: 20,
+          ),
+          TextFormField(
+            validator: validateRequiredField,
+            obscureText: true,
+            decoration: inputBorderlessRounded("Password"),
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          SizedBox(
+            width: 200,
+            child: PrimaryButtonIcon(
+              text: "Entrar",
+              icon: Icon(CupertinoIcons.arrow_right),
+              onPressed: () => _actionLogin(),
+            ),
+          )
+        ],
+      ),
     );
   }
 
-  Widget _composeSocialLogin() {
-    return Column(
-      children: [
-        Text(
-          "Ou continue com plataformas sociais",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 12),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Wrap(
-          spacing: 15.0,
-          children: [
-            SocialShareButton(
-              icon: Icon(FontAwesomeIcons.facebook),
-              onPressed: () {},
-            ),
-            SocialShareButton(
-              icon: Icon(FontAwesomeIcons.google),
-              onPressed: () {},
-            ),
-            SocialShareButton(
-              icon: Icon(FontAwesomeIcons.twitter),
-              onPressed: () {},
-            ),
-            SocialShareButton(
-              icon: Icon(FontAwesomeIcons.linkedin),
-              onPressed: () {},
-            )
-          ],
-        )
-      ],
-    );
-  }
-
-  Widget _composeAskToLogin(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(top: 40, bottom: 20),
-      child: RichText(
-          textAlign: TextAlign.center,
-          text: TextSpan(children: [
-            TextSpan(
-              text: "Não possui conta? ",
-              style: TextStyle(color: Colors.black87, fontSize: 15),
-            ),
-            TextSpan(
-                text: "Criar conta",
-                style: TextStyle(
-                    color: Constants.primaryColor,
-                    decoration: TextDecoration.underline,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () async {
-                    Navigator.pop(context);
-                  }),
-          ])),
-    );
-  }
+  void _actionLogin() {}
 }

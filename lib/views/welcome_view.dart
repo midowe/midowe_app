@@ -8,7 +8,7 @@ import 'package:midowe_app/widgets/primary_button_icon.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Welcome extends StatelessWidget {
+class WelcomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
@@ -21,6 +21,7 @@ class Welcome extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
+                key: Key("hero_image"),
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.fitHeight,

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class SocialShareButton extends StatelessWidget {
+class SocialIconButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Icon icon;
 
-  SocialShareButton({required this.icon, required this.onPressed});
+  SocialIconButton({required this.icon, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
