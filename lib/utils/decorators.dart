@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'constants.dart';
 
-InputDecoration inputBorderlessRounded(String hintText) {
+InputDecoration inputBorderlessRounded(String hintText, IconData iconData) {
   return InputDecoration(
       contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
       prefixIcon: Icon(
-        FontAwesomeIcons.phoneAlt,
+        iconData,
         color: Constants.palidGray,
         size: 15,
       ),

@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:midowe_app/utils/constants.dart';
+import 'package:midowe_app/providers/user_provider.dart';
 import 'package:midowe_app/utils/decorators.dart';
 import 'package:midowe_app/utils/validators.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
 import 'package:midowe_app/widgets/social_login_buttons.dart';
+import 'package:midowe_app/widgets/text_link_inline.dart';
 
 class UserLoginView extends StatelessWidget {
   @override
@@ -54,28 +54,10 @@ class UserLoginView extends StatelessWidget {
                         height: 50,
                       ),
                       SocialLoginButtons(),
-                      Container(
-                        padding: EdgeInsets.only(top: 40, bottom: 20),
-                        child: RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(children: [
-                              TextSpan(
-                                text: "Não possui conta? ",
-                                style: TextStyle(
-                                    color: Colors.black87, fontSize: 15),
-                              ),
-                              TextSpan(
-                                  text: "Criar conta",
-                                  style: TextStyle(
-                                      color: Constants.primaryColor,
-                                      decoration: TextDecoration.underline,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () async {
-                                      Navigator.pop(context);
-                                    }),
-                            ])),
+                      TextLinkInline(
+                        text: "Não possui conta?",
+                        linkName: "Criar conta",
+                        onPressed: () => Navigator.pop(context),
                       )
                     ],
                   ),
@@ -96,6 +78,7 @@ class LoginForm extends StatefulWidget {
 
 class LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
+  final Map<String, dynamic> _formData = {'identifier': null, 'password': null};
 
   @override
   Widget build(BuildContext context) {
@@ -105,15 +88,21 @@ class LoginFormState extends State<LoginForm> {
         children: [
           TextFormField(
             validator: validateRequiredField,
-            decoration: inputBorderlessRounded("Telefone ou email"),
+            onSaved: (value) => _formData['identifier'] = value,
+            decoration: inputBorderlessRounded(
+                "Telefone ou email", FontAwesomeIcons.phoneAlt),
+            textInputAction: TextInputAction.next,
           ),
           SizedBox(
             height: 20,
           ),
           TextFormField(
             validator: validateRequiredField,
+            onSaved: (value) => _formData['password'] = value,
+            decoration:
+                inputBorderlessRounded("Password", FontAwesomeIcons.lock),
+            onFieldSubmitted: (_) => _actionLogin(),
             obscureText: true,
-            decoration: inputBorderlessRounded("Password"),
           ),
           SizedBox(
             height: 30,
@@ -131,5 +120,38 @@ class LoginFormState extends State<LoginForm> {
     );
   }
 
-  void _actionLogin() {}
+  void _actionLogin() {
+    print('submiting form');
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      _actionShowLoading();
+      UserProvider.login(_formData['identifier'], _formData['password']).then(
+        (value) => {print('Finished login')},
+      );
+    }
+  }
+
+  void _actionShowLoading() {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: new Row(
+            children: [
+              CircularProgressIndicator(),
+              Container(
+                margin: EdgeInsets.only(left: 20),
+                child: Text("Processando..."),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    new Future.delayed(new Duration(seconds: 3), () {
+      Navigator.pop(context); //pop dialog
+    });
+  }
 }

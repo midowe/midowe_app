@@ -8,6 +8,8 @@ import 'package:midowe_app/views/campaign_register_view.dart';
 import 'package:midowe_app/views/user_login_view.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
 import 'package:midowe_app/widgets/social_icon_button.dart';
+import 'package:midowe_app/widgets/social_login_buttons.dart';
+import 'package:midowe_app/widgets/text_link_inline.dart';
 
 class UserRegisterView extends StatelessWidget {
   @override
@@ -54,8 +56,13 @@ class UserRegisterView extends StatelessWidget {
                       SizedBox(
                         height: 50,
                       ),
-                      _composeSocialLogin(),
-                      _composeAskToLogin(context)
+                      SocialLoginButtons(),
+                      TextLinkInline(
+                        text: "Já possui uma conta?",
+                        linkName: "Entrar",
+                        onPressed: () =>
+                            Helper.nextPage(context, UserLoginView()),
+                      )
                     ],
                   ),
                 ),
@@ -147,67 +154,6 @@ class UserRegisterView extends StatelessWidget {
           ),
         )
       ],
-    );
-  }
-
-  Widget _composeSocialLogin() {
-    return Column(
-      children: [
-        Text(
-          "Ou continue com plataformas sociais",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 12),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Wrap(
-          spacing: 15.0,
-          children: [
-            SocialIconButton(
-              icon: Icon(FontAwesomeIcons.facebook),
-              onPressed: () {},
-            ),
-            SocialIconButton(
-              icon: Icon(FontAwesomeIcons.google),
-              onPressed: () {},
-            ),
-            SocialIconButton(
-              icon: Icon(FontAwesomeIcons.twitter),
-              onPressed: () {},
-            ),
-            SocialIconButton(
-              icon: Icon(FontAwesomeIcons.linkedin),
-              onPressed: () {},
-            )
-          ],
-        )
-      ],
-    );
-  }
-
-  Widget _composeAskToLogin(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(top: 40, bottom: 20),
-      child: RichText(
-          textAlign: TextAlign.center,
-          text: TextSpan(children: [
-            TextSpan(
-              text: "Já possúi uma conta? ",
-              style: TextStyle(color: Colors.black87, fontSize: 15),
-            ),
-            TextSpan(
-                text: "Entrar",
-                style: TextStyle(
-                    color: Constants.primaryColor,
-                    decoration: TextDecoration.underline,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () async {
-                    Helper.nextPage(context, UserLoginView());
-                  }),
-          ])),
     );
   }
 }
