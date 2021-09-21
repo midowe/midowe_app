@@ -16,3 +16,6 @@ https://medium.com/flutterdevs/multiimage-picker-in-flutter-69bd9f6cedfb
 ### Add date picker
 https://stackoverflow.com/questions/52727535/what-is-the-correct-way-to-add-date-picker-in-flutter-app
 https://api.flutter.dev/flutter/material/showDatePicker.html
+
+### Json
+https://flutter.dev/docs/development/data-and-backend/json

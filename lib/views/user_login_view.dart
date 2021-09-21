@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_it/get_it.dart';
+import 'package:midowe_app/providers/user_provider.dart';
 import 'package:midowe_app/providers/user_provider.dart';
 import 'package:midowe_app/utils/decorators.dart';
 import 'package:midowe_app/utils/validators.dart';
@@ -77,6 +79,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class LoginFormState extends State<LoginForm> {
+  final _userProvider = GetIt.I.get<UserProvider>();
   final _formKey = GlobalKey<FormState>();
   final Map<String, dynamic> _formData = {'identifier': null, 'password': null};
 
@@ -125,9 +128,9 @@ class LoginFormState extends State<LoginForm> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       _actionShowLoading();
-      UserProvider.login(_formData['identifier'], _formData['password']).then(
-        (value) => {print('Finished login')},
-      );
+      _userProvider.login(_formData['identifier'], _formData['password']).then(
+            (value) => {print('Finished login')},
+          );
     }
   }
 

@@ -1,22 +1,18 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:midowe_app/providers/base_provider.dart';
 
-class UserProvider {
-  static final int RESPONSE_SUCCESS = 1;
+class UserProvider extends BaseProvider {
+  Future<int> login(String identifier, String password) async {
+    http.Response response = await post(
+      "/auth/local",
+      jsonEncode(
+        <String, String>{'identifier': identifier, 'password': password},
+      ),
+    );
 
-  static bool isAuthenticated() {
-    return false;
-  }
-
-  static Future<int> login(String identifier, String password) async {
-    http.Response response = await http.post(
-        Uri.parse("https://api.midowe.co.mz/auth/local"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(
-            <String, String>{'identifier': identifier, 'password': password}));
+    Map<String, dynamic> decodedResponse = jsonDecode(response.body);
 
     print(response.body);
     print(response.statusCode);
@@ -33,7 +29,6 @@ class UserProvider {
     return false;
   }
 
-  static bool logout() {
-    return false;
-  }
+  //todo: logout, isAuth
+
 }
