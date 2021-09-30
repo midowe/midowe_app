@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:midowe_app/providers/user_provider.dart';
-import 'package:midowe_app/providers/user_provider.dart';
 import 'package:midowe_app/utils/decorators.dart';
 import 'package:midowe_app/utils/validators.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
