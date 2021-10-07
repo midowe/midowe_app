@@ -8,6 +8,11 @@ import 'package:midowe_app/widgets/primary_button_icon.dart';
 import 'package:midowe_app/widgets/thank_you_dialog.dart';
 
 class CampaignProfileView extends StatelessWidget {
+  final Campaign campaign;
+
+  const CampaignProfileView({Key? key, required this.campaign})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     //Future.delayed(Duration.zero, () => _showSuccessDialog(context));
@@ -15,7 +20,7 @@ class CampaignProfileView extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: CampaignProfile(
-          campaignModel: CampaignModel(),
+          campaign: campaign,
           actionArea: SizedBox(
             width: 200,
             child: PrimaryButtonIcon(

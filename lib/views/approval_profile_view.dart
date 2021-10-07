@@ -7,12 +7,17 @@ import 'package:midowe_app/widgets/primary_button_icon.dart';
 import 'package:midowe_app/widgets/primary_outline_button.dart';
 
 class ApprovalProfileView extends StatelessWidget {
+  final Campaign campaign;
+
+  const ApprovalProfileView({Key? key, required this.campaign})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: CampaignProfile(
-          campaignModel: CampaignModel(),
+          campaign: campaign,
           actionArea: _composeActionArea(context),
         ),
       ),

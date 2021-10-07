@@ -1,24 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:midowe_app/models/campaign_model.dart';
 import 'package:midowe_app/utils/constants.dart';
-import 'package:midowe_app/utils/helper.dart';
-import 'package:midowe_app/views/campaign_profile_view.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class CampaignListItem extends StatelessWidget {
-  final String title, imageUrl;
-  final double donatedAmount, targetAmount;
+  final Campaign campaign;
   final VoidCallback onPressed;
 
-  CampaignListItem(
-      {required this.title,
-      required this.imageUrl,
-      required this.donatedAmount,
-      required this.targetAmount,
-      required this.onPressed});
+  CampaignListItem({required this.campaign, required this.onPressed});
 
   String _getPercent() {
-    double percent = 100 * donatedAmount / targetAmount;
+    double percent = 100; //* donatedAmount / targetAmount;
     return percent.toStringAsFixed(0);
   }
 
@@ -40,7 +33,7 @@ class CampaignListItem extends StatelessWidget {
                       fit: BoxFit.cover,
                       image: FadeInImage.memoryNetwork(
                         placeholder: kTransparentImage,
-                        image: this.imageUrl,
+                        image: campaign.image,
                       ).image),
                   borderRadius: BorderRadius.all(Radius.circular(15))),
             ),
@@ -52,7 +45,7 @@ class CampaignListItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  this.title,
+                  campaign.title,
                   style: TextStyle(
                     color: Constants.secondaryColor,
                     fontWeight: FontWeight.w600,
@@ -65,7 +58,7 @@ class CampaignListItem extends StatelessWidget {
                   height: 5,
                 ),
                 Text(
-                  "${_getPercent()}% - Meta: $targetAmount",
+                  "${_getPercent()}% - Meta: ${campaign.targetAmount}",
                   style: TextStyle(
                     color: Constants.secondaryColor2,
                     fontSize: 13,

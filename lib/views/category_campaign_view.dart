@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:midowe_app/models/category_model.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/campaign_profile_view.dart';
 import 'package:midowe_app/widgets/campaign_list_item.dart';
@@ -8,9 +9,9 @@ import 'package:midowe_app/widgets/title_subtitle_heading.dart';
 import 'approval_profile_view.dart';
 
 class CategoryCampaignView extends StatelessWidget {
-  final String title, description;
+  final Category category;
 
-  CategoryCampaignView({required this.title, required this.description});
+  CategoryCampaignView({required this.category});
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +38,8 @@ class CategoryCampaignView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TitleSubtitleHeading(
-                          this.title,
-                          this.description,
+                          category.name,
+                          category.description,
                         ),
                         SizedBox(
                           height: 20,
@@ -59,7 +60,7 @@ class CategoryCampaignView extends StatelessWidget {
   Widget _composeBody(BuildContext context) {
     return Column(
       children: [
-        CampaignListItem(
+        /*CampaignListItem(
           title: "Vamos dar as crianças do Centro Kurandzana um lar",
           imageUrl: "https://picsum.photos/300/281",
           donatedAmount: 6000,
@@ -94,7 +95,7 @@ class CategoryCampaignView extends StatelessWidget {
           onPressed: () {
             Helper.nextPage(context, ApprovalProfileView());
           },
-        ),
+        ),*/
       ],
     );
   }

@@ -1,5 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:midowe_app/models/campaign_model.dart';
+import 'package:midowe_app/models/category_model.dart';
+import 'package:midowe_app/providers/campaign_provider.dart';
+import 'package:midowe_app/providers/category_provider.dart';
 import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/approval_list_view.dart';
@@ -17,6 +22,7 @@ class CampaignListView extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             HeaderArea(),
@@ -122,61 +128,87 @@ class HeaderArea extends StatelessWidget {
   }
 }
 
-class FeaturedArea extends StatelessWidget {
+class FeaturedArea extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _FeaturedAreaState();
+  }
+}
+
+class _FeaturedAreaState extends State<FeaturedArea> {
+  final campaignProvider = GetIt.I.get<CampaignProvider>();
+  late Future<List<Campaign>> campaigns;
+
+  @override
+  void initState() {
+    super.initState();
+    this.campaigns = campaignProvider.fetchFeatured();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(
-                left: 20.0, top: 30.0, right: 20.0, bottom: 20.0),
-            child: TitleSubtitleHeading(
-              "Destaque",
-              "Campanhas de doação criadas recentimente",
-            ),
-          ),
-          SizedBox(
-              height: 190.0,
-              child: ListView(
-                physics: ClampingScrollPhysics(),
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
+      child: FutureBuilder<List<Campaign>>(
+        future: campaigns,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data!.isNotEmpty) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(width: 15),
-                  _composeItem(
-                    "Abertura de furo de agua",
-                    "https://picsum.photos/300/250",
-                    context,
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: 20.0, top: 30.0, right: 20.0, bottom: 20.0),
+                    child: TitleSubtitleHeading(
+                      "Destaque",
+                      "Campanhas de doação criadas recentimente",
+                    ),
                   ),
-                  _composeItem(
-                    "Construção de uma escola na zona",
-                    "https://picsum.photos/300/201",
-                    context,
+                  SizedBox(
+                    height: 190.0,
+                    child: ListView(
+                      physics: ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        SizedBox(width: 15),
+                        for (var campaign in snapshot.data!)
+                          FeaturedItem(campaign: campaign),
+                        SizedBox(width: 15),
+                      ],
+                    ),
                   ),
-                  _composeItem(
-                    "Apoiar a reabilitação da estrada",
-                    "https://picsum.photos/300/202",
-                    context,
-                  ),
-                  _composeItem(
-                    "Produção do meu último album",
-                    "https://picsum.photos/200/210",
-                    context,
-                  ),
-                  SizedBox(width: 15),
                 ],
-              )),
-        ],
+              );
+            } else {
+              return Container(
+                width: 0,
+                height: 0,
+              );
+            }
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
     );
   }
+}
 
-  Widget _composeItem(String title, String imageUrl, BuildContext context) {
+class FeaturedItem extends StatelessWidget {
+  final Campaign campaign;
+
+  const FeaturedItem({Key? key, required this.campaign}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Helper.nextPage(context, CampaignProfileView());
+        Helper.nextPage(context, CampaignProfileView(campaign: campaign));
       },
       customBorder: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -193,7 +225,7 @@ class FeaturedArea extends StatelessWidget {
                       fit: BoxFit.cover,
                       image: FadeInImage.memoryNetwork(
                         placeholder: kTransparentImage,
-                        image: imageUrl,
+                        image: campaign.image,
                       ).image),
                   borderRadius: BorderRadius.all(Radius.circular(25))),
             ),
@@ -201,7 +233,7 @@ class FeaturedArea extends StatelessWidget {
               height: 10,
             ),
             Text(
-              title,
+              campaign.title,
               style: TextStyle(
                 color: Constants.secondaryColor,
                 fontWeight: FontWeight.w500,
@@ -217,69 +249,134 @@ class FeaturedArea extends StatelessWidget {
   }
 }
 
-class CategoriesArea extends StatelessWidget {
+class CategoriesArea extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _CategoriesAreaState();
+  }
+}
+
+class _CategoriesAreaState extends State<CategoriesArea> {
+  final categoryProvider = GetIt.I.get<CategoryProvider>();
+  late Future<List<Category>> categories;
+
+  @override
+  void initState() {
+    super.initState();
+    this.categories = categoryProvider.fetchCategories();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.topLeft,
       padding: EdgeInsets.all(20.0),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        _composeCategory("Solidariedade",
-            "Campanhas sobre saúde, doenças e caridade", context),
-        _composeCategory("Educação", "Construção de escolas", context),
-        _composeCategory("Saúde", "Despesas médicas", context),
-      ]),
+      child: FutureBuilder<List<Category>>(
+        future: categories,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (var category in snapshot.data!)
+                    CategoryItemArea(category: category)
+                ]);
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
     );
   }
+}
 
-  Widget _composeCategory(
-      String title, String description, BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        TitleSubtitleHeading(
-          title,
-          description,
-        ),
-        SizedBox(height: 10),
-        _composeTopList(context),
-        Center(
-          child: IconButton(
-            icon: Icon(
-              CupertinoIcons.chevron_compact_down,
-            ),
-            onPressed: () {
-              Helper.nextPage(context,
-                  CategoryCampaignView(title: title, description: description));
-            },
-          ),
-        )
-      ]),
-    );
+class CategoryItemArea extends StatefulWidget {
+  final Category category;
+
+  const CategoryItemArea({Key? key, required this.category}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _CategoryItemAreaState();
+  }
+}
+
+class _CategoryItemAreaState extends State<CategoryItemArea> {
+  final campaignProvider = GetIt.I.get<CampaignProvider>();
+  late Future<List<Campaign>> campaigns;
+
+  @override
+  void initState() {
+    super.initState();
+    this.campaigns = campaignProvider.fetchTopOfCategory(widget.category.id);
   }
 
-  Widget _composeTopList(BuildContext context) {
-    return Column(
-      children: [
-        CampaignListItem(
-          title: "Vamos dar as crianças do Centro Kurandzana um lar",
-          imageUrl: "https://picsum.photos/300/280",
-          donatedAmount: 6000,
-          targetAmount: 8000,
-          onPressed: () {
-            Helper.nextPage(context, CampaignProfileView());
-          },
-        ),
-        CampaignListItem(
-          title: "Vamos dar as crianças do Centro Kurandzana um lar",
-          imageUrl: "https://picsum.photos/300/280",
-          donatedAmount: 6000,
-          targetAmount: 8000,
-          onPressed: () {
-            Helper.nextPage(context, CampaignProfileView());
-          },
-        ),
-      ],
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Campaign>>(
+      future: campaigns,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data!.isNotEmpty) {
+            return Container(
+              padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TitleSubtitleHeading(
+                      widget.category.name,
+                      widget.category.description,
+                    ),
+                    SizedBox(height: 10),
+                    Column(
+                      children: [
+                        for (var campaign in snapshot.data!)
+                          CampaignListItem(
+                            campaign: campaign,
+                            onPressed: () {
+                              Helper.nextPage(
+                                  context,
+                                  CampaignProfileView(
+                                    campaign: campaign,
+                                  ));
+                            },
+                          ),
+                      ],
+                    ),
+                    if (snapshot.data!.length > 1)
+                      Center(
+                        child: IconButton(
+                          icon: Icon(
+                            CupertinoIcons.chevron_compact_down,
+                          ),
+                          onPressed: () {
+                            Helper.nextPage(
+                                context,
+                                CategoryCampaignView(
+                                    category: widget.category));
+                          },
+                        ),
+                      )
+                  ]),
+            );
+          } else {
+            return Container(
+              width: 0,
+              height: 0,
+            );
+          }
+        } else if (snapshot.hasError) {
+          return Text('${snapshot.error}');
+        }
+
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 }

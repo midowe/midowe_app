@@ -53,7 +53,7 @@ class ApprovalListView extends StatelessWidget {
   Widget _composeBody(BuildContext context) {
     return Column(
       children: [
-        CampaignListItem(
+        /*CampaignListItem(
           title: "Vamos dar as crianças do Centro Kurandzana um lar",
           imageUrl: "https://picsum.photos/300/281",
           donatedAmount: 6000,
@@ -88,7 +88,7 @@ class ApprovalListView extends StatelessWidget {
           onPressed: () {
             Helper.nextPage(context, ApprovalProfileView());
           },
-        ),
+        ),*/
       ],
     );
   }

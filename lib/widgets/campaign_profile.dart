@@ -7,11 +7,11 @@ import 'package:midowe_app/widgets/social_icon_button.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class CampaignProfile extends StatelessWidget {
-  final CampaignModel campaignModel;
+  final Campaign campaign;
   final Widget actionArea;
 
   const CampaignProfile({
-    required this.campaignModel,
+    required this.campaign,
     required this.actionArea,
   });
 

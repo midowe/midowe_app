@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
-import 'package:midowe_app/services/user_service.dart';
 import 'package:midowe_app/utils/decorators.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/utils/validators.dart';
@@ -82,7 +81,7 @@ class _RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<_RegisterForm> {
-  final _userService = GetIt.I.get<UserService>();
+  //final _userService = GetIt.I.get<UserService>();
   final _formKey = GlobalKey<FormState>();
   final Map<String, dynamic> _formData = {
     'fullName': null,
@@ -158,7 +157,7 @@ class _RegisterFormState extends State<_RegisterForm> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       _showLoading();
-      _userService
+      /*_userService
           .register(_formData['fullName'], _formData['phone'],
               _formData['email'], _formData['password'])
           .then(
@@ -177,7 +176,7 @@ class _RegisterFormState extends State<_RegisterForm> {
                 }
             },
           )
-          .whenComplete(() => _hideLoading());
+          .whenComplete(() => _hideLoading());*/
     }
   }
 
