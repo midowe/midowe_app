@@ -6,7 +6,7 @@ class Campaign {
   final int id;
   final String title;
   final String content;
-  final double? targetAmount;
+  final int? targetAmount;
   final String? targetDate;
   final bool approved;
   final Category category;
@@ -31,7 +31,7 @@ class Campaign {
     return Campaign(
       id: json['id'],
       title: json['title'],
-      content: json['content'],
+      content: json['content'] == null ? '' : json['content'],
       targetAmount: json['targetAmount'],
       targetDate: json['targetDate'],
       approved: json['approved'],

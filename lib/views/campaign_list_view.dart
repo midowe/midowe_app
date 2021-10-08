@@ -279,7 +279,10 @@ class _CategoriesAreaState extends State<CategoriesArea> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   for (var category in snapshot.data!)
-                    CategoryItemArea(category: category)
+                    CategoryItemArea(category: category),
+                  SizedBox(
+                    height: 30,
+                  )
                 ]);
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
@@ -323,7 +326,7 @@ class _CategoryItemAreaState extends State<CategoryItemArea> {
         if (snapshot.hasData) {
           if (snapshot.data!.isNotEmpty) {
             return Container(
-              padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+              padding: EdgeInsets.only(top: 10.0, bottom: 0.0),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
