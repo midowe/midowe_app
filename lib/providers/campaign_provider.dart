@@ -39,8 +39,6 @@ class CampaignProvider extends BaseProvider {
     int pageKey,
     int pageSize,
   ) async {
-    print('Provider being called $categoryId, $pageKey, $pageSize');
-
     final response = await get(
         "/campaigns?category=$categoryId&_sort=published_at:DESC&approved=true&_start=$pageKey&_limit=$pageSize");
 
@@ -51,7 +49,59 @@ class CampaignProvider extends BaseProvider {
       return campaings;
     } else {
       throw Exception(
-          "Failed to fetch top campaigns of category $categoryId. Error ${response.statusCode}");
+          "Failed to fetch campaigns of category $categoryId. Error ${response.statusCode}");
+    }
+  }
+
+  Future<List<Campaign>> fetchPendingApproval(
+    int pageKey,
+    int pageSize,
+  ) async {
+    final response = await get(
+        "/campaigns?_sort=created_at:DESC&approved=false&_start=$pageKey&_limit=$pageSize");
+
+    if (response.statusCode == 200) {
+      final campaings = (jsonDecode(response.body) as List)
+          .map((i) => Campaign.fromJson(i))
+          .toList();
+      return campaings;
+    } else {
+      throw Exception(
+          "Failed to fetch pending approval campaigns. Error ${response.statusCode}");
+    }
+  }
+
+  Future<List<Campaign>> fetchSearchCampaign(
+    String keyword,
+    int pageKey,
+    int pageSize,
+  ) async {
+    if (keyword.isEmpty) {
+      return List.empty();
+    }
+
+    final response = await get(
+        "/campaigns?_sort=created_at:DESC&approved=true&title_contains=$keyword&_start=$pageKey&_limit=$pageSize");
+
+    if (response.statusCode == 200) {
+      final campaings = (jsonDecode(response.body) as List)
+          .map((i) => Campaign.fromJson(i))
+          .toList();
+      return campaings;
+    } else {
+      throw Exception(
+          "Failed to fetch pending approval campaigns. Error ${response.statusCode}");
+    }
+  }
+
+  Future<int> countPendingApproval() async {
+    final response = await get("/campaigns/count?approved=false");
+
+    if (response.statusCode == 200) {
+      return int.parse(response.body);
+    } else {
+      throw Exception(
+          "Failed to count pending approval campaigns. Error ${response.statusCode}");
     }
   }
 }

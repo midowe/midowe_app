@@ -9,6 +9,7 @@ import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/approval_list_view.dart';
 import 'package:midowe_app/views/campaign_profile_view.dart';
+import 'package:midowe_app/views/campaign_search_view.dart';
 import 'package:midowe_app/views/category_campaign_view.dart';
 import 'package:midowe_app/views/user_register_view.dart';
 import 'package:midowe_app/widgets/campaign_list_item.dart';
@@ -65,7 +66,9 @@ class HeaderArea extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Helper.nextPage(context, CampaignSearchView());
+                    },
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
                       minimumSize: Size(41, 40),
