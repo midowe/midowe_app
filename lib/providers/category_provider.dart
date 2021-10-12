@@ -5,7 +5,7 @@ import 'package:midowe_app/providers/base_provider.dart';
 
 class CategoryProvider extends BaseProvider {
   Future<List<Category>> fetchCategories() async {
-    final response = await get("/categories");
+    final response = await cmsGet("/categories");
 
     if (response.statusCode == 200) {
       final categories = (jsonDecode(response.body) as List)

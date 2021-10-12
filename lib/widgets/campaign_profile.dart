@@ -1,8 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_it/get_it.dart';
 import 'package:midowe_app/models/campaign_model.dart';
+import 'package:midowe_app/models/statistics_model.dart';
+import 'package:midowe_app/providers/accounting_provider.dart';
 import 'package:midowe_app/utils/constants.dart';
+import 'package:midowe_app/utils/formatter.dart';
 import 'package:midowe_app/widgets/social_icon_button.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -21,10 +26,19 @@ class CampaignProfile extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _composeHeader(),
-        _composeContentArea(context),
-        _composeOtherPicturesArea(),
-        _composeShareArea(),
+        _CampaignHeader(
+          campaign: this.campaign,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+          child: actionArea,
+        ),
+        _CampaignStats(
+          campaign: campaign,
+        ),
+        _CampaignContent(
+          campaign: this.campaign,
+        ),
         _composeDonationsArea(),
         SizedBox(
           height: 40,
@@ -33,80 +47,249 @@ class CampaignProfile extends StatelessWidget {
     );
   }
 
-  Widget _composeHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(30),
-            bottomRight: Radius.circular(30),
-          ),
-          child: FadeInImage.memoryNetwork(
-            placeholder: kTransparentImage,
-            image: "https://picsum.photos/600/400",
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          child: Text(
-            "Vamos dar as crianças do Centro Lirandzu um lar",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
-          ),
-        )
-        //TODO: Missing category
-        //TODO: Missing user info
-        //Missing back button
-      ],
-    );
-  }
-
-  Widget _composeContentArea(BuildContext context) {
+  Widget _composeDonationsArea() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          this.actionArea,
           SizedBox(
-            height: 20,
-          ),
-          Wrap(
-            spacing: 8.0,
-            runSpacing: 4.0,
-            children: [
-              Text(
-                "12 doações (1.800,00 MT)",
-                style: TextStyle(
-                  color: Constants.primaryColor,
-                ),
-              ),
-              Text(
-                "Meta: 120.000,00 MT",
-                style: TextStyle(color: Constants.primaryColor),
-              ),
-              Text(
-                "Deadline: 20.Dez.2021",
-                style: TextStyle(color: Constants.primaryColor),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 20,
+            height: 35,
           ),
           Text(
-            "A educação é um direito de todos: clichê frase que caracteriza todo o objetivo por trás do centro Kurandzana, criado em 2010 como braço pedagógico da educação nas zonas rurais.\n\n Em março de 2018, devido ao ciclone registado na zona centro do país, a escola foi destruída. Em uma nova tentativa de reerguê-la, fomos novamente surpreendidos por um outro ciclone. situação de vulnerabilidade social!",
+            "Doações recebidas",
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text(
+            "Nenhuma doação recebida até agora",
             style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 15.5,
-            ),
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+                fontStyle: FontStyle.italic),
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _composeOtherPicturesArea() {
+class _CampaignHeader extends StatelessWidget {
+  final Campaign campaign;
+
+  const _CampaignHeader({Key? key, required this.campaign}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+              ),
+              child: FadeInImage.memoryNetwork(
+                placeholder: kTransparentImage,
+                width: double.infinity,
+                fit: BoxFit.fitWidth,
+                image: campaign.image,
+              ),
+            ),
+            Positioned(
+              top: 45,
+              left: 15,
+              child: IconButton(
+                icon: Icon(
+                  FontAwesomeIcons.arrowLeft,
+                ),
+                color: Colors.white,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            )
+          ],
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                campaign.title,
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Wrap(
+                runSpacing: 8.0,
+                spacing: 10.0,
+                children: [
+                  Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Constants.secondaryColor3),
+                      child: IntrinsicWidth(
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "Categoria:",
+                              style: TextStyle(fontStyle: FontStyle.italic),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(campaign.category.name),
+                            SizedBox(
+                              width: 5,
+                            ),
+                          ],
+                        ),
+                      )),
+                  Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Constants.secondaryColor3),
+                      child: IntrinsicWidth(
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                                radius: 10,
+                                backgroundImage:
+                                    NetworkImage(campaign.user.picture)),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(campaign.user.fullName),
+                            SizedBox(
+                              width: 10,
+                            ),
+                          ],
+                        ),
+                      ))
+                ],
+              )
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class _CampaignStats extends StatefulWidget {
+  final Campaign campaign;
+
+  const _CampaignStats({Key? key, required this.campaign}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _CampaignStatsState();
+}
+
+class _CampaignStatsState extends State<_CampaignStats> {
+  final accountingProvider = GetIt.I.get<AccountingProvider>();
+  late Future<Statistics> statistics;
+
+  @override
+  void initState() {
+    super.initState();
+    this.statistics = accountingProvider.getStatistics(widget.campaign.slug);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      child: Wrap(
+        spacing: 8.0,
+        runSpacing: 4.0,
+        children: [
+          Icon(
+            FontAwesomeIcons.heart,
+            size: 20,
+          ),
+          Container(
+            child: FutureBuilder<Statistics>(
+              future: statistics,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Text(
+                    "${snapshot.data!.totalAmount} MT (${snapshot.data!.totalDonations})",
+                    style: TextStyle(
+                      color: Constants.primaryColor,
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }
+
+                return Container(
+                  width: 0,
+                  height: 0,
+                );
+              },
+            ),
+          ),
+          if (widget.campaign.targetAmount != null)
+            Icon(
+              FontAwesomeIcons.searchDollar,
+              size: 20,
+            ),
+          if (widget.campaign.targetAmount != null)
+            Text(
+              "${Formatter.currency(widget.campaign.targetAmount)} MT",
+              style: TextStyle(color: Constants.primaryColor),
+            ),
+          if (widget.campaign.targetDate != null)
+            Icon(
+              FontAwesomeIcons.calendarAlt,
+              size: 18,
+            ),
+          if (widget.campaign.targetDate != null)
+            Text(
+              "${Formatter.dayMonth(widget.campaign.targetDate)}",
+              style: TextStyle(color: Constants.primaryColor),
+            )
+        ],
+      ),
+    );
+  }
+}
+
+class _CampaignContent extends StatelessWidget {
+  final Campaign campaign;
+
+  const _CampaignContent({Key? key, required this.campaign}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+          child: MarkdownBody(
+            data: campaign.content,
+            styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
+                .copyWith(textScaleFactor: 1.1),
+          ),
+        ),
+        composeOtherPicturesArea(),
+        composeShareArea()
+      ],
+    );
+  }
+
+  Widget composeOtherPicturesArea() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -189,7 +372,7 @@ class CampaignProfile extends StatelessWidget {
     );
   }
 
-  Widget _composeShareArea() {
+  Widget composeShareArea() {
     return Container(
         padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
         child: Column(
@@ -228,33 +411,5 @@ class CampaignProfile extends StatelessWidget {
             )
           ],
         ));
-  }
-
-  Widget _composeDonationsArea() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 35,
-          ),
-          Text(
-            "Doações recebidas",
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Text(
-            "Nenhuma doação recebida até agora",
-            style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                fontStyle: FontStyle.italic),
-          ),
-        ],
-      ),
-    );
   }
 }

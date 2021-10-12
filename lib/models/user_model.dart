@@ -1,3 +1,5 @@
+import 'package:midowe_app/providers/base_provider.dart';
+
 class User {
   final int id;
   final String username;
@@ -24,6 +26,6 @@ class User {
         email: json['email'],
         phone: json['phone'],
         fullName: json['fullName'],
-        picture: json['picture']['url']);
+        picture: BaseProvider.cmsBaseUrl + json['picture']['url']);
   }
 }

@@ -5,7 +5,7 @@ import 'package:midowe_app/providers/base_provider.dart';
 
 class CampaignProvider extends BaseProvider {
   Future<List<Campaign>> fetchFeatured() async {
-    final response = await get(
+    final response = await cmsGet(
         "/campaigns?featured=true&_sort=published_at:DESC&approved=true");
 
     if (response.statusCode == 200) {
@@ -20,7 +20,7 @@ class CampaignProvider extends BaseProvider {
   }
 
   Future<List<Campaign>> fetchTopOfCategory(int categoryId) async {
-    final response = await get(
+    final response = await cmsGet(
         "/campaigns?category=$categoryId&_sort=published_at:DESC&approved=true&_limit=2");
 
     if (response.statusCode == 200) {
@@ -39,7 +39,7 @@ class CampaignProvider extends BaseProvider {
     int pageKey,
     int pageSize,
   ) async {
-    final response = await get(
+    final response = await cmsGet(
         "/campaigns?category=$categoryId&_sort=published_at:DESC&approved=true&_start=$pageKey&_limit=$pageSize");
 
     if (response.statusCode == 200) {
@@ -57,7 +57,7 @@ class CampaignProvider extends BaseProvider {
     int pageKey,
     int pageSize,
   ) async {
-    final response = await get(
+    final response = await cmsGet(
         "/campaigns?_sort=created_at:DESC&approved=false&_start=$pageKey&_limit=$pageSize");
 
     if (response.statusCode == 200) {
@@ -80,7 +80,7 @@ class CampaignProvider extends BaseProvider {
       return List.empty();
     }
 
-    final response = await get(
+    final response = await cmsGet(
         "/campaigns?_sort=created_at:DESC&approved=true&title_contains=$keyword&_start=$pageKey&_limit=$pageSize");
 
     if (response.statusCode == 200) {
@@ -95,7 +95,7 @@ class CampaignProvider extends BaseProvider {
   }
 
   Future<int> countPendingApproval() async {
-    final response = await get("/campaigns/count?approved=false");
+    final response = await cmsGet("/campaigns/count?approved=false");
 
     if (response.statusCode == 200) {
       return int.parse(response.body);

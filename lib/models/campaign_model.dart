@@ -4,6 +4,7 @@ import 'package:midowe_app/providers/base_provider.dart';
 
 class Campaign {
   final int id;
+  final String slug;
   final String title;
   final String content;
   final int? targetAmount;
@@ -16,6 +17,7 @@ class Campaign {
 
   Campaign({
     required this.id,
+    required this.slug,
     required this.title,
     required this.content,
     this.targetAmount,
@@ -30,6 +32,7 @@ class Campaign {
   factory Campaign.fromJson(Map<String, dynamic> json) {
     return Campaign(
       id: json['id'],
+      slug: json['slug'],
       title: json['title'],
       content: json['content'] == null ? '' : json['content'],
       targetAmount: json['targetAmount'],
