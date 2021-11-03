@@ -3,7 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/utils/helper.dart';
-import 'package:midowe_app/views/campaign_list_view.dart';
+import 'package:midowe_app/views/main_screen/main_screen_view.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -108,6 +108,6 @@ class WelcomeView extends StatelessWidget {
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool(Constants.PREF_ACCEPTED_TERMS, true);
 
-    Helper.nextPageNoBack(context, CampaignListView());
+    Helper.nextPageNoBack(context, MainScreenView());
   }
 }

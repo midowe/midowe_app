@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:midowe_app/models/campaign_model.dart';
@@ -8,62 +7,6 @@ import 'package:midowe_app/providers/campaign_provider.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/campaign_profile_view.dart';
 import 'package:midowe_app/widgets/campaign_list_item.dart';
-import 'package:midowe_app/widgets/title_subtitle_heading.dart';
-
-class CategoryCampaignView extends StatelessWidget {
-  final Category category;
-
-  CategoryCampaignView({required this.category});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              IconButton(
-                icon: Icon(
-                  FontAwesomeIcons.arrowLeft,
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TitleSubtitleHeading(
-                        category.name,
-                        category.description,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: CategoryCampaignList(
-                    category: category,
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class CategoryCampaignList extends StatefulWidget {
   final Category category;
@@ -80,6 +23,7 @@ class CategoryCampaignList extends StatefulWidget {
 class _CategoryCampaignListState extends State<CategoryCampaignList> {
   static const _pageSize = 10;
   final campaignProvider = GetIt.I.get<CampaignProvider>();
+  Campaign? _lastCampaign;
 
   final PagingController<int, Campaign> _pagingController =
       PagingController(firstPageKey: 0);
@@ -94,8 +38,16 @@ class _CategoryCampaignListState extends State<CategoryCampaignList> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
+      if (pageKey == 0) {
+        _lastCampaign = null;
+      }
       final newItems = await campaignProvider.fetchOfCategory(
-          widget.category.id, pageKey, _pageSize);
+          widget.category.id,
+          _lastCampaign != null ? _lastCampaign!.campaignId : "");
+
+      if (newItems.isNotEmpty) {
+        _lastCampaign = newItems.last;
+      }
 
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
@@ -113,7 +65,7 @@ class _CategoryCampaignListState extends State<CategoryCampaignList> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () => Future.sync(
-        () => _pagingController.refresh(),
+        () => {_pagingController.refresh()},
       ),
       child: PagedListView<int, Campaign>(
         pagingController: _pagingController,

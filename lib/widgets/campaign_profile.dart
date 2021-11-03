@@ -97,7 +97,7 @@ class _CampaignHeader extends StatelessWidget {
                 placeholder: kTransparentImage,
                 width: double.infinity,
                 fit: BoxFit.fitWidth,
-                image: campaign.image,
+                image: campaign.profileImage,
               ),
             ),
             Positioned(
@@ -148,7 +148,7 @@ class _CampaignHeader extends StatelessWidget {
                             SizedBox(
                               width: 5,
                             ),
-                            Text(campaign.category.name),
+                            //todo: Text(campaign.category.name),
                             SizedBox(
                               width: 5,
                             ),
@@ -162,14 +162,14 @@ class _CampaignHeader extends StatelessWidget {
                       child: IntrinsicWidth(
                         child: Row(
                           children: [
-                            CircleAvatar(
+                            /*todo CircleAvatar(
                                 radius: 10,
                                 backgroundImage:
-                                    NetworkImage(campaign.user.picture)),
+                                    NetworkImage(campaign.user.picture)),*/
                             SizedBox(
                               width: 10,
                             ),
-                            Text(campaign.user.fullName),
+                            //todo Text(campaign.user.fullName),
                             SizedBox(
                               width: 10,
                             ),
@@ -202,7 +202,8 @@ class _CampaignStatsState extends State<_CampaignStats> {
   @override
   void initState() {
     super.initState();
-    this.statistics = accountingProvider.getStatistics(widget.campaign.slug);
+    this.statistics =
+        accountingProvider.getStatistics(widget.campaign.campaignId);
   }
 
   @override

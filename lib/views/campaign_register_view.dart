@@ -36,7 +36,6 @@ class CampaignRegisterView extends StatelessWidget {
                 ),
                 Theme(
                     data: ThemeData(
-                        accentColor: Constants.primaryColor,
                         colorScheme:
                             ColorScheme.light(primary: Constants.primaryColor)),
                     child: CampaignRegisterForm()),

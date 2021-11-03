@@ -1,47 +1,49 @@
-import 'package:midowe_app/models/category_model.dart';
-import 'package:midowe_app/models/user_model.dart';
-import 'package:midowe_app/providers/base_provider.dart';
-
 class Campaign {
-  final int id;
-  final String slug;
+  final String categoryId;
+  final String campaignId;
+  final String userId;
   final String title;
   final String content;
-  final int? targetAmount;
-  final String? targetDate;
+  final String profileImage;
+  final List<String> additionalImages;
+  final int targetAmount;
+  final String targetDate;
   final bool approved;
-  final Category category;
-  final User user;
-  final String image;
-  final List<String> additionalPictures;
+  final String approvedBy;
+  final String approvedAt;
+  final String createdAt;
 
   Campaign({
-    required this.id,
-    required this.slug,
+    required this.categoryId,
+    required this.campaignId,
+    required this.userId,
     required this.title,
     required this.content,
-    this.targetAmount,
-    this.targetDate,
+    required this.profileImage,
+    required this.additionalImages,
+    required this.targetAmount,
+    required this.targetDate,
     required this.approved,
-    required this.category,
-    required this.user,
-    required this.image,
-    required this.additionalPictures,
+    required this.approvedBy,
+    required this.approvedAt,
+    required this.createdAt,
   });
 
   factory Campaign.fromJson(Map<String, dynamic> json) {
     return Campaign(
-      id: json['id'],
-      slug: json['slug'],
+      categoryId: json['categoryId'],
+      campaignId: json['campaignId'],
+      userId: json['userId'],
       title: json['title'],
-      content: json['content'] == null ? '' : json['content'],
-      targetAmount: json['targetAmount'],
+      content: json['content'],
+      profileImage: json['profileImage'],
+      additionalImages: json['additionalImages'].cast<String>(),
+      targetAmount: int.parse(json['targetAmount']),
       targetDate: json['targetDate'],
       approved: json['approved'],
-      category: Category.fromJson(json['category']),
-      user: User.fromJson(json['user']),
-      image: BaseProvider.cmsBaseUrl + json['image']['url'],
-      additionalPictures: List.empty(),
+      approvedBy: json['approvedBy'],
+      approvedAt: json['approvedAt'],
+      createdAt: json['createdAt'],
     );
   }
 }

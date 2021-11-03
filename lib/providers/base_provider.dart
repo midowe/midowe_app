@@ -1,12 +1,8 @@
 import 'package:http/http.dart' as http;
 
 class BaseProvider {
-  static final int RESPONSE_SUCCESS = 1;
-  static final int RESPONSE_NETWORK = 2;
-  static final int RESPONSE_BAD_CREDENTIALS = 3;
-
-  //static final String cmsBaseUrl = "https://api.midowe.co.mz";
-  static final String cmsBaseUrl = "http://localhost:1337";
+  static final String cmsBaseUrl =
+      "https://001g2h0pa1.execute-api.af-south-1.amazonaws.com/prd";
   static final String accountingBaseUrl =
       "https://053qw3mji7.execute-api.af-south-1.amazonaws.com";
 
