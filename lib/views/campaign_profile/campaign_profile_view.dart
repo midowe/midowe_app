@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:midowe_app/models/campaign_model.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/campaign_donate_view.dart';
-import 'package:midowe_app/widgets/campaign_profile.dart';
+import 'package:midowe_app/views/campaign_profile/campaign_profile.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
 import 'package:midowe_app/widgets/thank_you_dialog.dart';
 

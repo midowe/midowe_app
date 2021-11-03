@@ -5,7 +5,7 @@ import 'package:midowe_app/models/campaign_model.dart';
 import 'package:midowe_app/models/category_model.dart';
 import 'package:midowe_app/providers/campaign_provider.dart';
 import 'package:midowe_app/utils/helper.dart';
-import 'package:midowe_app/views/campaign_profile_view.dart';
+import 'package:midowe_app/views/campaign_profile/campaign_profile_view.dart';
 import 'package:midowe_app/widgets/campaign_list_item.dart';
 
 class CategoryCampaignList extends StatefulWidget {

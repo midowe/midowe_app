@@ -17,4 +17,15 @@ class CategoryProvider extends BaseProvider {
           "Failed to fetch categories. Error ${response.statusCode}");
     }
   }
+
+  Future<Category> fetchCategoryById(String categoryId) async {
+    final response = await cmsGet("/categories/$categoryId");
+
+    if (response.statusCode == 200) {
+      return Category.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception(
+          "Failed to fetch category of id: $categoryId. Error ${response.statusCode}");
+    }
+  }
 }

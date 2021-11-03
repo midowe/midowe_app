@@ -127,9 +127,9 @@ class LoginFormState extends State<LoginForm> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       _actionShowLoading();
-      _userProvider.login(_formData['identifier'], _formData['password']).then(
+      /*_userProvider.login(_formData['identifier'], _formData['password']).then(
             (value) => {print('Finished login')},
-          );
+          );*/
     }
   }
 

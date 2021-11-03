@@ -1,0 +1,169 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:loading_gifs/loading_gifs.dart';
+import 'package:midowe_app/models/campaign_model.dart';
+import 'package:midowe_app/utils/helper.dart';
+import 'package:midowe_app/views/campaign_profile/campaign_author.dart';
+import 'package:midowe_app/views/campaign_profile/campaign_image_view.dart';
+import 'package:midowe_app/widgets/social_icon_button.dart';
+import 'package:social_share/social_share.dart';
+
+class CampaignContent extends StatelessWidget {
+  final Campaign campaign;
+
+  const CampaignContent({Key? key, required this.campaign}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+          child: MarkdownBody(
+            data: campaign.content,
+            styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
+                .copyWith(textScaleFactor: 1.1),
+          ),
+        ),
+        composeAuthorArea(),
+        composeOtherPicturesArea(context),
+        if (campaign.approved) composeShareArea()
+      ],
+    );
+  }
+
+  Widget composeAuthorArea() {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      SizedBox(
+        height: 35,
+      ),
+      Padding(
+        padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+        child: Text(
+          "Autor ou beneficiario",
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+        ),
+      ),
+      SizedBox(
+        height: 20,
+      ),
+      Padding(
+        padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+        child: CampaignAuthor(userId: campaign.userId),
+      )
+    ]);
+  }
+
+  Widget composeOtherPicturesArea(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 35,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+          child: Text(
+            "Outras imagens",
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        SizedBox(
+            height: 140.0,
+            child: ListView(
+              physics: ClampingScrollPhysics(),
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              children: [
+                SizedBox(width: 20),
+                for (var image in campaign.additionalImages)
+                  Padding(
+                    padding: EdgeInsets.only(right: 15),
+                    child: InkWell(
+                      onTap: () => {
+                        Helper.nextPage(
+                            context, new CampaignImageView(imageUrl: image))
+                      },
+                      child: Container(
+                        width: 140,
+                        height: 140,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          child: FadeInImage.assetNetwork(
+                              placeholder: circularProgressIndicatorSmall,
+                              image: image,
+                              width: double.infinity,
+                              fit: BoxFit.fitWidth),
+                        ),
+                      ),
+                    ),
+                  ),
+                SizedBox(width: 5),
+              ],
+            )),
+      ],
+    );
+  }
+
+  Widget composeShareArea() {
+    return Container(
+        padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 35,
+            ),
+            Text(
+              "Partilhar nas redes sociais",
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Wrap(
+              spacing: 15.0,
+              children: [
+                SocialIconButton(
+                  icon: Icon(FontAwesomeIcons.facebook),
+                  onPressed: () {
+                    SocialShare.shareFacebookStory(
+                        campaign.profileImage,
+                        "#ffffff",
+                        "#000000",
+                        "${campaign.title}. Para doar: https://midowe.co.mz/d/${campaign.categoryId}/${campaign.campaignId}",
+                        appId: "1261387507643935");
+                  },
+                ),
+                SocialIconButton(
+                  icon: Icon(FontAwesomeIcons.whatsapp),
+                  onPressed: () {
+                    SocialShare.shareWhatsapp(
+                        "${campaign.title}. Para doar: https://midowe.co.mz/d/${campaign.categoryId}/${campaign.campaignId}");
+                  },
+                ),
+                SocialIconButton(
+                  icon: Icon(FontAwesomeIcons.twitter),
+                  onPressed: () {
+                    SocialShare.shareTwitter(
+                        "${campaign.title}. Para doar: https://midowe.co.mz/d/${campaign.categoryId}/${campaign.campaignId}");
+                  },
+                ),
+                SocialIconButton(
+                  icon: Icon(FontAwesomeIcons.shareAlt),
+                  onPressed: () {
+                    SocialShare.shareOptions(
+                        "${campaign.title}. Para doar: https://midowe.co.mz/d/${campaign.categoryId}/${campaign.campaignId}");
+                  },
+                )
+              ],
+            )
+          ],
+        ));
+  }
+}

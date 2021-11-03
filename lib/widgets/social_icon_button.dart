@@ -13,7 +13,7 @@ class SocialIconButton extends StatelessWidget {
         color: Colors.black12,
         child: InkWell(
           splashColor: Colors.black26, // Splash color
-          onTap: () {},
+          onTap: onPressed,
           child: SizedBox(width: 55, height: 55, child: this.icon),
         ),
       ),

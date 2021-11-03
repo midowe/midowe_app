@@ -4,7 +4,7 @@ import 'package:midowe_app/models/campaign_model.dart';
 import 'package:midowe_app/providers/campaign_provider.dart';
 import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/utils/helper.dart';
-import 'package:midowe_app/views/campaign_profile_view.dart';
+import 'package:midowe_app/views/campaign_profile/campaign_profile_view.dart';
 import 'package:midowe_app/widgets/title_subtitle_heading.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -70,8 +70,8 @@ class _FeaturedAreaState extends State<FeaturedArea> {
             return Text('${snapshot.error}');
           }
 
-          return const Center(
-            child: CircularProgressIndicator(),
+          return Container(
+            height: 100,
           );
         },
       ),

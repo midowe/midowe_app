@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:midowe_app/models/category_campaigns.dart';
 import 'package:midowe_app/providers/campaign_provider.dart';
 import 'package:midowe_app/utils/helper.dart';
-import 'package:midowe_app/views/campaign_profile_view.dart';
+import 'package:midowe_app/views/campaign_profile/campaign_profile_view.dart';
 import 'package:midowe_app/views/category_campaign/category_campaign_view.dart';
 import 'package:midowe_app/widgets/campaign_list_item.dart';
 import 'package:midowe_app/widgets/title_subtitle_heading.dart';
