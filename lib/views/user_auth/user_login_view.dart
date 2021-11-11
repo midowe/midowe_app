@@ -1,15 +1,22 @@
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_flutter/amplify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get_it/get_it.dart';
-import 'package:midowe_app/providers/user_provider.dart';
 import 'package:midowe_app/utils/decorators.dart';
+import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/utils/validators.dart';
+import 'package:midowe_app/views/user_auth/user_register_view.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
-import 'package:midowe_app/widgets/social_login_buttons.dart';
+import 'package:midowe_app/views/user_auth/social_login_buttons.dart';
 import 'package:midowe_app/widgets/text_link_inline.dart';
 
 class UserLoginView extends StatelessWidget {
+  final Widget successWidget;
+
+  const UserLoginView({Key? key, required this.successWidget})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +56,9 @@ class UserLoginView extends StatelessWidget {
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: LoginForm(),
+                        child: LoginForm(
+                          successWidget: this.successWidget,
+                        ),
                       ),
                       SizedBox(
                         height: 50,
@@ -58,7 +67,8 @@ class UserLoginView extends StatelessWidget {
                       TextLinkInline(
                         text: "Não possui conta?",
                         linkName: "Criar conta",
-                        onPressed: () => Navigator.pop(context),
+                        onPressed: () =>
+                            Helper.nextPage(context, UserRegisterView()),
                       )
                     ],
                   ),
@@ -73,24 +83,30 @@ class UserLoginView extends StatelessWidget {
 }
 
 class LoginForm extends StatefulWidget {
+  final Widget successWidget;
+
+  const LoginForm({Key? key, required this.successWidget}) : super(key: key);
+
   @override
-  State<StatefulWidget> createState() => LoginFormState();
+  State<StatefulWidget> createState() => _LoginFormState();
 }
 
-class LoginFormState extends State<LoginForm> {
-  final _userProvider = GetIt.I.get<UserProvider>();
-  final _formKey = GlobalKey<FormState>();
-  final Map<String, dynamic> _formData = {'identifier': null, 'password': null};
+class _LoginFormState extends State<LoginForm> {
+  final formKey = GlobalKey<FormState>();
+  final Map<String, String> formData = {
+    'username': '',
+    'password': '',
+  };
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
+      key: formKey,
       child: Column(
         children: [
           TextFormField(
             validator: validateRequiredField,
-            onSaved: (value) => _formData['identifier'] = value,
+            onSaved: (value) => formData['username'] = value ?? '',
             decoration: inputBorderlessRounded(
                 "Telefone ou email", FontAwesomeIcons.phoneAlt),
             textInputAction: TextInputAction.next,
@@ -100,10 +116,10 @@ class LoginFormState extends State<LoginForm> {
           ),
           TextFormField(
             validator: validateRequiredField,
-            onSaved: (value) => _formData['password'] = value,
+            onSaved: (value) => formData['password'] = value ?? '',
             decoration:
                 inputBorderlessRounded("Password", FontAwesomeIcons.lock),
-            onFieldSubmitted: (_) => _actionLogin(),
+            onFieldSubmitted: (_) => actionLogin(),
             obscureText: true,
           ),
           SizedBox(
@@ -114,7 +130,7 @@ class LoginFormState extends State<LoginForm> {
             child: PrimaryButtonIcon(
               text: "Entrar",
               icon: Icon(CupertinoIcons.arrow_right),
-              onPressed: () => _actionLogin(),
+              onPressed: () => actionLogin(),
             ),
           )
         ],
@@ -122,18 +138,42 @@ class LoginFormState extends State<LoginForm> {
     );
   }
 
-  void _actionLogin() {
-    print('submiting form');
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      _actionShowLoading();
-      /*_userProvider.login(_formData['identifier'], _formData['password']).then(
-            (value) => {print('Finished login')},
-          );*/
+  void actionLogin() async {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState?.save();
+      actionShowLoading();
+
+      try {
+        SignInResult result = await Amplify.Auth.signIn(
+            username: formData['username'] ?? '',
+            password: formData['password'] ?? '');
+
+        if (result.isSignedIn) {
+          Helper.nextPageUntilFirst(context, widget.successWidget);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              duration: const Duration(seconds: 5),
+              content: Text(result.toString()),
+            ),
+          );
+
+          Navigator.pop(context);
+        }
+      } on AuthException catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: const Duration(seconds: 5),
+            content: Text(e.message),
+          ),
+        );
+
+        Navigator.pop(context);
+      }
     }
   }
 
-  void _actionShowLoading() {
+  void actionShowLoading() {
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -144,16 +184,12 @@ class LoginFormState extends State<LoginForm> {
               CircularProgressIndicator(),
               Container(
                 margin: EdgeInsets.only(left: 20),
-                child: Text("Processando..."),
+                child: Text("Aguarde..."),
               ),
             ],
           ),
         );
       },
     );
-
-    new Future.delayed(new Duration(seconds: 3), () {
-      Navigator.pop(context); //pop dialog
-    });
   }
 }

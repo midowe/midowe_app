@@ -3,15 +3,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:midowe_app/models/campaign_model.dart';
 import 'package:midowe_app/models/category_model.dart';
-import 'package:midowe_app/providers/accounting_provider.dart';
 import 'package:midowe_app/providers/category_provider.dart';
 import 'package:midowe_app/utils/constants.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class CampaignHeader extends StatelessWidget {
   final Campaign campaign;
+  final Category? category;
 
-  const CampaignHeader({Key? key, required this.campaign}) : super(key: key);
+  const CampaignHeader({Key? key, required this.campaign, this.category})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +81,10 @@ class CampaignHeader extends StatelessWidget {
                             SizedBox(
                               width: 5,
                             ),
-                            CategoryNameArea(categoryId: campaign.categoryId),
+                            if (this.category == null)
+                              CategoryNameArea(categoryId: campaign.categoryId),
+                            if (this.category != null)
+                              Text(this.category!.name),
                             SizedBox(
                               width: 5,
                             ),

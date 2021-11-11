@@ -82,8 +82,8 @@ class CategoryItemArea extends StatelessWidget {
                   Helper.nextPage(
                       context,
                       CampaignProfileView(
-                        campaign: campaign,
-                      ));
+                          campaign: campaign,
+                          category: categoryCampaignItem.category));
                 },
               ),
           ],

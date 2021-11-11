@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:midowe_app/models/campaign_model.dart';
+import 'package:midowe_app/models/category_model.dart';
 import 'package:midowe_app/views/campaign_profile/campaign_header.dart';
 
 import 'campaign_content.dart';
@@ -10,11 +11,10 @@ import 'campaign_stats.dart';
 class CampaignProfile extends StatelessWidget {
   final Campaign campaign;
   final Widget actionArea;
+  final Category? category;
 
-  const CampaignProfile({
-    required this.campaign,
-    required this.actionArea,
-  });
+  const CampaignProfile(
+      {required this.campaign, required this.actionArea, this.category});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +24,7 @@ class CampaignProfile extends StatelessWidget {
       children: [
         CampaignHeader(
           campaign: this.campaign,
+          category: this.category,
         ),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),

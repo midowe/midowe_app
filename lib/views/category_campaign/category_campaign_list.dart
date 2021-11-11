@@ -78,6 +78,7 @@ class _CategoryCampaignListState extends State<CategoryCampaignList> {
                           context,
                           CampaignProfileView(
                             campaign: item,
+                            category: widget.category,
                           ))
                     });
           },

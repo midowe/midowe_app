@@ -1,10 +1,13 @@
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_flutter/amplify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/approval/approval_list_view.dart';
+import 'package:midowe_app/views/campaign_register_view.dart';
 import 'package:midowe_app/views/campaign_search_view.dart';
-import 'package:midowe_app/views/user_register_view.dart';
+import 'package:midowe_app/views/user_auth/user_login_view.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
 
 class HeaderArea extends StatelessWidget {
@@ -92,8 +95,18 @@ class HeaderArea extends StatelessWidget {
                 icon: Icon(
                   CupertinoIcons.plus,
                 ),
-                onPressed: () {
-                  Helper.nextPage(context, UserRegisterView());
+                onPressed: () async {
+                  try {
+                    await Amplify.Auth.getCurrentUser();
+                    Helper.nextPage(context, CampaignRegisterView());
+                  } on AuthException catch (_) {
+                    Helper.nextPage(
+                      context,
+                      UserLoginView(
+                        successWidget: CampaignRegisterView(),
+                      ),
+                    );
+                  }
                 }),
           ),
         ],

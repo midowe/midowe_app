@@ -1,17 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:midowe_app/awsconfig.dart';
 import 'package:midowe_app/utils/application_theme.dart';
 import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/utils/service_locator.dart';
 import 'package:midowe_app/views/main_screen/main_screen_view.dart';
 import 'package:midowe_app/views/welcome_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:amplify_flutter/amplify.dart';
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 
 void main() {
   setupLocator();
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _MyAppState();
+  }
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  initState() {
+    super.initState();
+    _configureAmplify();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,5 +53,17 @@ class MyApp extends StatelessWidget {
       return MainScreenView();
     }
     return WelcomeView();
+  }
+
+  void _configureAmplify() async {
+    AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
+    await Amplify.addPlugins([authPlugin]);
+
+    try {
+      await Amplify.configure(amplifyconfig);
+    } on AmplifyAlreadyConfiguredException {
+      print(
+          "Tried to reconfigure Amplify; this can occur when your app restarts on Android.");
+    }
   }
 }

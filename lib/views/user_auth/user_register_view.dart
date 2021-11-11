@@ -6,9 +6,9 @@ import 'package:midowe_app/utils/decorators.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/utils/validators.dart';
 import 'package:midowe_app/views/campaign_register_view.dart';
-import 'package:midowe_app/views/user_login_view.dart';
+import 'package:midowe_app/views/user_auth/user_login_view.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
-import 'package:midowe_app/widgets/social_login_buttons.dart';
+import 'package:midowe_app/views/user_auth/social_login_buttons.dart';
 import 'package:midowe_app/widgets/text_link_inline.dart';
 
 class UserRegisterView extends StatelessWidget {
@@ -60,8 +60,7 @@ class UserRegisterView extends StatelessWidget {
                       TextLinkInline(
                         text: "Já possui uma conta?",
                         linkName: "Entrar",
-                        onPressed: () =>
-                            Helper.nextPage(context, UserLoginView()),
+                        onPressed: () => Navigator.pop(context),
                       )
                     ],
                   ),
@@ -83,6 +82,7 @@ class _RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<_RegisterForm> {
   //final _userService = GetIt.I.get<UserService>();
   final _formKey = GlobalKey<FormState>();
+
   final Map<String, dynamic> _formData = {
     'fullName': null,
     'phone': null,

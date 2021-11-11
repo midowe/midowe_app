@@ -7,7 +7,7 @@ import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/campaign_profile/campaign_author.dart';
 import 'package:midowe_app/views/campaign_profile/campaign_image_view.dart';
 import 'package:midowe_app/widgets/social_icon_button.dart';
-import 'package:social_share/social_share.dart';
+//import 'package:flutter_share_me/flutter_share_me.dart';
 
 class CampaignContent extends StatelessWidget {
   final Campaign campaign;
@@ -111,59 +111,66 @@ class CampaignContent extends StatelessWidget {
   }
 
   Widget composeShareArea() {
+    //final FlutterShareMe flutterShareMe = FlutterShareMe();
+
     return Container(
-        padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 35,
-            ),
-            Text(
-              "Partilhar nas redes sociais",
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Wrap(
-              spacing: 15.0,
-              children: [
-                SocialIconButton(
-                  icon: Icon(FontAwesomeIcons.facebook),
-                  onPressed: () {
-                    SocialShare.shareFacebookStory(
-                        campaign.profileImage,
-                        "#ffffff",
-                        "#000000",
-                        "${campaign.title}. Para doar: https://midowe.co.mz/d/${campaign.categoryId}/${campaign.campaignId}",
-                        appId: "1261387507643935");
-                  },
-                ),
-                SocialIconButton(
-                  icon: Icon(FontAwesomeIcons.whatsapp),
-                  onPressed: () {
-                    SocialShare.shareWhatsapp(
-                        "${campaign.title}. Para doar: https://midowe.co.mz/d/${campaign.categoryId}/${campaign.campaignId}");
-                  },
-                ),
-                SocialIconButton(
-                  icon: Icon(FontAwesomeIcons.twitter),
-                  onPressed: () {
-                    SocialShare.shareTwitter(
-                        "${campaign.title}. Para doar: https://midowe.co.mz/d/${campaign.categoryId}/${campaign.campaignId}");
-                  },
-                ),
-                SocialIconButton(
-                  icon: Icon(FontAwesomeIcons.shareAlt),
-                  onPressed: () {
-                    SocialShare.shareOptions(
-                        "${campaign.title}. Para doar: https://midowe.co.mz/d/${campaign.categoryId}/${campaign.campaignId}");
-                  },
-                )
-              ],
-            )
-          ],
-        ));
+      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 35,
+          ),
+          Text(
+            "Partilhar nas redes sociais",
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Wrap(
+            spacing: 15.0,
+            children: [
+              /*SocialIconButton(
+                icon: Icon(FontAwesomeIcons.facebook),
+                onPressed: () {
+                  flutterShareMe.shareToFacebook(
+                      url:
+                          "https://midowe.co.mz/d/${campaign.categoryId}/${campaign.campaignId}",
+                      msg:
+                          "${campaign.title}. Para doar: https://midowe.co.mz/d/${campaign.categoryId}/${campaign.campaignId}");
+                },
+              ),
+              SocialIconButton(
+                icon: Icon(FontAwesomeIcons.whatsapp),
+                onPressed: () {
+                  flutterShareMe.shareToWhatsApp(
+                      msg:
+                          "${campaign.title}. Para doar: https://midowe.co.mz/d/${campaign.categoryId}/${campaign.campaignId}");
+                },
+              ),
+              SocialIconButton(
+                icon: Icon(FontAwesomeIcons.twitter),
+                onPressed: () {
+                  flutterShareMe.shareToTwitter(
+                      url:
+                          "https://midowe.co.mz/d/${campaign.categoryId}/${campaign.campaignId}",
+                      msg:
+                          "${campaign.title}. Para doar: https://midowe.co.mz/d/${campaign.categoryId}/${campaign.campaignId}");
+                },
+              ),
+              SocialIconButton(
+                icon: Icon(FontAwesomeIcons.shareAlt),
+                onPressed: () {
+                  flutterShareMe.shareToSystem(
+                      msg:
+                          "${campaign.title}. Para doar: https://midowe.co.mz/d/${campaign.categoryId}/${campaign.campaignId}");
+                },
+              )*/
+            ],
+          )
+        ],
+      ),
+    );
   }
 }

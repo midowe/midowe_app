@@ -1,16 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:midowe_app/models/campaign_model.dart';
+import 'package:midowe_app/models/category_model.dart';
 import 'package:midowe_app/utils/helper.dart';
-import 'package:midowe_app/views/campaign_donate_view.dart';
+import 'package:midowe_app/views/campaign_donate/campaign_donate_view.dart';
 import 'package:midowe_app/views/campaign_profile/campaign_profile.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
 import 'package:midowe_app/widgets/thank_you_dialog.dart';
 
 class CampaignProfileView extends StatelessWidget {
   final Campaign campaign;
+  final Category? category;
 
-  const CampaignProfileView({Key? key, required this.campaign})
+  const CampaignProfileView({Key? key, required this.campaign, this.category})
       : super(key: key);
 
   @override
@@ -21,13 +23,18 @@ class CampaignProfileView extends StatelessWidget {
       body: SingleChildScrollView(
         child: CampaignProfile(
           campaign: campaign,
+          category: category,
           actionArea: SizedBox(
             width: 200,
             child: PrimaryButtonIcon(
               text: "Fazer doação",
               icon: Icon(CupertinoIcons.heart),
               onPressed: () {
-                Helper.nextPage(context, CampaignDonateView());
+                Helper.nextPage(
+                    context,
+                    CampaignDonateView(
+                      campaign: campaign,
+                    ));
               },
             ),
           ),

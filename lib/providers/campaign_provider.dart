@@ -23,7 +23,6 @@ class CampaignProvider extends BaseProvider {
     final response = await cmsGet("/campaigns/top?perCategory=2");
 
     if (response.statusCode == 200) {
-      print(response.body);
       final categoryCampaigns = (jsonDecode(response.body) as List)
           .map((i) => CategoryCampaigns.fromJson(i))
           .toList();

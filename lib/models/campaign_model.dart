@@ -11,6 +11,8 @@ class Campaign {
   final bool approved;
   final String approvedBy;
   final String approvedAt;
+  final int totalDonations;
+  final double totalAmount;
   final String createdAt;
 
   Campaign({
@@ -26,6 +28,8 @@ class Campaign {
     required this.approved,
     required this.approvedBy,
     required this.approvedAt,
+    required this.totalDonations,
+    required this.totalAmount,
     required this.createdAt,
   });
 
@@ -43,6 +47,8 @@ class Campaign {
       approved: json['approved'],
       approvedBy: json['approvedBy'],
       approvedAt: json['approvedAt'],
+      totalDonations: int.parse(json['totalDonations']),
+      totalAmount: double.parse(json['totalAmount']),
       createdAt: json['createdAt'],
     );
   }

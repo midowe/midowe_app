@@ -26,14 +26,6 @@ class SocialLoginButtons extends StatelessWidget {
               icon: Icon(FontAwesomeIcons.google),
               onPressed: () {},
             ),
-            SocialIconButton(
-              icon: Icon(FontAwesomeIcons.twitter),
-              onPressed: () {},
-            ),
-            SocialIconButton(
-              icon: Icon(FontAwesomeIcons.linkedin),
-              onPressed: () {},
-            )
           ],
         )
       ],
