@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
+import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/widgets/markdown-editable-textinput/format_markdown.dart';
 
 /// Widget with markdown buttons
@@ -93,7 +94,7 @@ class _MarkdownTextInputState extends State<MarkdownTextInput> {
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        border: Border.all(color: Theme.of(context).accentColor, width: 2),
+        border: Border.all(color: Constants.primaryColor, width: 2),
         borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
@@ -108,9 +109,9 @@ class _MarkdownTextInputState extends State<MarkdownTextInput> {
             textDirection: widget.textDirection,
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).accentColor)),
+                  borderSide: BorderSide(color: Constants.primaryColor)),
               focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).accentColor)),
+                  borderSide: BorderSide(color: Constants.primaryColor)),
               hintText: widget.label,
               hintStyle:
                   const TextStyle(color: Color.fromRGBO(63, 61, 86, 0.5)),

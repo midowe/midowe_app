@@ -14,3 +14,5 @@ https://medium.com/flutterdevs/multiimage-picker-in-flutter-69bd9f6cedfb
 https://stackoverflow.com/questions/52727535/what-is-the-correct-way-to-add-date-picker-in-flutter-app
 https://api.flutter.dev/flutter/material/showDatePicker.html
 
+### AWS Amplify config
+https://github.com/aws-amplify/amplify-flutter/issues/153

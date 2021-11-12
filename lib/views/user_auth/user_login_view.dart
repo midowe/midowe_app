@@ -8,7 +8,7 @@ import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/utils/validators.dart';
 import 'package:midowe_app/views/user_auth/user_register_view.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
-import 'package:midowe_app/views/user_auth/social_login_buttons.dart';
+import 'package:midowe_app/views/user_auth/user_social_login.dart';
 import 'package:midowe_app/widgets/text_link_inline.dart';
 
 class UserLoginView extends StatelessWidget {
@@ -63,13 +63,19 @@ class UserLoginView extends StatelessWidget {
                       SizedBox(
                         height: 50,
                       ),
-                      SocialLoginButtons(),
+                      UserSocialLogin(
+                        successWidget: this.successWidget,
+                      ),
                       TextLinkInline(
                         text: "Não possui conta?",
                         linkName: "Criar conta",
-                        onPressed: () =>
-                            Helper.nextPage(context, UserRegisterView()),
-                      )
+                        onPressed: () => Helper.nextPage(
+                          context,
+                          UserRegisterView(
+                            successWidget: this.successWidget,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -151,13 +157,6 @@ class _LoginFormState extends State<LoginForm> {
         if (result.isSignedIn) {
           Helper.nextPageUntilFirst(context, widget.successWidget);
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              duration: const Duration(seconds: 5),
-              content: Text(result.toString()),
-            ),
-          );
-
           Navigator.pop(context);
         }
       } on AuthException catch (e) {
@@ -167,7 +166,6 @@ class _LoginFormState extends State<LoginForm> {
             content: Text(e.message),
           ),
         );
-
         Navigator.pop(context);
       }
     }

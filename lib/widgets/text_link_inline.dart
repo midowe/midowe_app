@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:midowe_app/utils/constants.dart';
 
@@ -19,22 +18,29 @@ class TextLinkInline extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 40, bottom: 20),
-      child: RichText(
-          textAlign: TextAlign.center,
-          text: TextSpan(children: [
-            TextSpan(
-              text: "$text ",
-              style: TextStyle(color: Colors.black87, fontSize: 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            text,
+            style: TextStyle(color: Colors.black87, fontSize: 15),
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          InkWell(
+            onTap: onPressed,
+            child: Text(
+              this.linkName,
+              style: TextStyle(
+                  color: Constants.primaryColor,
+                  decoration: TextDecoration.underline,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15),
             ),
-            TextSpan(
-                text: this.linkName,
-                style: TextStyle(
-                    color: Constants.primaryColor,
-                    decoration: TextDecoration.underline,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15),
-                recognizer: TapGestureRecognizer()..onTap = () => onPressed),
-          ])),
+          )
+        ],
+      ),
     );
   }
 }
