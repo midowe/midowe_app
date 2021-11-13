@@ -118,6 +118,7 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           TextFormField(
             validator: validateRequiredPhone,
+            keyboardType: TextInputType.phone,
             onSaved: (value) => formData['phone'] = value,
             decoration: inputBorderlessRounded(
                 "Telefone (+258)", FontAwesomeIcons.phoneAlt),
@@ -128,6 +129,7 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           TextFormField(
             validator: validateRequiredEmail,
+            keyboardType: TextInputType.emailAddress,
             onSaved: (value) => formData['email'] = value,
             decoration:
                 inputBorderlessRounded("E-mail", FontAwesomeIcons.envelope),
@@ -143,6 +145,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 inputBorderlessRounded("Password", FontAwesomeIcons.lock),
             onFieldSubmitted: (_) => actionRegister(),
             obscureText: true,
+            keyboardType: TextInputType.visiblePassword,
           ),
           SizedBox(
             height: 30,
