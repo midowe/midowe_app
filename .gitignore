@@ -46,6 +46,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/app/build
 
 ### VisualStudioCode ###
 .vscode/*      # Maybe .vscode/**/* instead - see comments
@@ -59,6 +60,6 @@ app.*.map.json
 **/.history
 
 # amplify
-**/awsconfig.dart
+lib/awsconfig.dart
 .secret-*
 **.sample
