@@ -9,6 +9,7 @@ import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/approval/approval_list_view.dart';
 import 'package:midowe_app/views/campaign_register_view.dart';
+import 'package:midowe_app/views/main_screen/main_screen_view.dart';
 import 'package:midowe_app/views/user_auth/user_login_view.dart';
 import 'package:midowe_app/views/user_profile/user_profile_view.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
@@ -47,8 +48,18 @@ class HeaderArea extends StatelessWidget {
                     width: 10,
                   ),
                   TextButton(
-                    onPressed: () {
-                      Helper.nextPage(context, UserProfileView());
+                    onPressed: () async {
+                      try {
+                        await Amplify.Auth.getCurrentUser();
+                        Helper.nextPage(context, UserProfileView());
+                      } on AuthException catch (_) {
+                        Helper.nextPage(
+                          context,
+                          UserLoginView(
+                            successWidget: MainScreenView(),
+                          ),
+                        );
+                      }
                     },
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,

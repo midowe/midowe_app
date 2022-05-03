@@ -1,7 +1,6 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify.dart';
 import 'package:flutter/material.dart';
-import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/user_profile/edit_profile_view.dart';
 import 'package:midowe_app/views/user_profile/profile_widget.dart';
 
