@@ -3,73 +3,190 @@ import 'dart:convert';
 import 'package:midowe_app/models/campaign_model.dart';
 import 'package:midowe_app/models/campaign_pending_model.dart';
 import 'package:midowe_app/models/category_campaigns.dart';
+import 'package:midowe_app/models/category_model.dart';
 import 'package:midowe_app/providers/base_provider.dart';
 
 class CampaignProvider extends BaseProvider {
   Future<List<Campaign>> fetchFeatured() async {
-    final response = await cmsGet("/campaigns/featured");
-
-    if (response.statusCode == 200) {
-      final campaings = (jsonDecode(response.body) as List)
-          .map((i) => Campaign.fromJson(i))
-          .toList();
-      return campaings;
-    } else {
-      throw Exception(
-          "Failed to fetch featured campaigns. Error ${response.statusCode}");
-    }
+    List<Campaign> campains = [
+      Campaign(
+          categoryId: 'category1',
+          campaignId: 'campaign1',
+          userId: 'user1',
+          title: 'Medicação para tensão alta e alimentação do bebé',
+          content:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse est metus, scelerisque consequat turpis in, posuere porta risus.',
+          profileImage: 'https://picsum.photos/400/400',
+          additionalImages: [
+            'https://picsum.photos/405/405',
+            'https://picsum.photos/406/406',
+            'https://picsum.photos/407/407'
+          ],
+          targetAmount: 2000,
+          targetDate: '2022-10-01',
+          approved: true,
+          approvedBy: 'admin',
+          approvedAt: '2022-01-01',
+          totalDonations: 10,
+          totalAmount: 20,
+          createdAt: '222'),
+      Campaign(
+          categoryId: 'category1',
+          campaignId: 'campaign1',
+          userId: 'user1',
+          title: 'Ajuda ao bairro de mafalala',
+          content:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse est metus, scelerisque consequat turpis in, posuere porta risus.',
+          profileImage: 'https://picsum.photos/401/401',
+          additionalImages: [],
+          targetAmount: 2000,
+          targetDate: '2022-10-01',
+          approved: true,
+          approvedBy: 'admin',
+          approvedAt: '2022-01-01',
+          totalDonations: 10,
+          totalAmount: 20,
+          createdAt: '222'),
+      Campaign(
+          categoryId: 'category1',
+          campaignId: 'campaign1',
+          userId: 'user1',
+          title: 'Musico inicia sua nova carreira',
+          content:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse est metus, scelerisque consequat turpis in, posuere porta risus.',
+          profileImage: 'https://picsum.photos/403/403',
+          additionalImages: [],
+          targetAmount: 2000,
+          targetDate: '2022-10-01',
+          approved: true,
+          approvedBy: 'admin',
+          approvedAt: '2022-01-01',
+          totalDonations: 10,
+          totalAmount: 20,
+          createdAt: '222'),
+    ];
+    return campains;
   }
 
   Future<List<CategoryCampaigns>> fetchTopByCategory() async {
-    final response = await cmsGet("/campaigns/top?perCategory=2");
-
-    if (response.statusCode == 200) {
-      final categoryCampaigns = (jsonDecode(response.body) as List)
-          .map((i) => CategoryCampaigns.fromJson(i))
-          .toList();
-
-      return categoryCampaigns;
-    } else {
-      throw Exception(
-          "Failed to fetch top campaigns by category. Error ${response.statusCode}");
-    }
+    return [
+      CategoryCampaigns(
+          category: Category(
+              id: 'saude',
+              name: 'Saude',
+              description: 'Saude, Medicação',
+              requireApproval: false),
+          campaigns: [
+            Campaign(
+                categoryId: 'category1',
+                campaignId: 'campaign1',
+                userId: 'user1',
+                title: 'Medicação para tensão alta e alimentação do bebé',
+                content:
+                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse est metus, scelerisque consequat turpis in, posuere porta risus.',
+                profileImage: 'https://picsum.photos/400/400',
+                additionalImages: [
+                  'https://picsum.photos/405/405',
+                  'https://picsum.photos/406/406',
+                  'https://picsum.photos/407/407'
+                ],
+                targetAmount: 2000,
+                targetDate: '2022-10-01',
+                approved: true,
+                approvedBy: 'admin',
+                approvedAt: '2022-01-01',
+                totalDonations: 10,
+                totalAmount: 20,
+                createdAt: '222'),
+            Campaign(
+                categoryId: 'category1',
+                campaignId: 'campaign1',
+                userId: 'user1',
+                title: 'Ajuda ao bairro de mafalala',
+                content:
+                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse est metus, scelerisque consequat turpis in, posuere porta risus.',
+                profileImage: 'https://picsum.photos/401/401',
+                additionalImages: [],
+                targetAmount: 2000,
+                targetDate: '2022-10-01',
+                approved: true,
+                approvedBy: 'admin',
+                approvedAt: '2022-01-01',
+                totalDonations: 10,
+                totalAmount: 20,
+                createdAt: '222'),
+          ])
+    ];
   }
 
   Future<List<Campaign>> fetchOfCategory(
     String categoryId,
     String lastCampaignId,
   ) async {
-    final response = await cmsGet(
-        "/campaigns/category/$categoryId?lastCampaignId=$lastCampaignId");
-
-    if (response.statusCode == 200) {
-      final campaings = (jsonDecode(response.body) as List)
-          .map((i) => Campaign.fromJson(i))
-          .toList();
-      return campaings;
-    } else {
-      throw Exception(
-          "Failed to fetch campaigns of category $categoryId. Error ${response.statusCode}");
-    }
+    return [
+      Campaign(
+          categoryId: 'category1',
+          campaignId: 'campaign1',
+          userId: 'user1',
+          title: 'Medicação para tensão alta e alimentação do bebé',
+          content:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse est metus, scelerisque consequat turpis in, posuere porta risus.',
+          profileImage: 'https://picsum.photos/400/400',
+          additionalImages: [
+            'https://picsum.photos/405/405',
+            'https://picsum.photos/406/406',
+            'https://picsum.photos/407/407'
+          ],
+          targetAmount: 2000,
+          targetDate: '2022-10-01',
+          approved: true,
+          approvedBy: 'admin',
+          approvedAt: '2022-01-01',
+          totalDonations: 10,
+          totalAmount: 20,
+          createdAt: '222'),
+      Campaign(
+          categoryId: 'category1',
+          campaignId: 'campaign1',
+          userId: 'user1',
+          title: 'Ajuda ao bairro de mafalala',
+          content:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse est metus, scelerisque consequat turpis in, posuere porta risus.',
+          profileImage: 'https://picsum.photos/401/401',
+          additionalImages: [],
+          targetAmount: 2000,
+          targetDate: '2022-10-01',
+          approved: true,
+          approvedBy: 'admin',
+          approvedAt: '2022-01-01',
+          totalDonations: 10,
+          totalAmount: 20,
+          createdAt: '222'),
+      Campaign(
+          categoryId: 'category1',
+          campaignId: 'campaign1',
+          userId: 'user1',
+          title: 'Musico inicia sua nova carreira',
+          content:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse est metus, scelerisque consequat turpis in, posuere porta risus.',
+          profileImage: 'https://picsum.photos/403/403',
+          additionalImages: [],
+          targetAmount: 2000,
+          targetDate: '2022-10-01',
+          approved: true,
+          approvedBy: 'admin',
+          approvedAt: '2022-01-01',
+          totalDonations: 10,
+          totalAmount: 20,
+          createdAt: '222'),
+    ];
   }
 
   Future<CampaignPending> fetchPendingApproval(
     String lastCategoryId,
     String lastCampaignId,
   ) async {
-    final response = await cmsGet(
-        "/campaigns/pending?lastCategoryId=$lastCategoryId&lastCampaignId=$lastCampaignId");
-
-    if (response.statusCode == 200) {
-      final decoded = jsonDecode(response.body);
-
-      final campaings =
-          (decoded['items'] as List).map((i) => Campaign.fromJson(i)).toList();
-      return new CampaignPending(decoded['count'], campaings);
-    } else {
-      throw Exception(
-          "Failed to fetch pending approval campaigns. Error ${response.statusCode}");
-    }
+    return CampaignPending(0, List.empty());
   }
 
   Future<List<Campaign>> fetchSearchCampaign(
@@ -77,22 +194,6 @@ class CampaignProvider extends BaseProvider {
     int pageKey,
     int pageSize,
   ) async {
-    //todo: review
-    if (keyword.isEmpty) {
-      return List.empty();
-    }
-
-    final response = await cmsGet(
-        "/campaigns?_sort=created_at:DESC&approved=true&title_contains=$keyword&_start=$pageKey&_limit=$pageSize");
-
-    if (response.statusCode == 200) {
-      final campaings = (jsonDecode(response.body) as List)
-          .map((i) => Campaign.fromJson(i))
-          .toList();
-      return campaings;
-    } else {
-      throw Exception(
-          "Failed to fetch pending approval campaigns. Error ${response.statusCode}");
-    }
+    return List.empty();
   }
 }
