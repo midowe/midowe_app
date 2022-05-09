@@ -29,7 +29,8 @@ class Campaign {
     required this.additionalPictures,
   });
 
-  factory Campaign.fromJson(Map<String, dynamic> json) {
+  factory Campaign.
+  fromJson(Map<String, dynamic> json) {
     return Campaign(
       id: json['id'],
       slug: json['slug'],
