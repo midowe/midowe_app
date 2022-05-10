@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:midowe_app/utils/constants.dart';
 
 class AmountPicker extends StatefulWidget {
+  int pickedAmount = 100;
+
   @override
   State<StatefulWidget> createState() {
     return _AmountPicker();
@@ -120,6 +122,7 @@ class _AmountPicker extends State<AmountPicker> {
         selectedAmount = amount;
         amountModel.amount = amount;
       }
+      widget.pickedAmount = amountModel.amount;
 
       otherAmount = other;
     });

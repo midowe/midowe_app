@@ -1,19 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_gifs/loading_gifs.dart';
 import 'package:midowe_app/models/campaign_model.dart';
 import 'package:midowe_app/utils/constants.dart';
-import 'package:transparent_image/transparent_image.dart';
+import 'package:midowe_app/utils/formatter.dart';
 
 class CampaignListItem extends StatelessWidget {
   final Campaign campaign;
   final VoidCallback onPressed;
 
   CampaignListItem({required this.campaign, required this.onPressed});
-
-  String _getPercent() {
-    double percent = 100; //* donatedAmount / targetAmount;
-    return percent.toStringAsFixed(0);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +24,14 @@ class CampaignListItem extends StatelessWidget {
             Container(
               width: 70,
               height: 70,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: FadeInImage.memoryNetwork(
-                        placeholder: kTransparentImage,
-                        image: campaign.image,
-                      ).image),
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+                child: FadeInImage.assetNetwork(
+                    placeholder: circularProgressIndicatorSmall,
+                    image: campaign.profileImage,
+                    width: double.infinity,
+                    fit: BoxFit.fitHeight),
+              ),
             ),
             SizedBox(
               width: 20,
@@ -58,7 +54,7 @@ class CampaignListItem extends StatelessWidget {
                   height: 5,
                 ),
                 Text(
-                  "${_getPercent()}% - Meta: ${campaign.targetAmount}",
+                  "${Formatter.currency(campaign.targetAmount)} MT até ${campaign.targetDate}",
                   style: TextStyle(
                     color: Constants.secondaryColor2,
                     fontSize: 13,

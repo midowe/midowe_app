@@ -8,7 +8,7 @@ import 'package:midowe_app/utils/decorators.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/widgets/campaign_list_item.dart';
 
-import 'campaign_profile_view.dart';
+import 'campaign_profile/campaign_profile_view.dart';
 
 class CampaignSearchView extends StatefulWidget {
   @override

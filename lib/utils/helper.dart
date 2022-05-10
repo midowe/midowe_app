@@ -14,4 +14,10 @@ class Helper {
         MaterialPageRoute(builder: (context) => page),
         (Route<dynamic> route) => false);
   }
+
+  static void nextPageUntilFirst(BuildContext context, Widget page) {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => page),
+        (Route<dynamic> route) => route.isFirst);
+  }
 }

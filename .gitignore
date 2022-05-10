@@ -46,6 +46,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/app/build
 
 ### VisualStudioCode ###
 .vscode/*      # Maybe .vscode/**/* instead - see comments
@@ -57,3 +58,8 @@ app.*.map.json
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 **/.history
+
+# amplify
+lib/awsconfig.dart
+.secret-*
+**.sample

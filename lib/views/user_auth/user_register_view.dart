@@ -1,17 +1,21 @@
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_flutter/amplify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get_it/get_it.dart';
 import 'package:midowe_app/utils/decorators.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/utils/validators.dart';
-import 'package:midowe_app/views/campaign_register_view.dart';
-import 'package:midowe_app/views/user_login_view.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
-import 'package:midowe_app/widgets/social_login_buttons.dart';
+import 'package:midowe_app/views/user_auth/user_social_login.dart';
 import 'package:midowe_app/widgets/text_link_inline.dart';
 
 class UserRegisterView extends StatelessWidget {
+  final Widget successWidget;
+
+  const UserRegisterView({Key? key, required this.successWidget})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,17 +55,20 @@ class UserRegisterView extends StatelessWidget {
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: _RegisterForm(),
+                        child: RegisterForm(
+                          successWidget: this.successWidget,
+                        ),
                       ),
                       SizedBox(
                         height: 50,
                       ),
-                      SocialLoginButtons(),
+                      UserSocialLogin(
+                        successWidget: this.successWidget,
+                      ),
                       TextLinkInline(
                         text: "Já possui uma conta?",
                         linkName: "Entrar",
-                        onPressed: () =>
-                            Helper.nextPage(context, UserLoginView()),
+                        onPressed: () => Navigator.pop(context),
                       )
                     ],
                   ),
@@ -75,30 +82,33 @@ class UserRegisterView extends StatelessWidget {
   }
 }
 
-class _RegisterForm extends StatefulWidget {
+class RegisterForm extends StatefulWidget {
+  final Widget successWidget;
+
+  const RegisterForm({Key? key, required this.successWidget}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _RegisterFormState();
 }
 
-class _RegisterFormState extends State<_RegisterForm> {
-  //final _userService = GetIt.I.get<UserService>();
-  final _formKey = GlobalKey<FormState>();
-  final Map<String, dynamic> _formData = {
-    'fullName': null,
-    'phone': null,
-    'email': null,
-    'password': null
+class _RegisterFormState extends State<RegisterForm> {
+  final formKey = GlobalKey<FormState>();
+  final Map<String, dynamic> formData = {
+    'name': '',
+    'phone': '',
+    'email': '',
+    'password': ''
   };
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
+      key: formKey,
       child: Column(
         children: [
           TextFormField(
             validator: validateRequiredField,
-            onSaved: (value) => _formData['fullName'] = value,
+            onSaved: (value) => formData['name'] = value,
             decoration:
                 inputBorderlessRounded("Nome completo", FontAwesomeIcons.user),
             textInputAction: TextInputAction.next,
@@ -107,18 +117,20 @@ class _RegisterFormState extends State<_RegisterForm> {
             height: 20,
           ),
           TextFormField(
-            validator: validateRequiredField,
-            onSaved: (value) => _formData['phone'] = value,
+            validator: validateRequiredPhone,
+            keyboardType: TextInputType.phone,
+            onSaved: (value) => formData['phone'] = value,
             decoration: inputBorderlessRounded(
-                "Numero de telefone", FontAwesomeIcons.phoneAlt),
+                "Telefone (+258)", FontAwesomeIcons.phoneAlt),
             textInputAction: TextInputAction.next,
           ),
           SizedBox(
             height: 20,
           ),
           TextFormField(
-            validator: validateRequiredField,
-            onSaved: (value) => _formData['email'] = value,
+            validator: validateRequiredEmail,
+            keyboardType: TextInputType.emailAddress,
+            onSaved: (value) => formData['email'] = value,
             decoration:
                 inputBorderlessRounded("E-mail", FontAwesomeIcons.envelope),
             textInputAction: TextInputAction.next,
@@ -128,11 +140,12 @@ class _RegisterFormState extends State<_RegisterForm> {
           ),
           TextFormField(
             validator: validateRequiredField,
-            onSaved: (value) => _formData['password'] = value,
+            onSaved: (value) => formData['password'] = value,
             decoration:
                 inputBorderlessRounded("Password", FontAwesomeIcons.lock),
-            onFieldSubmitted: (_) => _actionRegister(),
+            onFieldSubmitted: (_) => actionRegister(),
             obscureText: true,
+            keyboardType: TextInputType.visiblePassword,
           ),
           SizedBox(
             height: 30,
@@ -143,7 +156,7 @@ class _RegisterFormState extends State<_RegisterForm> {
               text: "Criar conta",
               icon: Icon(CupertinoIcons.arrow_right),
               onPressed: () {
-                _actionRegister();
+                actionRegister();
               },
             ),
           )
@@ -152,35 +165,40 @@ class _RegisterFormState extends State<_RegisterForm> {
     );
   }
 
-  void _actionRegister() {
-    print('submiting form');
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      _showLoading();
-      /*_userService
-          .register(_formData['fullName'], _formData['phone'],
-              _formData['email'], _formData['password'])
-          .then(
-            (authResponse) => {
-              if (authResponse.success)
-                {
-                  Helper.nextPage(context, CampaignRegisterView())
-                  //Redirect to success
-                }
-              else
-                {
-                  authResponse.messages.forEach((message) {
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text(message)));
-                  })
-                }
-            },
-          )
-          .whenComplete(() => _hideLoading());*/
+  void actionRegister() async {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+      actionShowLoading();
+
+      try {
+        Map<String, String> userAttributes = {
+          'email': formData['email'],
+          'phone_number': "+258${formData['phone']}",
+          'name': formData['name'],
+        };
+        SignUpResult result = await Amplify.Auth.signUp(
+            username: formData['email'],
+            password: formData['password'],
+            options: CognitoSignUpOptions(userAttributes: userAttributes));
+
+        if (result.isSignUpComplete) {
+          Helper.nextPageUntilFirst(context, widget.successWidget);
+        } else {
+          Navigator.pop(context);
+        }
+      } on AuthException catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: const Duration(seconds: 5),
+            content: Text(e.message),
+          ),
+        );
+        Navigator.pop(context);
+      }
     }
   }
 
-  void _showLoading() {
+  void actionShowLoading() {
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -191,16 +209,12 @@ class _RegisterFormState extends State<_RegisterForm> {
               CircularProgressIndicator(),
               Container(
                 margin: EdgeInsets.only(left: 20),
-                child: Text("Processando..."),
+                child: Text("Aguarde..."),
               ),
             ],
           ),
         );
       },
     );
-  }
-
-  void _hideLoading() {
-    Navigator.pop(context);
   }
 }
