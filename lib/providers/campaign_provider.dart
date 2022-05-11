@@ -7,31 +7,56 @@ import 'package:midowe_app/models/category_model.dart';
 import 'package:midowe_app/providers/base_provider.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/campaign.dart';
-import '../models/campaignData.dart';
+import '../models/FeaturedCampaign.dart';
 
 class CampaignProvider extends BaseProvider {
+  List<FeaturedCampaign> campaigns = [];
 
-  List<CampaignData> campaigns = [];
+  Future<List<FeaturedCampaign>> getAll() async {
+    var response = await http.get(Uri.parse(
+        "https://cms.dev.midowe.co.mz/api/campaigns?fields[0]=title&fields[1]=description&filters[on_spot]=true&populate[images][fields][0]=url"));
 
-  Future<List<CampaignData>> getAll() async {
-    var response = await http.get(Uri.parse("https://cms.dev.midowe.co.mz/api/campaigns"));
-
-    if(response.statusCode==200){
+    if (response.statusCode == 200) {
       campaigns.clear();
     }
     var decodedData = jsonDecode(response.body)["data"];
 
-
     for (var u in decodedData) {
-      campaigns.add(CampaignData( u['id'],Campan.fromJson(u['attributes'])));
+      var featuredCampaign =
+          FeaturedCampaign.fromJson(u['attributes'], u["id"]);
+      var url =u['attributes']['images']['data'][0]['attributes']['url'];
+      if (url != null) featuredCampaign.url = url;
+      campaigns.add(featuredCampaign);
     }
     return campaigns;
   }
 
+
+  Campaign getOneCampaign() {
+
+    return   Campaign(
+        categoryId: 'category1',
+        campaignId: 'campaign1',
+        userId: 'user1',
+        title: 'Medicação para tensão alta e alimentação do bebé',
+        content:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse est metus, scelerisque consequat turpis in, posuere porta risus.',
+        profileImage: 'https://picsum.photos/400/400',
+        additionalImages: [
+          'https://picsum.photos/405/405',
+          'https://picsum.photos/406/406',
+          'https://picsum.photos/407/407'
+        ],
+        targetAmount: 2000,
+        targetDate: '2022-10-01',
+        approved: true,
+        approvedBy: 'admin',
+        approvedAt: '2022-01-01',
+        totalDonations: 10,
+        totalAmount: 20,
+        createdAt: '222');
+  }
   Future<List<Campaign>> fetchFeatured() async {
-
-
     List<Campaign> campains = [
       Campaign(
           categoryId: 'category1',
