@@ -7,8 +7,11 @@ import 'package:midowe_app/providers/category_provider.dart';
 import 'package:midowe_app/utils/constants.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+import '../../models/CampaignData.dart';
+import '../../models/FeaturedCampaign.dart';
+
 class CampaignHeader extends StatelessWidget {
-  final Campaign campaign;
+  final CampaignData campaign;
   final Category? category;
 
   const CampaignHeader({Key? key, required this.campaign, this.category})
@@ -30,7 +33,7 @@ class CampaignHeader extends StatelessWidget {
                 placeholder: kTransparentImage,
                 width: double.infinity,
                 fit: BoxFit.fitWidth,
-                image: campaign.profileImage,
+                image: campaign.url,
               ),
             ),
             Positioned(
@@ -82,7 +85,7 @@ class CampaignHeader extends StatelessWidget {
                               width: 5,
                             ),
                             if (this.category == null)
-                              CategoryNameArea(categoryId: campaign.categoryId),
+                              CategoryNameArea(categoryId: campaign.id),
                             if (this.category != null)
                               Text(this.category!.name),
                             SizedBox(
@@ -102,7 +105,7 @@ class CampaignHeader extends StatelessWidget {
 }
 
 class CategoryNameArea extends StatefulWidget {
-  final String categoryId;
+  final int categoryId;
 
   const CategoryNameArea({Key? key, required this.categoryId})
       : super(key: key);

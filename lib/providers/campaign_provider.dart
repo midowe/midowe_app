@@ -7,7 +7,10 @@ import 'package:midowe_app/models/category_model.dart';
 import 'package:midowe_app/providers/base_provider.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/CampaignData.dart';
+import '../models/CampaignImage.dart';
 import '../models/FeaturedCampaign.dart';
+import '../models/Fundraiser.dart';
 
 class CampaignProvider extends BaseProvider {
   List<FeaturedCampaign> campaigns = [];
@@ -22,223 +25,136 @@ class CampaignProvider extends BaseProvider {
     var decodedData = jsonDecode(response.body)["data"];
 
     for (var u in decodedData) {
-      var featuredCampaign =
-          FeaturedCampaign.fromJson(u['attributes'], u["id"]);
+
+
       var url =u['attributes']['images']['data'][0]['attributes']['url'];
-      if (url != null) featuredCampaign.url = url;
-      campaigns.add(featuredCampaign);
+      campaigns.add(FeaturedCampaign.fromJson(u['attributes'], u["id"],url));
+    }
+    return campaigns;
+  }
+
+  Future<List<CampaignData>> getCampaignData() async {
+
+    List<CampaignData> campaigns = [];
+    var response = await http.get(Uri.parse("https://cms.dev.midowe.co.mz/api/campaigns?populate[0]=images&populate[1]=fundraiser&filters[on_spot]=true&sort[1]=createdAt:desc"));
+
+    if (response.statusCode == 200) {
+      campaigns.clear();
+    }
+    var decodedData = jsonDecode(response.body)["data"];
+
+    for (var u in decodedData) {
+      var url =u['attributes']['images']['data'][0]['attributes']['url'];
+      var images =u['attributes']['images']['data'];
+      var fundraiser =u['attributes']['fundraiser']['data'];
+      List<CampaignImage > imageList=[];
+      for(var i in images){
+        imageList.add(CampaignImage.fromJson(i['attributes']));
+      }
+
+      campaigns.add(CampaignData.fromJson(u['attributes'], u["id"],url,Fundraiser.fromJson(fundraiser['attributes'], fundraiser['id']),imageList));
     }
     return campaigns;
   }
 
 
-  Campaign getOneCampaign() {
 
-    return   Campaign(
-        categoryId: 'category1',
-        campaignId: 'campaign1',
-        userId: 'user1',
-        title: 'Medicação para tensão alta e alimentação do bebé',
-        content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse est metus, scelerisque consequat turpis in, posuere porta risus.',
-        profileImage: 'https://picsum.photos/400/400',
-        additionalImages: [
-          'https://picsum.photos/405/405',
-          'https://picsum.photos/406/406',
-          'https://picsum.photos/407/407'
-        ],
-        targetAmount: 2000,
-        targetDate: '2022-10-01',
-        approved: true,
-        approvedBy: 'admin',
-        approvedAt: '2022-01-01',
-        totalDonations: 10,
-        totalAmount: 20,
-        createdAt: '222');
+  Future<CampaignData> getOneCampaignData(String id) async {
+
+    var response = await http.get(Uri.parse(
+        "https://cms.dev.midowe.co.mz/api/campaigns/"+id+"?populate[0]=category&populate[1]=fundraiser&&populate[2]=images"));
+
+    if (response.statusCode == 200) {
+      campaigns.clear();
+    }
+    var decodedData = jsonDecode(response.body)["data"];
+
+
+        var url =decodedData['attributes']['images']['data'][0]['attributes']['url'];
+
+
+        var images =decodedData['attributes']['images']['data'];
+        var fundraiser =decodedData['attributes']['fundraiser']['data'];
+        List<CampaignImage > imageList=[];
+        for(var i in images){
+          imageList.add(CampaignImage.fromJson(i['attributes']));
+        }
+
+        return CampaignData.fromJson(decodedData['attributes'], decodedData["id"],url,Fundraiser.fromJson(fundraiser['attributes'], fundraiser['id']),imageList);
+
+
   }
-  Future<List<Campaign>> fetchFeatured() async {
-    List<Campaign> campains = [
-      Campaign(
-          categoryId: 'category1',
-          campaignId: 'campaign1',
-          userId: 'user1',
-          title: 'Medicação para tensão alta e alimentação do bebé',
-          content:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse est metus, scelerisque consequat turpis in, posuere porta risus.',
-          profileImage: 'https://picsum.photos/400/400',
-          additionalImages: [
-            'https://picsum.photos/405/405',
-            'https://picsum.photos/406/406',
-            'https://picsum.photos/407/407'
-          ],
-          targetAmount: 2000,
-          targetDate: '2022-10-01',
+
+  Future<List<CampaignData>> fetchFeatured() async {
+    List<CampaignData> campains = [
+      CampaignData(
+      updatedAt: '',
           approved: true,
-          approvedBy: 'admin',
-          approvedAt: '2022-01-01',
-          totalDonations: 10,
-          totalAmount: 20,
-          createdAt: '222'),
-      Campaign(
-          categoryId: 'category1',
-          campaignId: 'campaign1',
-          userId: 'user1',
-          title: 'Ajuda ao bairro de mafalala',
-          content:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse est metus, scelerisque consequat turpis in, posuere porta risus.',
-          profileImage: 'https://picsum.photos/401/401',
-          additionalImages: [],
-          targetAmount: 2000,
-          targetDate: '2022-10-01',
-          approved: true,
-          approvedBy: 'admin',
-          approvedAt: '2022-01-01',
-          totalDonations: 10,
-          totalAmount: 20,
-          createdAt: '222'),
-      Campaign(
-          categoryId: 'category1',
-          campaignId: 'campaign1',
-          userId: 'user1',
-          title: 'Musico inicia sua nova carreira',
-          content:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse est metus, scelerisque consequat turpis in, posuere porta risus.',
-          profileImage: 'https://picsum.photos/403/403',
-          additionalImages: [],
-          targetAmount: 2000,
-          targetDate: '2022-10-01',
-          approved: true,
-          approvedBy: 'admin',
-          approvedAt: '2022-01-01',
-          totalDonations: 10,
-          totalAmount: 20,
-          createdAt: '222'),
+          current_balance: 2000,
+          description: 'ola',
+          notes: '',
+          on_spot: true,
+          total_amount: 0.00,
+          verified: true,
+          title: '',
+          target_amount: 200,
+          thank_you_message: 'obrigado',
+          id: 1,
+          url: '',
+          verified_at: '',
+          verified_by: '',
+          createdAt: '222', target_date: '', images: [], total_donations: 8000),
+
     ];
     return campains;
   }
 
-  Future<List<CategoryCampaigns>> fetchTopByCategory() async {
+  Future<List<Category>> fetchTopByCategory() async {
     return [
-      CategoryCampaigns(
-          category: Category(
-              id: 'saude',
+       Category(
+              id: 1,
               name: 'Saude',
               description: 'Saude, Medicação',
-              requireApproval: false),
-          campaigns: [
-            Campaign(
-                categoryId: 'category1',
-                campaignId: 'campaign1',
-                userId: 'user1',
-                title: 'Medicação para tensão alta e alimentação do bebé',
-                content:
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse est metus, scelerisque consequat turpis in, posuere porta risus.',
-                profileImage: 'https://picsum.photos/400/400',
-                additionalImages: [
-                  'https://picsum.photos/405/405',
-                  'https://picsum.photos/406/406',
-                  'https://picsum.photos/407/407'
-                ],
-                targetAmount: 2000,
-                targetDate: '2022-10-01',
-                approved: true,
-                approvedBy: 'admin',
-                approvedAt: '2022-01-01',
-                totalDonations: 10,
-                totalAmount: 20,
-                createdAt: '222'),
-            Campaign(
-                categoryId: 'category1',
-                campaignId: 'campaign1',
-                userId: 'user1',
-                title: 'Ajuda ao bairro de mafalala',
-                content:
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse est metus, scelerisque consequat turpis in, posuere porta risus.',
-                profileImage: 'https://picsum.photos/401/401',
-                additionalImages: [],
-                targetAmount: 2000,
-                targetDate: '2022-10-01',
-                approved: true,
-                approvedBy: 'admin',
-                approvedAt: '2022-01-01',
-                totalDonations: 10,
-                totalAmount: 20,
-                createdAt: '222'),
-          ])
+              campaigns: [],
+              updatedAt: "",
+              createdAt: "",
+              ),
     ];
   }
 
-  Future<List<Campaign>> fetchOfCategory(
-    String categoryId,
-    String lastCampaignId,
+  Future<List<CampaignData>> fetchOfCategory(
+    int categoryId,
+    int lastCampaignId,
   ) async {
     return [
-      Campaign(
-          categoryId: 'category1',
-          campaignId: 'campaign1',
-          userId: 'user1',
-          title: 'Medicação para tensão alta e alimentação do bebé',
-          content:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse est metus, scelerisque consequat turpis in, posuere porta risus.',
-          profileImage: 'https://picsum.photos/400/400',
-          additionalImages: [
-            'https://picsum.photos/405/405',
-            'https://picsum.photos/406/406',
-            'https://picsum.photos/407/407'
-          ],
-          targetAmount: 2000,
-          targetDate: '2022-10-01',
+      CampaignData(
+          updatedAt: '',
           approved: true,
-          approvedBy: 'admin',
-          approvedAt: '2022-01-01',
-          totalDonations: 10,
-          totalAmount: 20,
-          createdAt: '222'),
-      Campaign(
-          categoryId: 'category1',
-          campaignId: 'campaign1',
-          userId: 'user1',
-          title: 'Ajuda ao bairro de mafalala',
-          content:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse est metus, scelerisque consequat turpis in, posuere porta risus.',
-          profileImage: 'https://picsum.photos/401/401',
-          additionalImages: [],
-          targetAmount: 2000,
-          targetDate: '2022-10-01',
-          approved: true,
-          approvedBy: 'admin',
-          approvedAt: '2022-01-01',
-          totalDonations: 10,
-          totalAmount: 20,
-          createdAt: '222'),
-      Campaign(
-          categoryId: 'category1',
-          campaignId: 'campaign1',
-          userId: 'user1',
-          title: 'Musico inicia sua nova carreira',
-          content:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse est metus, scelerisque consequat turpis in, posuere porta risus.',
-          profileImage: 'https://picsum.photos/403/403',
-          additionalImages: [],
-          targetAmount: 2000,
-          targetDate: '2022-10-01',
-          approved: true,
-          approvedBy: 'admin',
-          approvedAt: '2022-01-01',
-          totalDonations: 10,
-          totalAmount: 20,
-          createdAt: '222'),
+          current_balance: 2000,
+          description: 'ola',
+          notes: '',
+          on_spot: true,
+          total_amount: 0.00,
+          verified: true,
+          title: '',
+          target_amount: 200,
+          thank_you_message: 'obrigado',
+          id: 1,
+          url: '',
+          verified_at: '',
+          verified_by: '',
+          createdAt: '222', target_date: '', images: [], total_donations: 8000),
     ];
   }
 
   Future<CampaignPending> fetchPendingApproval(
-    String lastCategoryId,
+    int lastCategoryId,
     String lastCampaignId,
   ) async {
     return CampaignPending(0, List.empty());
   }
 
-  Future<List<Campaign>> fetchSearchCampaign(
+  Future<List<CampaignData>> fetchSearchCampaign(
     String keyword,
     int pageKey,
     int pageSize,

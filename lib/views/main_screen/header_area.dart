@@ -61,7 +61,7 @@ class _PendingApprovalButtonState extends State<PendingApprovalButton> {
   @override
   void initState() {
     super.initState();
-    this.campaignPending = campaignProvider.fetchPendingApproval('', '');
+    this.campaignPending = campaignProvider.fetchPendingApproval(1, '10');
   }
 
   @override

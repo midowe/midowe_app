@@ -8,6 +8,7 @@ import 'package:midowe_app/utils/decorators.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/widgets/campaign_list_item.dart';
 
+import '../models/CampaignData.dart';
 import 'campaign_profile/campaign_profile_view.dart';
 
 class CampaignSearchView extends StatefulWidget {
@@ -20,7 +21,7 @@ class _CampaignSearchViewState extends State<CampaignSearchView> {
   final campaignProvider = GetIt.I.get<CampaignProvider>();
   final seaerchInputController = TextEditingController();
 
-  final PagingController<int, Campaign> _pagingController =
+  final PagingController<int, CampaignData> _pagingController =
       PagingController(firstPageKey: 0);
 
   @override
@@ -89,9 +90,9 @@ class _CampaignSearchViewState extends State<CampaignSearchView> {
                     onRefresh: () => Future.sync(
                       () => _pagingController.refresh(),
                     ),
-                    child: PagedListView<int, Campaign>(
+                    child: PagedListView<int, CampaignData>(
                       pagingController: _pagingController,
-                      builderDelegate: PagedChildBuilderDelegate<Campaign>(
+                      builderDelegate: PagedChildBuilderDelegate<CampaignData>(
                         itemBuilder: (context, item, index) {
                           return CampaignListItem(
                               campaign: item,

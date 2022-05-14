@@ -4,8 +4,10 @@ import 'package:midowe_app/models/campaign_model.dart';
 import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/utils/formatter.dart';
 
+import '../../models/CampaignData.dart';
+
 class CampaignStats extends StatelessWidget {
-  final Campaign campaign;
+  final CampaignData campaign;
 
   const CampaignStats({Key? key, required this.campaign}) : super(key: key);
 
@@ -27,7 +29,7 @@ class CampaignStats extends StatelessWidget {
                 size: 20,
               ),
               Text(
-                "${campaign.totalDonations}",
+                "${campaign.total_donations}",
                 style: TextStyle(color: Constants.primaryColor),
               ),
               Icon(
@@ -35,19 +37,19 @@ class CampaignStats extends StatelessWidget {
                 size: 20,
               ),
               Text(
-                "${Formatter.currencyDouble(campaign.totalAmount)} MT de ${Formatter.currency(campaign.targetAmount)} MT",
+                "${Formatter.currencyDouble(campaign.total_amount*1.0)} MT de ${Formatter.currencyDouble(campaign.target_amount)} MT",
                 style: TextStyle(color: Constants.primaryColor),
               ),
             ],
           )),
-          if (campaign.targetDate != '')
+          if (campaign.target_date != '')
             Icon(
               FontAwesomeIcons.calendarAlt,
               size: 18,
             ),
-          if (campaign.targetDate != '')
+          if (campaign.target_date != '')
             Text(
-              "${Formatter.dayMonth(campaign.targetDate)}",
+              "${Formatter.dayMonth(campaign.target_date)}",
               style: TextStyle(color: Constants.primaryColor),
             )
         ],

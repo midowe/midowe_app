@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
+import 'package:midowe_app/models/CampaignData.dart';
+import 'package:midowe_app/models/FeaturedCampaign.dart';
 import 'package:midowe_app/models/campaign_model.dart';
 import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/utils/formatter.dart';
 
 class CampaignListItem extends StatelessWidget {
-  final Campaign campaign;
+  final CampaignData campaign;
   final VoidCallback onPressed;
 
   CampaignListItem({required this.campaign, required this.onPressed});
@@ -28,7 +30,7 @@ class CampaignListItem extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(15)),
                 child: FadeInImage.assetNetwork(
                     placeholder: circularProgressIndicatorSmall,
-                    image: campaign.profileImage,
+                    image: campaign.url,
                     width: double.infinity,
                     fit: BoxFit.fitHeight),
               ),
@@ -54,7 +56,7 @@ class CampaignListItem extends StatelessWidget {
                   height: 5,
                 ),
                 Text(
-                  "${Formatter.currency(campaign.targetAmount)} MT até ${campaign.targetDate}",
+                  "${Formatter.currencyDouble(campaign.target_amount)} MT até ${campaign.target_date}",
                   style: TextStyle(
                     color: Constants.secondaryColor2,
                     fontSize: 13,

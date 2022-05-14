@@ -2,33 +2,83 @@ import 'dart:convert';
 
 import 'package:midowe_app/models/category_model.dart';
 import 'package:midowe_app/providers/base_provider.dart';
+import 'package:http/http.dart' as http;
+
+import '../models/CampaignData.dart';
+import '../models/CampaignImage.dart';
+import '../models/Fundraiser.dart';
 
 class CategoryProvider extends BaseProvider {
-  Future<List<Category>> fetchCategories() async {
+
+
+  List<CampaignData> campaigns = [];
+
+  Future<List<Category>> fetchAllCategories(String page, String pageSize) async {
+
+    List<Category> categories = [];
+    var response = await http.get(Uri.parse(
+        "https://cms.dev.midowe.co.mz/api/categories?populate[0]=campaigns&populate[1]=campaigns.images&populate[2]=campaigns.fundraiser&sort[1]=createdAt:desc&pagination[page]="+page +"&pagination[pageSize]="+pageSize));
+
+    if (response.statusCode == 200) {
+      categories.clear();
+    }
+    var decodedData = jsonDecode(response.body)["data"];
+
+    for (var u in decodedData) {
+      var campaigns =u['attributes']['campaigns']['data'];
+      List<CampaignData> campaignsList =[];
+      
+      for(var c in campaigns){
+        var url =c['attributes']['images']['data'][0]['attributes']['url'];
+
+
+        var images =c['attributes']['images']['data'];
+        var fundraiser =c['attributes']['fundraiser']['data'];
+        List<CampaignImage > imageList=[];
+        for(var i in images){
+          imageList.add(CampaignImage.fromJson(i['attributes']));
+        }
+
+        campaignsList.add(CampaignData.fromJson(c['attributes'], c["id"],url,Fundraiser.fromJson(fundraiser['attributes'], fundraiser['id']),imageList));
+      }
+      categories.add(Category.fromJson(u['attributes'], u["id"],campaignsList));
+    }
+    return categories;
+  }
+
+  Future<List<Category>> fetchCategoriesfetchCategories() async {
     return [
       Category(
-          id: 'saude',
+          id: 1,
           name: 'Saude',
           description: 'Saude, Medicação',
-          requireApproval: false),
+        campaigns: campaigns,
+        updatedAt: "",
+        createdAt: ""),
       Category(
-          id: 'musica',
+          id: 2,
           name: 'Musca',
           description: 'Musca, Arte, Cultura',
-          requireApproval: false),
+        campaigns: campaigns,
+        updatedAt: "",
+        createdAt: "",),
       Category(
-          id: 'projectos',
+          id: 2,
           name: 'Projectos',
           description: 'Iniciativas diferenes',
-          requireApproval: false),
+        campaigns: campaigns,
+        updatedAt: "",
+        createdAt: ""),
     ];
   }
 
-  Future<Category> fetchCategoryById(String categoryId) async {
+  Future<Category> fetchCategoryById(int categoryId) async {
     return Category(
-        id: 'saude',
+        id: 2,
         name: 'Saude',
         description: 'Saude, Medicação',
-        requireApproval: false);
+      campaigns: campaigns,
+      updatedAt: "",
+      createdAt: "",);
   }
 }

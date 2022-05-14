@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:midowe_app/models/CampaignData.dart';
 import 'package:midowe_app/models/campaign_model.dart';
 import 'package:midowe_app/models/category_model.dart';
 import 'package:midowe_app/providers/campaign_provider.dart';
@@ -23,9 +24,9 @@ class CategoryCampaignList extends StatefulWidget {
 class _CategoryCampaignListState extends State<CategoryCampaignList> {
   static const _pageSize = 10;
   final campaignProvider = GetIt.I.get<CampaignProvider>();
-  Campaign? _lastCampaign;
+  CampaignData? _lastCampaign;
 
-  final PagingController<int, Campaign> _pagingController =
+  final PagingController<int, CampaignData> _pagingController =
       PagingController(firstPageKey: 0);
 
   @override
@@ -43,7 +44,7 @@ class _CategoryCampaignListState extends State<CategoryCampaignList> {
       }
       final newItems = await campaignProvider.fetchOfCategory(
           widget.category.id,
-          _lastCampaign != null ? _lastCampaign!.campaignId : "");
+          _lastCampaign != null ? _lastCampaign!.id : 0);
 
       if (newItems.isNotEmpty) {
         _lastCampaign = newItems.last;
@@ -67,9 +68,9 @@ class _CategoryCampaignListState extends State<CategoryCampaignList> {
       onRefresh: () => Future.sync(
         () => {_pagingController.refresh()},
       ),
-      child: PagedListView<int, Campaign>(
+      child: PagedListView<int, CampaignData>(
         pagingController: _pagingController,
-        builderDelegate: PagedChildBuilderDelegate<Campaign>(
+        builderDelegate: PagedChildBuilderDelegate<CampaignData>(
           itemBuilder: (context, item, index) {
             return CampaignListItem(
                 campaign: item,

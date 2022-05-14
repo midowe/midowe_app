@@ -3,8 +3,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:midowe_app/utils/constants.dart';
 import 'package:photo_view/photo_view.dart';
 
+import '../../models/CampaignImage.dart';
+
 class CampaignImageView extends StatelessWidget {
-  final String imageUrl;
+  final CampaignImage imageUrl;
 
   const CampaignImageView({Key? key, required this.imageUrl}) : super(key: key);
 
@@ -14,7 +16,7 @@ class CampaignImageView extends StatelessWidget {
       body: Stack(
         children: [
           PhotoView(
-            imageProvider: NetworkImage(imageUrl),
+            imageProvider: NetworkImage(imageUrl.url),
           ),
           Positioned(
             top: 45,

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:midowe_app/models/CampaignData.dart';
+import 'package:midowe_app/models/FeaturedCampaign.dart';
 import 'package:midowe_app/models/campaign_model.dart';
 import 'package:midowe_app/models/category_model.dart';
 import 'package:midowe_app/utils/helper.dart';
@@ -9,7 +11,7 @@ import 'package:midowe_app/widgets/primary_button_icon.dart';
 import 'package:midowe_app/widgets/thank_you_dialog.dart';
 
 class CampaignProfileView extends StatelessWidget {
-  final Campaign campaign;
+  final CampaignData campaign;
   final Category? category;
 
   const CampaignProfileView({Key? key, required this.campaign, this.category})

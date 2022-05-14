@@ -1,13 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:midowe_app/models/category_campaigns.dart';
+import 'package:midowe_app/models/category_model.dart';
 import 'package:midowe_app/providers/campaign_provider.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/campaign_profile/campaign_profile_view.dart';
 import 'package:midowe_app/views/category_campaign/category_campaign_view.dart';
 import 'package:midowe_app/widgets/campaign_list_item.dart';
 import 'package:midowe_app/widgets/title_subtitle_heading.dart';
+
+import '../../providers/category_provider.dart';
 
 class CategoriesArea extends StatefulWidget {
   @override
@@ -17,13 +19,13 @@ class CategoriesArea extends StatefulWidget {
 }
 
 class _CategoriesAreaState extends State<CategoriesArea> {
-  final campaignProvider = GetIt.I.get<CampaignProvider>();
-  late Future<List<CategoryCampaigns>> categoryCampaigns;
+  final categoryProvider = GetIt.I.get<CategoryProvider>();
+  late Future<List<Category>> categories;
 
   @override
   void initState() {
     super.initState();
-    this.categoryCampaigns = campaignProvider.fetchTopByCategory();
+    this.categories = categoryProvider.fetchAllCategories('1','10');
   }
 
   @override
@@ -31,15 +33,15 @@ class _CategoriesAreaState extends State<CategoriesArea> {
     return Container(
       alignment: Alignment.topLeft,
       padding: EdgeInsets.all(20.0),
-      child: FutureBuilder<List<CategoryCampaigns>>(
-        future: categoryCampaigns,
+      child: FutureBuilder<List<Category>>(
+        future: categories,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   for (var item in snapshot.data!)
-                    CategoryItemArea(categoryCampaignItem: item),
+                    CategoryItemArea(categoryItem: item),
                   SizedBox(
                     height: 30,
                   )
@@ -58,9 +60,9 @@ class _CategoriesAreaState extends State<CategoriesArea> {
 }
 
 class CategoryItemArea extends StatelessWidget {
-  final CategoryCampaigns categoryCampaignItem;
+  final Category categoryItem;
 
-  const CategoryItemArea({Key? key, required this.categoryCampaignItem})
+  const CategoryItemArea({Key? key, required this.categoryItem})
       : super(key: key);
 
   @override
@@ -69,13 +71,13 @@ class CategoryItemArea extends StatelessWidget {
       padding: EdgeInsets.only(top: 10.0, bottom: 0.0),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         TitleSubtitleHeading(
-          categoryCampaignItem.category.name,
-          categoryCampaignItem.category.description,
+          categoryItem.name,
+          categoryItem.description,
         ),
         SizedBox(height: 10),
         Column(
           children: [
-            for (var campaign in categoryCampaignItem.campaigns)
+            for (var campaign in categoryItem.campaigns)
               CampaignListItem(
                 campaign: campaign,
                 onPressed: () {
@@ -83,12 +85,12 @@ class CategoryItemArea extends StatelessWidget {
                       context,
                       CampaignProfileView(
                           campaign: campaign,
-                          category: categoryCampaignItem.category));
+                          category: categoryItem));
                 },
               ),
           ],
         ),
-        if (categoryCampaignItem.campaigns.length > 1)
+        if (categoryItem.campaigns.length > 1)
           Center(
             child: IconButton(
               icon: Icon(
@@ -98,7 +100,7 @@ class CategoryItemArea extends StatelessWidget {
                 Helper.nextPage(
                     context,
                     CategoryCampaignView(
-                        category: categoryCampaignItem.category));
+                        category: categoryItem));
               },
             ),
           )

@@ -1,3 +1,4 @@
+
 class FeaturedCampaignImage {
   late String url;
 

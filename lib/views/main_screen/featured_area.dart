@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:midowe_app/models/campaign_model.dart';
 import 'package:midowe_app/providers/campaign_provider.dart';
 import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/utils/helper.dart';
@@ -8,9 +7,7 @@ import 'package:midowe_app/views/campaign_profile/campaign_profile_view.dart';
 import 'package:midowe_app/widgets/title_subtitle_heading.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import '../../models/FeaturedCampaign.dart';
-import '../../models/campaign.dart';
-import '../../models/campaignData.dart';
+import '../../models/CampaignData.dart' hide Element;
 
 class FeaturedArea extends StatefulWidget {
   @override
@@ -21,24 +18,22 @@ class FeaturedArea extends StatefulWidget {
 
 class _FeaturedAreaState extends State<FeaturedArea> {
   final campaignProvider = GetIt.I.get<CampaignProvider>();
-  late Future<List<Campaign>> campaigns;
-  late Campaign campaign;
+  late Future<List<CampaignData>> campaigns;
+  late Future<CampaignData> campaignData;
 
-  late Future<List<FeaturedCampaign>> campaignsList;
 
   @override
   void initState() {
     super.initState();
-    this.campaigns = campaignProvider.fetchFeatured();
-    this.campaignsList = campaignProvider.getAll();
-    this.campaign = campaignProvider.getOneCampaign();
+    this.campaigns = campaignProvider.getCampaignData();
+    this.campaignData = campaignProvider.getOneCampaignData('1') ;
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: FutureBuilder<List<FeaturedCampaign>>(
-        future: campaignsList,
+      child: FutureBuilder<List<CampaignData>>(
+        future: campaigns,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data!.isNotEmpty) {
@@ -61,8 +56,8 @@ class _FeaturedAreaState extends State<FeaturedArea> {
                       scrollDirection: Axis.horizontal,
                       children: [
                         SizedBox(width: 15),
-                        for (var campaignItem in snapshot.data!)
-                          FeaturedItem(campaign: campaignItem, campaignDemo: campaign),
+                        for (var campaign in snapshot.data!)
+                          FeaturedItem(campaign:  campaign),
                         SizedBox(width: 15),
                       ],
                     ),
@@ -90,16 +85,17 @@ class _FeaturedAreaState extends State<FeaturedArea> {
 
 class FeaturedItem extends StatelessWidget {
 
-  final FeaturedCampaign campaign;
-  final Campaign campaignDemo;
+  final CampaignData campaign;
 
-  const FeaturedItem({Key? key, required this.campaign,required this.campaignDemo}) : super(key: key);
+  const FeaturedItem({Key? key, required this.campaign}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Helper.nextPage(context, CampaignProfileView(campaign: campaignDemo  ));
+
+
+        Helper.nextPage(context, CampaignProfileView(campaign: campaign  ));
       },
       customBorder: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20))),

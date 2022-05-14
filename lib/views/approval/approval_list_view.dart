@@ -10,6 +10,8 @@ import 'package:midowe_app/views/approval/approval_profile_view.dart';
 import 'package:midowe_app/widgets/campaign_list_item.dart';
 import 'package:midowe_app/widgets/title_subtitle_heading.dart';
 
+import '../../models/CampaignData.dart';
+
 class ApprovalListView extends StatelessWidget {
   final CampaignPending campaignPending;
 
@@ -81,10 +83,10 @@ class ApprovalList extends StatefulWidget {
 class _ApprovalListState extends State<ApprovalList> {
   static const _pageSize = 10;
   final campaignProvider = GetIt.I.get<CampaignProvider>();
-  Campaign? _lastCampaign;
+  CampaignData? _lastCampaign;
   bool firstLoad = true;
 
-  final PagingController<int, Campaign> _pagingController =
+  final PagingController<int, CampaignData> _pagingController =
       PagingController(firstPageKey: 0);
 
   @override
@@ -109,8 +111,8 @@ class _ApprovalListState extends State<ApprovalList> {
         newItems = widget.campaignPending;
       } else {
         newItems = await campaignProvider.fetchPendingApproval(
-            _lastCampaign != null ? _lastCampaign!.categoryId : "",
-            _lastCampaign != null ? _lastCampaign!.campaignId : "");
+            _lastCampaign != null ? _lastCampaign!.id : 0,
+            _lastCampaign != null ? _lastCampaign!.title : "");
       }
 
       if (newItems.items.isNotEmpty) {
@@ -137,9 +139,9 @@ class _ApprovalListState extends State<ApprovalList> {
       onRefresh: () => Future.sync(
         () => _pagingController.refresh(),
       ),
-      child: PagedListView<int, Campaign>(
+      child: PagedListView<int, CampaignData>(
         pagingController: _pagingController,
-        builderDelegate: PagedChildBuilderDelegate<Campaign>(
+        builderDelegate: PagedChildBuilderDelegate<CampaignData>(
           itemBuilder: (context, item, index) {
             return CampaignListItem(
                 campaign: item,

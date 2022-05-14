@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:midowe_app/models/CampaignData.dart';
 import 'package:midowe_app/models/campaign_model.dart';
 import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/views/campaign_profile/campaign_profile.dart';
@@ -7,7 +8,7 @@ import 'package:midowe_app/widgets/primary_button_icon.dart';
 import 'package:midowe_app/widgets/primary_outline_button.dart';
 
 class ApprovalProfileView extends StatelessWidget {
-  final Campaign campaign;
+  final CampaignData campaign;
 
   const ApprovalProfileView({Key? key, required this.campaign})
       : super(key: key);

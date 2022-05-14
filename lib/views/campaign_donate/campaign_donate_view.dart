@@ -12,8 +12,10 @@ import 'package:midowe_app/widgets/primary_button_icon.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+import '../../models/CampaignData.dart';
+
 class CampaignDonateView extends StatefulWidget {
-  final Campaign campaign;
+  final CampaignData campaign;
 
   const CampaignDonateView({Key? key, required this.campaign})
       : super(key: key);
@@ -106,7 +108,7 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
           borderRadius: BorderRadius.all(Radius.circular(15)),
           child: FadeInImage.memoryNetwork(
               placeholder: kTransparentImage,
-              image: widget.campaign.profileImage,
+              image: widget.campaign.images![0].url,
               width: double.infinity,
               fit: BoxFit.fitHeight),
         ),

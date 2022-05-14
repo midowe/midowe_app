@@ -7,22 +7,25 @@ import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/campaign_profile/campaign_author.dart';
 import 'package:midowe_app/views/campaign_profile/campaign_image_view.dart';
 import 'package:midowe_app/widgets/social_icon_button.dart';
+
+import '../../models/CampaignData.dart';
 //import 'package:flutter_share_me/flutter_share_me.dart';
 
 class CampaignContent extends StatelessWidget {
-  final Campaign campaign;
+  final CampaignData campaign;
 
   const CampaignContent({Key? key, required this.campaign}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
           child: MarkdownBody(
-            data: campaign.content,
+            data: campaign.title,
             styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
                 .copyWith(textScaleFactor: 1.1),
           ),
@@ -51,12 +54,14 @@ class CampaignContent extends StatelessWidget {
       ),
       Padding(
         padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-        child: CampaignAuthor(userId: campaign.userId),
+        child: CampaignAuthor(userId: campaign.fundraiser?.username),
       )
     ]);
   }
 
   Widget composeOtherPicturesArea(BuildContext context) {
+
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -81,7 +86,7 @@ class CampaignContent extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               children: [
                 SizedBox(width: 20),
-                for (var image in campaign.additionalImages)
+                for (var image in campaign.images!)
                   Padding(
                     padding: EdgeInsets.only(right: 15),
                     child: InkWell(
@@ -96,7 +101,7 @@ class CampaignContent extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(15)),
                           child: FadeInImage.assetNetwork(
                               placeholder: circularProgressIndicatorSmall,
-                              image: image,
+                              image: image.url,
                               width: double.infinity,
                               fit: BoxFit.fitWidth),
                         ),

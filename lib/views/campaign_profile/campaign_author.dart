@@ -4,9 +4,9 @@ import 'package:midowe_app/models/user_model.dart';
 import 'package:midowe_app/providers/user_provider.dart';
 
 class CampaignAuthor extends StatefulWidget {
-  final String userId;
+  final String? userId;
 
-  const CampaignAuthor({Key? key, required this.userId}) : super(key: key);
+  const CampaignAuthor({Key? key,  this.userId}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
