@@ -37,15 +37,19 @@ class _CategoriesAreaState extends State<CategoriesArea> {
         future: categories,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  for (var item in snapshot.data!)
-                    CategoryItemArea(categoryItem: item),
-                  SizedBox(
-                    height: 30,
-                  )
-                ]);
+            for (var item in snapshot.data!){
+
+              if(!item.campaigns.isEmpty)
+                return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      for (var item in snapshot.data!)
+                        CategoryItemArea(categoryItem: item),
+                      SizedBox(
+                        height: 30,
+                      )
+                    ]);
+            }
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }
@@ -67,14 +71,21 @@ class CategoryItemArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    if(!categoryItem.campaigns.isEmpty)
     return Container(
       padding: EdgeInsets.only(top: 10.0, bottom: 0.0),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+
+        if(categoryItem.campaigns.length>0)
         TitleSubtitleHeading(
           categoryItem.name,
           categoryItem.description,
+
         ),
+        if(categoryItem.campaigns.length>0)
         SizedBox(height: 10),
+        if(categoryItem.campaigns.length>0)
         Column(
           children: [
             for (var campaign in categoryItem.campaigns)
@@ -106,5 +117,7 @@ class CategoryItemArea extends StatelessWidget {
           )
       ]),
     );
+
+  else return Text("");
   }
 }

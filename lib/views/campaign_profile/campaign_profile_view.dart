@@ -29,7 +29,7 @@ class CampaignProfileView extends StatelessWidget {
           actionArea: SizedBox(
             width: 200,
             child: PrimaryButtonIcon(
-              text: "Fazer doação",
+              text: "Contribuir",
               icon: Icon(CupertinoIcons.heart),
               onPressed: () {
                 Helper.nextPage(

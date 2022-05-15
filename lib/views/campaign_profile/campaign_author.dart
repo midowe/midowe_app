@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:midowe_app/models/user_model.dart';
-import 'package:midowe_app/providers/user_provider.dart';
+import 'package:midowe_app/providers/fundraiser_provider.dart';
+
+import '../../models/Fundraiser.dart';
 
 class CampaignAuthor extends StatefulWidget {
-  final String? userId;
+  final int campaignId;
 
-  const CampaignAuthor({Key? key,  this.userId}) : super(key: key);
+  const CampaignAuthor({Key? key,  required this.campaignId}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -15,19 +17,19 @@ class CampaignAuthor extends StatefulWidget {
 }
 
 class _CampaignAuthorState extends State<CampaignAuthor> {
-  final userProvider = GetIt.I.get<UserProvider>();
-  late Future<User> user;
+  final fundraiserProvider = GetIt.I.get<FundraiserProvider>();
+  late Future<Fundraiser>? fundraiser;
 
   @override
   void initState() {
     super.initState();
-    this.user = userProvider.fetchUserById(widget.userId);
+    this.fundraiser = fundraiserProvider.fetchFundraiserByCampaignId(widget.campaignId) as Future<Fundraiser>?;
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<User>(
-      future: user,
+    return FutureBuilder<Fundraiser>(
+      future: fundraiser,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Container(
@@ -43,7 +45,7 @@ class _CampaignAuthorState extends State<CampaignAuthor> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      snapshot.data!.name,
+                      snapshot.data!.full_name,
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),

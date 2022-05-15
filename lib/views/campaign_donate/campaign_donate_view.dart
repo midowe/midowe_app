@@ -266,7 +266,7 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
           builder: (context, amountModel, child) => Column(
             children: [
               PrimaryButtonIcon(
-                text: "Fazer doação de ${amountModel.amount}MT",
+                text: "Contribuir com  ${amountModel.amount}MT",
                 icon: Icon(CupertinoIcons.heart),
                 onPressed: () {
                   actionDonate(context);
