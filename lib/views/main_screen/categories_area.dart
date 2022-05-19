@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:midowe_app/models/category_model.dart';
-import 'package:midowe_app/providers/campaign_provider.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/campaign_profile/campaign_profile_view.dart';
 import 'package:midowe_app/views/category_campaign/category_campaign_view.dart';
@@ -46,7 +45,7 @@ class _CategoriesAreaState extends State<CategoriesArea> {
                       for (var item in snapshot.data!)
                         CategoryItemArea(categoryItem: item),
                       SizedBox(
-                        height: 30,
+                        height: 10,
                       )
                     ]);
             }
@@ -101,7 +100,7 @@ class CategoryItemArea extends StatelessWidget {
               ),
           ],
         ),
-        if (categoryItem.campaigns.length > 1)
+        if (categoryItem.campaigns.length > 2)
           Center(
             child: IconButton(
               icon: Icon(

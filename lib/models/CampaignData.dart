@@ -6,7 +6,7 @@ class CampaignData {
   late int id;
   late String title;
   late String description;
-  late double target_amount;
+  late num target_amount;
   late String target_date;
   late  bool verified;
   late bool approved;
@@ -18,7 +18,7 @@ class CampaignData {
   late String updatedAt;
   late int total_donations;
   late var total_amount;
-  late var current_balance;
+  late num current_balance;
   late String notes;
   late String url;
   late List<CampaignImage>? images;
@@ -56,7 +56,7 @@ class CampaignData {
       target_date: json['target_date']==null? "":json['target_date'],
       verified: json['verified']==null? false: json['verified'],
       on_spot: json['on_spot'] ==null? false: json['on_spot'],
-      target_amount: json['target_amount'] ==null? 0: json['target_amount'],
+      target_amount: json['target_amount'] ==null? 0.00: json['target_amount'],
       verified_at: json['verified_at']==null? "": json['verified_at'],
       verified_by: json['verified_by'] ==null? "": json['verified_by'],
       approved: json['approved'] ==null? false: json['approved'],
@@ -82,7 +82,7 @@ class CampaignData {
         target_date: json['target_date']==null? "":json['target_date'],
         verified: json['verified']==null? false: json['verified'],
         on_spot: json['on_spot'] ==null? false: json['on_spot'],
-        target_amount: json['target_amount'] ==null? 0: json['target_amount'],
+        target_amount: json['target_amount'] ==null? 0.00: json['target_amount'],
         verified_at: json['verified_at']==null? "": json['verified_at'],
         verified_by: json['verified_by'] ==null? "": json['verified_by'],
         approved: json['approved'] ==null? false: json['approved'],

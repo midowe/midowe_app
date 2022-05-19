@@ -24,21 +24,9 @@ class CampaignStats extends StatelessWidget {
             spacing: 8.0,
             runSpacing: 4.0,
             children: [
-              Icon(
-                FontAwesomeIcons.users,
-                size: 20,
-              ),
               Text(
-                "${campaign.total_donations}",
-                style: TextStyle(color: Constants.primaryColor),
-              ),
-              Icon(
-                FontAwesomeIcons.searchDollar,
-                size: 20,
-              ),
-              Text(
-                "${Formatter.currencyDouble(campaign.total_amount*1.0)} MT de ${Formatter.currencyDouble(campaign.target_amount)} MT",
-                style: TextStyle(color: Constants.primaryColor),
+                "${campaign.total_donations} apoiantes (${Formatter.currencyDouble((campaign.current_balance.toDouble()*100)/campaign.target_amount.toDouble())}%) - Meta ${Formatter.currencyDouble(campaign.target_amount.toDouble())}  termina ${campaign.target_date}",
+                style: TextStyle(color: Constants.secondaryColor2),
               ),
             ],
           )),

@@ -25,7 +25,7 @@ class CampaignContent extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
           child: MarkdownBody(
-            data: campaign.title,
+            data: campaign.description,
             styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
                 .copyWith(textScaleFactor: 1.1),
           ),
@@ -45,8 +45,8 @@ class CampaignContent extends StatelessWidget {
       Padding(
         padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
         child: Text(
-          "Autor ou beneficiario",
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+          "Beneficiario",
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
         ),
       ),
       SizedBox(
@@ -72,7 +72,7 @@ class CampaignContent extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
           child: Text(
             "Outras imagens",
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
           ),
         ),
         SizedBox(

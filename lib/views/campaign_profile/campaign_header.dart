@@ -48,6 +48,20 @@ class CampaignHeader extends StatelessWidget {
                   Navigator.of(context).pop();
                 },
               ),
+            ),
+
+            if(campaign.verified)
+            Positioned(
+              top: 45,
+              right: 15,
+              child: IconButton(
+                icon: Icon(
+                  FontAwesomeIcons.checkDouble,
+                ),
+                color: Constants.primaryColor,
+                onPressed: () {
+                },
+              ),
             )
           ],
         ),
@@ -93,7 +107,10 @@ class CampaignHeader extends StatelessWidget {
                             ),
                           ],
                         ),
-                      )),
+                      )), 
+                  
+
+
                 ],
               )
             ],

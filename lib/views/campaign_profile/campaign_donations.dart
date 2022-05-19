@@ -13,7 +13,7 @@ class CampaignDonations extends StatelessWidget {
           ),
           Text(
             "Doações recebidas",
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
           ),
           SizedBox(
             height: 5,

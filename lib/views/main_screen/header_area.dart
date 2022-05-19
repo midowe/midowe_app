@@ -1,5 +1,4 @@
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:amplify_flutter/amplify.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -8,12 +7,6 @@ import 'package:midowe_app/providers/campaign_provider.dart';
 import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/approval/approval_list_view.dart';
-import 'package:midowe_app/views/campaign_register_view.dart';
-import 'package:midowe_app/views/main_screen/main_screen_view.dart';
-import 'package:midowe_app/views/user_auth/user_login_view.dart';
-import 'package:midowe_app/views/user_profile/user_profile_view.dart';
-import 'package:midowe_app/widgets/primary_button_icon.dart';
-
 class HeaderArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

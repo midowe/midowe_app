@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:midowe_app/providers/campaign_provider.dart';
 import 'package:midowe_app/utils/constants.dart';
@@ -19,14 +20,11 @@ class FeaturedArea extends StatefulWidget {
 class _FeaturedAreaState extends State<FeaturedArea> {
   final campaignProvider = GetIt.I.get<CampaignProvider>();
   late Future<List<CampaignData>> campaigns;
-  late Future<CampaignData> campaignData;
-
 
   @override
   void initState() {
     super.initState();
     this.campaigns = campaignProvider.getCampaignData();
-    this.campaignData = campaignProvider.getOneCampaignData('1') ;
   }
 
   @override
@@ -57,7 +55,7 @@ class _FeaturedAreaState extends State<FeaturedArea> {
                       children: [
                         SizedBox(width: 15),
                         for (var campaign in snapshot.data!)
-                          FeaturedItem(campaign:  campaign),
+                          FeaturedItem(campaign: campaign),
                         SizedBox(width: 15),
                       ],
                     ),
@@ -84,7 +82,6 @@ class _FeaturedAreaState extends State<FeaturedArea> {
 }
 
 class FeaturedItem extends StatelessWidget {
-
   final CampaignData campaign;
 
   const FeaturedItem({Key? key, required this.campaign}) : super(key: key);
@@ -93,41 +90,58 @@ class FeaturedItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-
-
-        Helper.nextPage(context, CampaignProfileView(campaign: campaign  ));
+        Helper.nextPage(context, CampaignProfileView(campaign: campaign));
       },
       customBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20))),
+          borderRadius: BorderRadius.all(Radius.circular(25))),
       child: Container(
         padding: EdgeInsets.only(left: 5, right: 5),
         width: 160,
         child: Column(
           children: [
-            Container(
-              width: 150,
-              height: 140,
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(25)),
-                child: FadeInImage.memoryNetwork(
-                    placeholder: kTransparentImage,
-                    image: campaign.url,
-                    width: double.infinity,
-                    fit: BoxFit.fitHeight),
-              ),
+            Stack(
+              children: [
+                Container(
+                  width: 140,
+                  height: 140,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                    child: FadeInImage.memoryNetwork(
+                        placeholder: kTransparentImage,
+                        image: campaign.url,
+                        width: double.infinity,
+                        fit: BoxFit.fitHeight),
+                  ),
+                ),
+                if (campaign.verified)
+                  Positioned(
+                    top: 4,
+                    right: 4,
+                    child: IconButton(
+                      icon: Icon(
+                        FontAwesomeIcons.checkDouble,
+                      ),
+                      color: Constants.primaryColor,
+                      onPressed: () {},
+                    ),
+                  )
+              ],
             ),
             SizedBox(
               height: 10,
             ),
-            Text(
-              campaign.title,
-              style: TextStyle(
-                color: Constants.secondaryColor,
-                fontWeight: FontWeight.w500,
-                fontSize: 13,
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 5),
+              child: Text(
+                campaign.title,
+                style: TextStyle(
+                  color: Constants.primaryColor,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 13,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),

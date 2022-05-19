@@ -56,7 +56,7 @@ class CampaignListItem extends StatelessWidget {
                   height: 5,
                 ),
                 Text(
-                  "${Formatter.currencyDouble(campaign.target_amount)} MT até ${campaign.target_date}",
+                  "${Formatter.currencyDouble((campaign.current_balance.toDouble()*100)/campaign.target_amount.toDouble())} % - Meta ${Formatter.currencyDouble(campaign.target_amount.toDouble())} MT",
                   style: TextStyle(
                     color: Constants.secondaryColor2,
                     fontSize: 13,

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-//import 'package:midowe_app/awsconfig.dart';
 import 'package:midowe_app/utils/application_theme.dart';
 import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/utils/service_locator.dart';
 import 'package:midowe_app/views/main_screen/main_screen_view.dart';
 import 'package:midowe_app/views/welcome_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:amplify_flutter/amplify.dart';
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 
 void main() {
   setupLocator();

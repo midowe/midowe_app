@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:midowe_app/models/campaign_model.dart';
 import 'package:midowe_app/models/category_model.dart';
 import 'package:midowe_app/views/campaign_profile/campaign_header.dart';
 
 import '../../models/CampaignData.dart';
-import '../../models/FeaturedCampaign.dart';
 import 'campaign_content.dart';
 import 'campaign_donations.dart';
 import 'campaign_stats.dart';

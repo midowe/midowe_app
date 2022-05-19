@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:midowe_app/models/campaign_model.dart';
 import 'package:midowe_app/providers/campaign_provider.dart';
 import 'package:midowe_app/utils/decorators.dart';
 import 'package:midowe_app/utils/helper.dart';

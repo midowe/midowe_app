@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:midowe_app/models/CampaignData.dart';
-import 'package:midowe_app/models/FeaturedCampaign.dart';
-import 'package:midowe_app/models/campaign_model.dart';
 import 'package:midowe_app/models/category_model.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/campaign_donate/campaign_donate_view.dart';
@@ -29,7 +27,7 @@ class CampaignProfileView extends StatelessWidget {
           actionArea: SizedBox(
             width: 200,
             child: PrimaryButtonIcon(
-              text: "Contribuir",
+              text: "Apoiar",
               icon: Icon(CupertinoIcons.heart),
               onPressed: () {
                 Helper.nextPage(
