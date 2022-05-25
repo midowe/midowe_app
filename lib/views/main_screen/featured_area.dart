@@ -115,13 +115,14 @@ class FeaturedItem extends StatelessWidget {
                 ),
                 if (campaign.verified)
                   Positioned(
-                    top: 4,
-                    right: 4,
+                    top: 1,
+                    right: 1,
                     child: IconButton(
+                      iconSize: 18,
                       icon: Icon(
-                        FontAwesomeIcons.checkDouble,
+                        FontAwesomeIcons.checkCircle,
                       ),
-                      color: Constants.primaryColor,
+                      color: Constants.secondaryColor3,
                       onPressed: () {},
                     ),
                   )
@@ -135,7 +136,7 @@ class FeaturedItem extends StatelessWidget {
               child: Text(
                 campaign.title,
                 style: TextStyle(
-                  color: Constants.primaryColor,
+                  color: Constants.secondaryColor,
                   fontWeight: FontWeight.w500,
                   fontSize: 13,
                 ),

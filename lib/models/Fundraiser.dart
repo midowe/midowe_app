@@ -1,10 +1,9 @@
-
 class Fundraiser {
   late int id;
   late String full_name;
   late String headline;
-  late String email;
-  late  String phone;
+  String email;
+  String phone;
   late String username;
   late String picture;
 
@@ -18,29 +17,27 @@ class Fundraiser {
     required this.picture,
   });
 
-  factory Fundraiser.fromJson(Map<String, dynamic> json,  int id ) {
-    return Fundraiser(
-      id: id,
-      full_name: json['full_name']==null? "":json['full_name'],
-      headline: json['headline']==null? "":json['headline'],
-      email: json['email']==null? "":json['email'],
-      phone: json['phone']==null? false: json['phone'],
-      username: json['on_spot'] ==null? '': json['username'],
-        picture: ''
-    );
-  }
-
-  factory Fundraiser.fromJsonWithPicture(Map<String, dynamic> json,  int id , String picture) {
+  factory Fundraiser.fromJson(Map<String, dynamic> json, int id) {
     return Fundraiser(
         id: id,
         full_name: json['full_name'] == null ? "" : json['full_name'],
         headline: json['headline'] == null ? "" : json['headline'],
         email: json['email'] == null ? "" : json['email'],
         phone: json['phone'] == null ? false : json['phone'],
-        username: json['username'] == null ? '' : json['username'],
-        picture: picture,
+        username: json['on_spot'] == null ? '' : json['username'],
+        picture: '');
+  }
+
+  factory Fundraiser.fromJsonWithPicture(
+      Map<String, dynamic> json, int id, String picture) {
+    return Fundraiser(
+      id: id,
+      full_name: json['full_name'] == null ? "" : json['full_name'],
+      headline: json['headline'] == null ? "" : json['headline'],
+      email: json['email'] == null ? "" : json['email'],
+      phone: json['phone'] == null ? false : json['phone'],
+      username: json['username'] == null ? '' : json['username'],
+      picture: picture,
     );
   }
-
-
-  }
+}

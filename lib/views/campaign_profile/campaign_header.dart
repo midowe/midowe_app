@@ -56,9 +56,9 @@ class CampaignHeader extends StatelessWidget {
               right: 15,
               child: IconButton(
                 icon: Icon(
-                  FontAwesomeIcons.checkDouble,
+                  FontAwesomeIcons.checkCircle,
                 ),
-                color: Constants.primaryColor,
+                color: Constants.secondaryColor3,
                 onPressed: () {
                 },
               ),

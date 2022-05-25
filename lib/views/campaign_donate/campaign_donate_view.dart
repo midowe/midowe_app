@@ -1,18 +1,22 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:midowe_app/models/amount_model.dart';
-import 'package:midowe_app/models/campaign_model.dart';
 import 'package:midowe_app/providers/accounting_provider.dart';
 import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/widgets/amount_picker.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
-
+import 'package:midowe_app/models/payment_request.dart';
 import '../../models/CampaignData.dart';
+
+import 'package:uuid/uuid.dart';
+import 'package:http/http.dart' as http;
 
 class CampaignDonateView extends StatefulWidget {
   final CampaignData campaign;
@@ -28,11 +32,16 @@ class CampaignDonateView extends StatefulWidget {
 
 class _CampaignDonateViewState extends State<CampaignDonateView> {
   final Map<String, dynamic> _formData = {
-    'userPhone': null,
-    'userName': null,
-    'amount': null,
-    'transactionReference': null,
-    'message': null
+    'account_id': '',
+    'campaign_id': '',
+    'amount': '',
+    'campaign_name': '',
+    'third_party_reference': '',
+    'payment_method': '',
+    'payment_address': '',
+    'supporter_email': '',
+    'supporter_name': '',
+    'supporter_message': ''
   };
 
   final AmountPicker amountPicker = AmountPicker();
@@ -41,6 +50,12 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
 
   @override
   Widget build(BuildContext context) {
+    _formData['campaign_name'] = widget.campaign.title.trim();
+    _formData['campaign_id'] = widget.campaign.id.toString();
+    _formData['third_party_reference'] =
+        DateTime.now().millisecondsSinceEpoch.toString().trim();
+    _formData['account_id'] = widget.campaign.fundraiser!.email;
+    _formData['payment_method'] = 'mpesa';
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -134,6 +149,18 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
   }
 
   Widget _paymentMethodArea() {
+    var textFormField = TextFormField(
+      onChanged: (value) => _formData['payment_address'] = "258" + value.trim(),
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(vertical: 7, horizontal: 10),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Constants.primaryColor),
+        ),
+        border: const OutlineInputBorder(),
+      ),
+      keyboardType: TextInputType.number,
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+    );
     return Row(
       children: [
         Column(
@@ -187,19 +214,7 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
               SizedBox(
                 height: 10,
               ),
-              TextFormField(
-                onSaved: (value) => _formData['userPhone'] = value,
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 7, horizontal: 10),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Constants.primaryColor),
-                  ),
-                  border: const OutlineInputBorder(),
-                ),
-                keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              )
+              textFormField
             ],
           ),
         )
@@ -215,14 +230,14 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
           height: 30,
         ),
         Text(
-          "Doar em nome de (opcional):",
+          "Apoiar em nome de (opcional):",
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
         ),
         SizedBox(
           height: 10,
         ),
         TextFormField(
-          onSaved: (value) => _formData['userName'] = value,
+          onChanged: (value) => _formData['supporter_name'] = value,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 7, horizontal: 10),
             enabledBorder: OutlineInputBorder(
@@ -232,7 +247,27 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
           ),
         ),
         SizedBox(
-          height: 30,
+          height: 10,
+        ),
+        Text(
+          "Informe sue email(opcional):",
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        TextFormField(
+          onChanged: (value) => _formData['supporter_email'] = value.trim(),
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(vertical: 7, horizontal: 10),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Constants.primaryColor),
+            ),
+            border: const OutlineInputBorder(),
+          ),
+        ),
+        SizedBox(
+          height: 10,
         ),
         Text(
           "Deixar ficar uma mensagem (opcional):",
@@ -242,7 +277,7 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
           height: 10,
         ),
         TextFormField(
-          onSaved: (value) => _formData['message'] = value,
+          onChanged: (value) => _formData['supporter_message'] = value.trim(),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 7, horizontal: 10),
             enabledBorder: OutlineInputBorder(
@@ -266,7 +301,7 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
           builder: (context, amountModel, child) => Column(
             children: [
               PrimaryButtonIcon(
-                text: "Contribuir com  ${amountModel.amount}MT",
+                text: "Apoiar com  ${amountModel.amount}MT",
                 icon: Icon(CupertinoIcons.heart),
                 onPressed: () {
                   actionDonate(context);
@@ -279,16 +314,29 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
     );
   }
 
-  void actionDonate(BuildContext context) {
-    _formData['amount'] = amountPicker.pickedAmount;
+  void actionDonate(BuildContext context) async {
+    _formData['amount'] = amountPicker.pickedAmount.toString();
+    var response = await http.post(
+        Uri.parse(
+            "https://7wgwulf5j77dp6ypbnspcqxteu0rosoi.lambda-url.af-south-1.on.aws"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(_formData));
+    if (response.statusCode == 201) {
+      var decodedData = jsonDecode(response.body);
+      //TODO: POST TO CMS
 
+    } else {
+      throw Exception("Failed to regist donation");
+    }
     AlertDialog alert = AlertDialog(
       content: new Row(
         children: [
           CircularProgressIndicator(),
           Container(
             margin: EdgeInsets.only(left: 20),
-            child: Text("Introduza o seu PIN..."),
+            child: Text(widget.campaign.thank_you_message),
           ),
         ],
       ),
@@ -304,5 +352,18 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
     new Future.delayed(new Duration(seconds: 3), () {
       Navigator.pop(context); //pop dialog
     });
+  }
+
+  String? validateMobile(String value) {
+    String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    RegExp regExp = new RegExp(pattern);
+
+    if (value.length == 0) {
+      return 'Please enter mobile number';
+    } else if (!regExp.hasMatch(value)) {
+      return 'Please enter valid mobile number';
+    }
+
+    return null;
   }
 }
