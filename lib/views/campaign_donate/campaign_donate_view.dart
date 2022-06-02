@@ -12,11 +12,10 @@ import 'package:midowe_app/widgets/amount_picker.dart';
 import 'package:midowe_app/widgets/primary_button_icon.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:midowe_app/models/payment_request.dart';
 import '../../models/CampaignData.dart';
-
-import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
+
+import '../../widgets/primary_outline_button.dart';
 
 class CampaignDonateView extends StatefulWidget {
   final CampaignData campaign;
@@ -42,6 +41,16 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
     'supporter_email': '',
     'supporter_name': '',
     'supporter_message': ''
+  };
+
+  Map<String, dynamic> _donatinData = {
+    "campaign": "4",
+    "transaction_id": "ffjhjj",
+    "amount": 37777,
+    "donor_name": "dias",
+    "donor_phone": "t7ghbbnnn",
+    "donor_email": "bnnmm@nn.bb",
+    "donor_message": "nnnn valeu"
   };
 
   final AmountPicker amountPicker = AmountPicker();
@@ -315,28 +324,16 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
   }
 
   void actionDonate(BuildContext context) async {
-    _formData['amount'] = amountPicker.pickedAmount.toString();
-    var response = await http.post(
-        Uri.parse(
-            "https://7wgwulf5j77dp6ypbnspcqxteu0rosoi.lambda-url.af-south-1.on.aws"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(_formData));
-    if (response.statusCode == 201) {
-      var decodedData = jsonDecode(response.body);
-      //TODO: POST TO CMS
-
-    } else {
-      throw Exception("Failed to regist donation");
-    }
     AlertDialog alert = AlertDialog(
-      content: new Row(
+      content: new Wrap(
+        alignment: WrapAlignment.center,
         children: [
-          CircularProgressIndicator(),
+          CircularProgressIndicator(
+            color: Constants.primaryColor,
+          ),
           Container(
             margin: EdgeInsets.only(left: 20),
-            child: Text(widget.campaign.thank_you_message),
+            child: Text("Confirme o pagamento no teu telemovel"),
           ),
         ],
       ),
@@ -348,10 +345,124 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
         return alert;
       },
     );
+    _formData['amount'] = amountPicker.pickedAmount.toString();
+    var response = await http.post(
+        Uri.parse(
+            "https://7wgwulf5j77dp6ypbnspcqxteu0rosoi.lambda-url.af-south-1.on.aws"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(_formData));
+    if (response.statusCode == 201) {
+      var payment_response = jsonDecode(response.body)['payment_response'];
 
-    new Future.delayed(new Duration(seconds: 3), () {
-      Navigator.pop(context); //pop dialog
-    });
+      var donation = jsonEncode({
+        "data": {
+          "campaign": _formData['campaign_id'],
+          "transaction_id": payment_response['TransactionId'],
+          "amount": _formData['amount'],
+          "donor_name": _formData['supporter_name'],
+          "donor_phone": _formData['payment_address'],
+          "donor_email": _formData['supporter_email'],
+          "donor_message": _formData['supporter_message']
+        }
+      });
+
+      var donationResponse = await http.post(
+          Uri.parse("https://cms.dev.midowe.co.mz/api/donations"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: donation);
+      Navigator.of(context).pop();
+      if (donationResponse.statusCode == 200) {
+        showThanksDialog(
+            context, widget.campaign.thank_you_message, _formData['amount']);
+      } else
+        showThanksDialog(
+            context, widget.campaign.thank_you_message, _formData['amount']);
+    } else {
+      Navigator.pop(context); //pop dialogti
+      throw Exception("Failed to regist donation");
+    }
+  }
+
+  showThanksDialog(BuildContext context, String message, String amount) {
+    // set up the buttons
+    PrimaryOutlineButton okButton = new PrimaryOutlineButton(
+        text: "Fechar",
+        onPressed: () {
+          Navigator.of(context).pop();
+        });
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image(
+            image:
+                AssetImage("assets/images/hands-holding-words-thank-you.png"),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text(
+            "Recebemos a sua contribução",
+            style: TextStyle(
+                fontSize: 18,
+                fontStyle: FontStyle.normal,
+                fontWeight: FontWeight.w600,
+                color: Constants.primaryColor),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Montante:",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                amount + ' MT',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
+          Text(
+            message,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          okButton
+        ],
+      ),
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   String? validateMobile(String value) {

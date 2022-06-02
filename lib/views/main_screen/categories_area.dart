@@ -7,7 +7,6 @@ import 'package:midowe_app/views/campaign_profile/campaign_profile_view.dart';
 import 'package:midowe_app/views/category_campaign/category_campaign_view.dart';
 import 'package:midowe_app/widgets/campaign_list_item.dart';
 import 'package:midowe_app/widgets/title_subtitle_heading.dart';
-
 import '../../providers/category_provider.dart';
 
 class CategoriesArea extends StatefulWidget {
@@ -24,7 +23,7 @@ class _CategoriesAreaState extends State<CategoriesArea> {
   @override
   void initState() {
     super.initState();
-    this.categories = categoryProvider.fetchAllCategories('1','10');
+    this.categories = categoryProvider.fetchAllCategories('1', '10');
   }
 
   @override
@@ -36,9 +35,8 @@ class _CategoriesAreaState extends State<CategoriesArea> {
         future: categories,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            for (var item in snapshot.data!){
-
-              if(!item.campaigns.isEmpty)
+            for (var item in snapshot.data!) {
+              if (!item.campaigns.isEmpty)
                 return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -70,53 +68,44 @@ class CategoryItemArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    if(!categoryItem.campaigns.isEmpty)
-    return Container(
-      padding: EdgeInsets.only(top: 10.0, bottom: 0.0),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
-        if(categoryItem.campaigns.length>0)
-        TitleSubtitleHeading(
-          categoryItem.name,
-          categoryItem.description,
-
-        ),
-        if(categoryItem.campaigns.length>0)
-        SizedBox(height: 10),
-        if(categoryItem.campaigns.length>0)
-        Column(
-          children: [
-            for (var campaign in categoryItem.campaigns)
-              CampaignListItem(
-                campaign: campaign,
+    if (!categoryItem.campaigns.isEmpty)
+      return Container(
+        padding: EdgeInsets.only(top: 10.0, bottom: 0.0),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          TitleSubtitleHeading(
+            categoryItem.name,
+            categoryItem.description,
+          ),
+          SizedBox(height: 10),
+          Column(
+            children: [
+              for (var campaign in categoryItem.campaigns)
+                CampaignListItem(
+                  campaign: campaign,
+                  onPressed: () {
+                    Helper.nextPage(
+                        context,
+                        CampaignProfileView(
+                            campaign: campaign, category: categoryItem));
+                  },
+                ),
+            ],
+          ),
+          if (categoryItem.campaigns.length > 2)
+            Center(
+              child: IconButton(
+                icon: Icon(
+                  CupertinoIcons.chevron_compact_down,
+                ),
                 onPressed: () {
                   Helper.nextPage(
-                      context,
-                      CampaignProfileView(
-                          campaign: campaign,
-                          category: categoryItem));
+                      context, CategoryCampaignView(category: categoryItem));
                 },
               ),
-          ],
-        ),
-        if (categoryItem.campaigns.length > 2)
-          Center(
-            child: IconButton(
-              icon: Icon(
-                CupertinoIcons.chevron_compact_down,
-              ),
-              onPressed: () {
-                Helper.nextPage(
-                    context,
-                    CategoryCampaignView(
-                        category: categoryItem));
-              },
-            ),
-          )
-      ]),
-    );
-
-  else return Text("");
+            )
+        ]),
+      );
+    else
+      return Text("");
   }
 }

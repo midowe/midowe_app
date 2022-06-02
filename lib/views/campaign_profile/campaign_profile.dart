@@ -4,6 +4,7 @@ import 'package:midowe_app/models/category_model.dart';
 import 'package:midowe_app/views/campaign_profile/campaign_header.dart';
 
 import '../../models/CampaignData.dart';
+import 'campaign_category_details.dart';
 import 'campaign_content.dart';
 import 'campaign_donations.dart';
 import 'campaign_stats.dart';
@@ -22,10 +23,7 @@ class CampaignProfile extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CampaignHeader(
-          campaign: this.campaign,
-          category: this.category,
-        ),
+        CampaignHeader(campaign: this.campaign),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
           child: actionArea,
@@ -36,6 +34,7 @@ class CampaignProfile extends StatelessWidget {
         CampaignContent(
           campaign: this.campaign,
         ),
+        if (category != null) CampaignCategoryDetail(category: this.category),
         CampaignDonations(),
         SizedBox(
           height: 40,

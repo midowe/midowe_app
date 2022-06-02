@@ -18,7 +18,6 @@ class CampaignContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -32,7 +31,7 @@ class CampaignContent extends StatelessWidget {
         ),
         composeAuthorArea(),
         composeOtherPicturesArea(context),
-        if (campaign.approved) composeShareArea()
+        //  composeShareArea()
       ],
     );
   }
@@ -60,8 +59,6 @@ class CampaignContent extends StatelessWidget {
   }
 
   Widget composeOtherPicturesArea(BuildContext context) {
-
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -139,7 +136,7 @@ class CampaignContent extends StatelessWidget {
               SocialIconButton(
                 icon: Icon(FontAwesomeIcons.facebook),
                 onPressed: () {
-                 /* flutterShareMe.shareToFacebook(
+                  /* flutterShareMe.shareToFacebook(
                       url:
                           "https://midowe.co.mz/d/${campaign.categoryId}/${campaign.campaignId}",
                       msg:
@@ -149,7 +146,7 @@ class CampaignContent extends StatelessWidget {
               SocialIconButton(
                 icon: Icon(FontAwesomeIcons.whatsapp),
                 onPressed: () {
-                 /* flutterShareMe.shareToWhatsApp(
+                  /* flutterShareMe.shareToWhatsApp(
                       msg:
                           "${campaign.title}. Para doar: https://midowe.co.mz/d/${campaign.categoryId}/${campaign.campaignId}");*/
                 },
@@ -157,7 +154,7 @@ class CampaignContent extends StatelessWidget {
               SocialIconButton(
                 icon: Icon(FontAwesomeIcons.twitter),
                 onPressed: () {
-             /*     flutterShareMe.shareToTwitter(
+                  /*     flutterShareMe.shareToTwitter(
                       url:
                           "https://midowe.co.mz/d/${campaign.categoryId}/${campaign.campaignId}",
                       msg:
@@ -167,7 +164,7 @@ class CampaignContent extends StatelessWidget {
               SocialIconButton(
                 icon: Icon(FontAwesomeIcons.shareAlt),
                 onPressed: () {
-                /*  flutterShareMe.shareToSystem(
+                  /*  flutterShareMe.shareToSystem(
                       msg:
                           "${campaign.title}. Para doar: https://midowe.co.mz/d/${campaign.categoryId}/${campaign.campaignId}");*/
                 },

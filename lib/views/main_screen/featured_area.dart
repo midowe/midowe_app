@@ -113,19 +113,6 @@ class FeaturedItem extends StatelessWidget {
                         fit: BoxFit.fitHeight),
                   ),
                 ),
-                if (campaign.verified)
-                  Positioned(
-                    top: 1,
-                    right: 1,
-                    child: IconButton(
-                      iconSize: 18,
-                      icon: Icon(
-                        FontAwesomeIcons.checkCircle,
-                      ),
-                      color: Constants.secondaryColor3,
-                      onPressed: () {},
-                    ),
-                  )
               ],
             ),
             SizedBox(
