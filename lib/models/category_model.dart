@@ -1,6 +1,4 @@
 import 'CampaignData.dart';
-import 'FeaturedCampaign.dart';
-import 'campaign.dart';
 
 class Category {
   final int id;
@@ -20,14 +18,15 @@ class Category {
     required this.campaigns,
   });
 
-  factory Category.fromJson(Map<String, dynamic> json, int id,  List<CampaignData> campaigns ) {
+  factory Category.fromJson(
+      Map<String, dynamic> json, int id, List<CampaignData> campaigns) {
     return Category(
-      id: id ,
-      name: json['name'] ==null? "":json['name'] ,
-      description: json['description'] ==null? "":json['description'] ,
-      createdAt: json['createdAt'] ==null? "":json['createdAt'],
-      updatedAt: json['updatedAt'] ==null? "":json['updatedAt'],
-      campaigns:campaigns,
+      id: id,
+      name: json['name'] == null ? "" : json['name'],
+      description: json['description'] == null ? "" : json['description'],
+      createdAt: json['createdAt'] == null ? "" : json['createdAt'],
+      updatedAt: json['updatedAt'] == null ? "" : json['updatedAt'],
+      campaigns: campaigns,
     );
   }
 }

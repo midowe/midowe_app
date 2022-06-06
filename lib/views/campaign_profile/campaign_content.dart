@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loading_gifs/loading_gifs.dart';
-import 'package:midowe_app/models/campaign_model.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/campaign_profile/campaign_author.dart';
 import 'package:midowe_app/views/campaign_profile/campaign_image_view.dart';

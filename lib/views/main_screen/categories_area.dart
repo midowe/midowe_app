@@ -7,6 +7,7 @@ import 'package:midowe_app/views/campaign_profile/campaign_profile_view.dart';
 import 'package:midowe_app/views/category_campaign/category_campaign_view.dart';
 import 'package:midowe_app/widgets/campaign_list_item.dart';
 import 'package:midowe_app/widgets/title_subtitle_heading.dart';
+import 'package:page_transition/page_transition.dart';
 import '../../providers/category_provider.dart';
 
 class CategoriesArea extends StatefulWidget {
@@ -98,8 +99,12 @@ class CategoryItemArea extends StatelessWidget {
                   CupertinoIcons.chevron_compact_down,
                 ),
                 onPressed: () {
-                  Helper.nextPage(
-                      context, CategoryCampaignView(category: categoryItem));
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                        type: PageTransitionType.leftToRight,
+                        child: CategoryCampaignView(category: categoryItem),
+                      ));
                 },
               ),
             )

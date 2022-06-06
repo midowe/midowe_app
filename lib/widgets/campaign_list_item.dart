@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:midowe_app/models/CampaignData.dart';
-import 'package:midowe_app/models/FeaturedCampaign.dart';
-import 'package:midowe_app/models/campaign_model.dart';
 import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/utils/formatter.dart';
 
@@ -56,7 +54,7 @@ class CampaignListItem extends StatelessWidget {
                   height: 5,
                 ),
                 Text(
-                  "${Formatter.currencyDouble((campaign.current_balance.toDouble()*100)/campaign.target_amount.toDouble())} % - Meta ${Formatter.currencyDouble(campaign.target_amount.toDouble())} MT",
+                  "${Formatter.currencyDouble((campaign.current_balance.toDouble() * 100) / campaign.target_amount.toDouble())} % - Meta ${Formatter.currencyDouble(campaign.target_amount.toDouble())} MT",
                   style: TextStyle(
                     color: Constants.secondaryColor2,
                     fontSize: 13,

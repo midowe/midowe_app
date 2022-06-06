@@ -7,6 +7,7 @@ import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/campaign_donate/campaign_donate_view.dart';
 import 'package:midowe_app/views/campaign_profile/campaign_profile.dart';
 import 'package:midowe_app/widgets/thank_you_dialog.dart';
+import 'package:page_transition/page_transition.dart';
 
 class CampaignProfileView extends StatelessWidget {
   final CampaignData campaign;
@@ -27,11 +28,15 @@ class CampaignProfileView extends StatelessWidget {
                 actionArea: Row(children: [
                   ElevatedButton(
                       onPressed: () {
-                        Helper.nextPage(
-                            context,
-                            CampaignDonateView(
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.leftToRightWithFade,
+                            child: CampaignDonateView(
                               campaign: campaign,
-                            ));
+                            ),
+                          ),
+                        );
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Constants.primaryColor,

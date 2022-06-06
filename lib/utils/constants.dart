@@ -15,6 +15,8 @@ class Constants {
   static const Color secondaryColor4 = Color.fromRGBO(231, 227, 238, 1.0);
   static const Color palidGray = Color.fromRGBO(112, 112, 112, 1.0);
 
+  static const String BASE_URL_CMS = "https://cms.dev.midowe.co.mz/api/";
+
   // Shared preferences
   static const String PREF_ACCEPTED_TERMS = "pref.accepted.terms";
 }

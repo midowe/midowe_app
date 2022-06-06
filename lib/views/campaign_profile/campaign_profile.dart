@@ -35,7 +35,9 @@ class CampaignProfile extends StatelessWidget {
           campaign: this.campaign,
         ),
         if (category != null) CampaignCategoryDetail(category: this.category),
-        CampaignDonations(),
+        CampaignDonations(
+          campaign: campaign,
+        ),
         SizedBox(
           height: 40,
         ),

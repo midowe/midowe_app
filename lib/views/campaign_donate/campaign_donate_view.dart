@@ -160,6 +160,12 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
   Widget _paymentMethodArea() {
     var textFormField = TextFormField(
       onChanged: (value) => _formData['payment_address'] = "258" + value.trim(),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Por favor introduza um número';
+        }
+        return null;
+      },
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(vertical: 7, horizontal: 10),
         enabledBorder: OutlineInputBorder(
@@ -247,6 +253,12 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
         ),
         TextFormField(
           onChanged: (value) => _formData['supporter_name'] = value,
+          validator: (value) {
+            if (value != null && !(value.length > 5) && value.isNotEmpty) {
+              return "Introduza um nome válido com mais de 5 caracteres!";
+            }
+            return null;
+          },
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 7, horizontal: 10),
             enabledBorder: OutlineInputBorder(
@@ -267,6 +279,15 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
         ),
         TextFormField(
           onChanged: (value) => _formData['supporter_email'] = value.trim(),
+          validator: (value) {
+            if (value != null &&
+                !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                    .hasMatch(value) &&
+                value.isNotEmpty) {
+              return "Introduza um email válido!";
+            }
+            return null;
+          },
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 7, horizontal: 10),
             enabledBorder: OutlineInputBorder(
@@ -466,15 +487,10 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
   }
 
   String? validateMobile(String value) {
-    String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
-    RegExp regExp = new RegExp(pattern);
-
-    if (value.length == 0) {
-      return 'Please enter mobile number';
-    } else if (!regExp.hasMatch(value)) {
-      return 'Please enter valid mobile number';
-    }
-
-    return null;
+// Indian Mobile number are of 10 digit only
+    if (value.length != 10)
+      return 'Mobile Number must be of 10 digit';
+    else
+      return null;
   }
 }

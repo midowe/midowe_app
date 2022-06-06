@@ -6,6 +6,7 @@ import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/campaign_profile/campaign_profile_view.dart';
 import 'package:midowe_app/widgets/title_subtitle_heading.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import '../../models/CampaignData.dart' hide Element;
@@ -90,7 +91,15 @@ class FeaturedItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Helper.nextPage(context, CampaignProfileView(campaign: campaign));
+        Navigator.push(
+          context,
+          PageTransition(
+            type: PageTransitionType.leftToRight,
+            child: CampaignProfileView(campaign: campaign),
+          ),
+        );
+
+        // Helper.nextPage(context, );
       },
       customBorder: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25))),
