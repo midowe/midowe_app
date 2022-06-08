@@ -25,7 +25,7 @@ class CampaignListItem extends StatelessWidget {
               width: 70,
               height: 70,
               child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(15)),
+                borderRadius: BorderRadius.all(Radius.circular(0)),
                 child: FadeInImage.assetNetwork(
                     placeholder: circularProgressIndicatorSmall,
                     image: campaign.url,

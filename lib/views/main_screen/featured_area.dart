@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:midowe_app/providers/campaign_provider.dart';
 import 'package:midowe_app/utils/constants.dart';
-import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/campaign_profile/campaign_profile_view.dart';
 import 'package:midowe_app/widgets/title_subtitle_heading.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import '../../models/CampaignData.dart' hide Element;
+import '../../models/CampaignData.dart';
 
 class FeaturedArea extends StatefulWidget {
   @override
@@ -43,8 +41,8 @@ class _FeaturedAreaState extends State<FeaturedArea> {
                     padding: EdgeInsets.only(
                         left: 20.0, top: 30.0, right: 20.0, bottom: 20.0),
                     child: TitleSubtitleHeading(
-                      "Destaque",
-                      "As pessoas estão apoiando estas campanhas",
+                      "Acontecendo agora",
+                      "Campanhas que vem ganhado destaque",
                     ),
                   ),
                   SizedBox(
@@ -102,7 +100,7 @@ class FeaturedItem extends StatelessWidget {
         // Helper.nextPage(context, );
       },
       customBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25))),
+          borderRadius: BorderRadius.all(Radius.circular(0))),
       child: Container(
         padding: EdgeInsets.only(left: 5, right: 5),
         width: 160,
@@ -114,7 +112,7 @@ class FeaturedItem extends StatelessWidget {
                   width: 140,
                   height: 140,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                    borderRadius: BorderRadius.all(Radius.circular(0)),
                     child: FadeInImage.memoryNetwork(
                         placeholder: kTransparentImage,
                         image: campaign.url,
