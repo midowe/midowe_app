@@ -30,34 +30,47 @@ class _CategoriesAreaState extends State<CategoriesArea> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      alignment: Alignment.topLeft,
-      padding: EdgeInsets.all(20.0),
-      child: FutureBuilder<List<Category>>(
-        future: categories,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            for (var item in snapshot.data!) {
-              if (!item.campaigns.isEmpty)
-                return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      for (var item in snapshot.data!)
-                        CategoryItemArea(categoryItem: item),
-                      SizedBox(
-                        height: 10,
-                      )
-                    ]);
-            }
-          } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          }
+        alignment: Alignment.topLeft,
+        padding: EdgeInsets.all(20.0),
+        child: RefreshIndicator(
+          onRefresh: _pullRefresh,
+          color: Colors.white,
+          backgroundColor: Colors.purple,
+          strokeWidth: 5,
+          child: FutureBuilder<List<Category>>(
+            future: categories,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                for (var item in snapshot.data!) {
+                  if (!item.campaigns.isEmpty)
+                    return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          for (var item in snapshot.data!)
+                            if (!item.campaigns.isEmpty)
+                              CategoryItemArea(categoryItem: item),
+                          SizedBox(
+                            height: 10,
+                          )
+                        ]);
+                }
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
+        ));
+  }
 
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      ),
-    );
+  Future<void> _pullRefresh() async {
+    Future<List<Category>> categors =
+        categoryProvider.fetchAllCategories('1', '10');
+    setState(() {
+      categories = categors;
+    });
   }
 }
 
@@ -111,6 +124,6 @@ class CategoryItemArea extends StatelessWidget {
         ]),
       );
     else
-      return Text("");
+      return SizedBox();
   }
 }

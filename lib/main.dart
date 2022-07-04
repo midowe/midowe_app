@@ -6,7 +6,11 @@ import 'package:midowe_app/views/main_screen/main_screen_view.dart';
 import 'package:midowe_app/views/welcome_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+
 void main() {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   setupLocator();
   runApp(MyApp());
 }
@@ -47,8 +51,10 @@ class _MyAppState extends State<MyApp> {
     final prefs = await SharedPreferences.getInstance();
     bool? accepted = prefs.getBool(Constants.PREF_ACCEPTED_TERMS);
     if (accepted != null && accepted) {
+      FlutterNativeSplash.remove();
       return MainScreenView();
     }
+    FlutterNativeSplash.remove();
     return WelcomeView();
   }
 

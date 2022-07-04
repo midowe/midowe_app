@@ -8,7 +8,6 @@ import 'package:midowe_app/views/campaign_profile/campaign_image_view.dart';
 import 'package:midowe_app/widgets/social_icon_button.dart';
 
 import '../../models/CampaignData.dart';
-//import 'package:flutter_share_me/flutter_share_me.dart';
 
 class CampaignContent extends StatelessWidget {
   final CampaignData campaign;

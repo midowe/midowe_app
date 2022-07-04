@@ -33,7 +33,38 @@ class CampaignProvider extends BaseProvider {
   Future<List<CampaignData>> getCampaignData() async {
     List<CampaignData> campaigns = [];
     var response = await http.get(Uri.parse(Constants.BASE_URL_CMS +
-        "campaigns?populate[0]=images&populate[1]=fundraiser&filters[on_spot]=true&sort[1]=createdAt:desc"));
+        "campaigns?populate[0]=images&populate[1]=fundraiser&filters[on_spot]=true&filters[approved]=true&sort[1]=createdAt:desc"));
+
+    if (response.statusCode == 200) {
+      campaigns.clear();
+    }
+    var decodedData = jsonDecode(response.body)["data"];
+
+    for (var u in decodedData) {
+      var url = u['attributes']['images']['data'][0]['attributes']['url'];
+      var images = u['attributes']['images']['data'];
+      var fundraiser = u['attributes']['fundraiser']['data'];
+      List<CampaignImage> imageList = [];
+      for (var i in images) {
+        imageList.add(CampaignImage.fromJson(i['attributes']));
+      }
+
+      campaigns.add(CampaignData.fromJson(
+          u['attributes'],
+          u["id"],
+          url,
+          Fundraiser.fromJson(fundraiser['attributes'], fundraiser['id']),
+          imageList));
+    }
+    return campaigns;
+  }
+
+  Future<List<CampaignData>> getCampaignByName(String name) async {
+    List<CampaignData> campaigns = [];
+    var response = await http.get(Uri.parse(Constants.BASE_URL_CMS +
+        "campaigns?populate[0]=images&populate[1]=fundraiser&filters[title]=" +
+        name +
+        "&sort[1]=createdAt:desc"));
 
     if (response.statusCode == 200) {
       campaigns.clear();

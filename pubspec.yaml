@@ -42,6 +42,7 @@ dependencies:
   loading_gifs: ^0.3.0
   photo_view: ^0.13.0
   page_transition: ^2.0.5
+  flutter_native_splash: ^2.2.3+1
  # flutter_share_me: ^1.2.0
 
 dev_dependencies:
@@ -114,3 +115,21 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+
+# flutter_native_splash-development.yaml
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/images/logo-white.png
+  branding: assets/branding-development.png
+  color_dark: "#121212"
+  image_dark: assets/images/logo.png
+  branding_dark: assets/images/logo-white.png
+
+  android_12:
+    image: assets/images/logo-white.png
+    icon_background_color: "#ffffff"
+    image_dark: assets/images/logo-white.png
+    icon_background_color_dark: "#121212"
+  
+  web: false

@@ -1,5 +1,3 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:midowe_app/models/campaign_pending_model.dart';
@@ -7,35 +5,30 @@ import 'package:midowe_app/providers/campaign_provider.dart';
 import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/approval/approval_list_view.dart';
+
 class HeaderArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-
-      child: Column(
-        children: [
-          SizedBox(
-            height: 45,
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: 15,
-              ),
-              Image(
-                image: AssetImage("assets/images/logo.png"),
-                height: 45,
-              ),
-
-              SizedBox(
-                width: 15,
-              ),
-            ],
-          ),
-
-
-        ],
-      ),
+    return Column(
+      children: [
+        SizedBox(
+          height: 45,
+        ),
+        Row(
+          children: [
+            SizedBox(
+              width: 15,
+            ),
+            Image(
+              image: AssetImage("assets/images/logo.png"),
+              height: 45,
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 5,
+        ),
+      ],
     );
   }
 }

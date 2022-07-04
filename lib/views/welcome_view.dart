@@ -82,8 +82,7 @@ class WelcomeView extends StatelessWidget {
                                 fontWeight: FontWeight.bold),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () async {
-                                var url =
-                                    "https://midowe.co.mz/termos-e-condicoes";
+                                var url = "https://midowe.co.mz/terms";
                                 if (await canLaunch(url)) {
                                   await launch(url);
                                 } else {

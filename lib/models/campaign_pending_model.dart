@@ -1,5 +1,3 @@
-import 'package:midowe_app/models/campaign_model.dart';
-
 import 'CampaignData.dart';
 
 class CampaignPending {
