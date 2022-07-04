@@ -3,7 +3,7 @@ description: Midowe app
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -45,6 +45,8 @@ dependencies:
   flutter_native_splash: ^2.2.3+1
  # flutter_share_me: ^1.2.0
 
+  # flutter_share_me: ^1.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -54,7 +56,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -68,7 +69,7 @@ flutter:
   assets:
     - assets/images/logo.png
     - assets/images/logo-white.png
-    - assets/images/hero-image.png
+    - assets/images/welcome_image_01.png
     - assets/images/hero-image-wide.png
     - assets/images/hands-holding-words-thank-you.png
     - assets/images/approved.png

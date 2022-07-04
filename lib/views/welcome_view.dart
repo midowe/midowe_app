@@ -25,7 +25,7 @@ class WelcomeView extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.fitHeight,
-                    image: AssetImage("assets/images/hero-image.png"),
+                    image: AssetImage("assets/images/welcome_image_01.png"),
                   ),
                 ),
               ),
@@ -37,14 +37,14 @@ class WelcomeView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: 50.0,
+                    height: 25.0,
                   ),
                   Image(
                     image: AssetImage("assets/images/logo.png"),
                     height: 65,
                   ),
                   Text(
-                    "Plataforma de angariação de fundos e apoio a causas sociais",
+                    "Onde artistas, criadores, projectos, e causas sociais podem receber o apoio do qual precisam.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 15.0,

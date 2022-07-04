@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:midowe_app/models/CampaignData.dart';
 import 'package:midowe_app/models/category_model.dart';
 import 'package:midowe_app/utils/constants.dart';
-import 'package:midowe_app/utils/helper.dart';
 import 'package:midowe_app/views/campaign_donate/campaign_donate_view.dart';
 import 'package:midowe_app/views/campaign_profile/campaign_profile.dart';
 import 'package:midowe_app/widgets/thank_you_dialog.dart';
@@ -44,7 +43,7 @@ class CampaignProfileView extends StatelessWidget {
                         padding:
                             EdgeInsets.symmetric(horizontal: 40, vertical: 12),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
+                            borderRadius: BorderRadius.circular(5)),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -69,7 +68,7 @@ class CampaignProfileView extends StatelessWidget {
                           primary: Colors.white,
                           padding: EdgeInsets.all(12),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30)),
+                              borderRadius: BorderRadius.circular(5)),
                         ),
                         child: Icon(
                           FontAwesomeIcons.shareAlt,

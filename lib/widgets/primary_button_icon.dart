@@ -23,7 +23,7 @@ class PrimaryButtonIcon extends StatelessWidget {
         backgroundColor: backgroundColor,
         primary: textColor,
         padding: EdgeInsets.all(12),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
