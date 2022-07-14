@@ -90,10 +90,9 @@ class CampaignContent extends StatelessWidget {
                             context, new CampaignImageView(imageUrl: image))
                       },
                       child: Container(
-                        width: 140,
-                        height: 140,
+                        width: 120,
+                        height: 120,
                         child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
                           child: FadeInImage.assetNetwork(
                               placeholder: circularProgressIndicatorSmall,
                               image: image.url,

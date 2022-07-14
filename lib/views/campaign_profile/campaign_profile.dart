@@ -23,7 +23,10 @@ class CampaignProfile extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CampaignHeader(campaign: this.campaign),
+        CampaignHeader(
+          campaign: this.campaign,
+          category: this.category,
+        ),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
           child: actionArea,

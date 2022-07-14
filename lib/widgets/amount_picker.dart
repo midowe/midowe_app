@@ -57,7 +57,7 @@ class _AmountPicker extends State<AmountPicker> {
                 ? Constants.primaryColor
                 : Constants.secondaryColor3,
         primary: Constants.secondaryColor,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 5, horizontal: 0),

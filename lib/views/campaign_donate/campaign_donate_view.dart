@@ -92,6 +92,7 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
                           _headerArea(),
                           _amountArea(),
                           _paymentMethodArea(),
+                          _beerMoney(),
                           _userDataArea(),
                           _actionDonateArea(context)
                         ],
@@ -153,6 +154,56 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
           height: 10,
         ),
         amountPicker
+      ],
+    );
+  }
+
+  Widget _beerMoney() {
+    var rating = 10.0;
+    var slider = Slider(
+        value: rating,
+        onChanged: (newValue) {
+          setState(() => rating = newValue);
+        },
+        min: 0,
+        max: 50,
+        label: "$rating",
+        activeColor: Constants.primaryColor1);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 10,
+        ),
+        Text("DÊ UMA GORJETA A PLATAFORMA:", style: TextStyle(fontSize: 14)),
+        SizedBox(
+          height: 5,
+        ),
+        Container(
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.green, width: 2.0)),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Column(
+            children: [
+              Wrap(
+                children: [
+                  Text(
+                      "O midowe cobra 0% de taxa ao Ângelo Do Rosário Machelewe. Para que possamos continuar a ajudar mais pessoas, pedimos que deixe ficar uma gorjeta:",
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.green,
+                      )),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                children: [slider, Text("$rating % ")],
+              )
+            ],
+          ),
+        )
       ],
     );
   }
@@ -232,7 +283,7 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
               textFormField
             ],
           ),
-        )
+        ),
       ],
     );
   }
