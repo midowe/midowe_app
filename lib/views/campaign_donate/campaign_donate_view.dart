@@ -30,6 +30,7 @@ class CampaignDonateView extends StatefulWidget {
 }
 
 class _CampaignDonateViewState extends State<CampaignDonateView> {
+  double _value = 10.0;
   final Map<String, dynamic> _formData = {
     'account_id': '',
     'campaign_id': '',
@@ -40,17 +41,9 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
     'payment_address': '',
     'supporter_email': '',
     'supporter_name': '',
-    'supporter_message': ''
-  };
-
-  Map<String, dynamic> _donatinData = {
-    "campaign": "4",
-    "transaction_id": "ffjhjj",
-    "amount": 37777,
-    "donor_name": "dias",
-    "donor_phone": "t7ghbbnnn",
-    "donor_email": "bnnmm@nn.bb",
-    "donor_message": "nnnn valeu"
+    'supporter_message': '',
+    'fundraiser_name': '',
+    'commission_percent': ''
   };
 
   final AmountPicker amountPicker = AmountPicker();
@@ -65,6 +58,7 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
         DateTime.now().millisecondsSinceEpoch.toString().trim();
     _formData['account_id'] = widget.campaign.fundraiser!.email;
     _formData['payment_method'] = 'mpesa';
+    _formData['fundraiser_name'] = widget.campaign.fundraiser?.full_name;
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -159,16 +153,19 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
   }
 
   Widget _beerMoney() {
-    var rating = 10.0;
     var slider = Slider(
-        value: rating,
-        onChanged: (newValue) {
-          setState(() => rating = newValue);
-        },
-        min: 0,
-        max: 50,
-        label: "$rating",
-        activeColor: Constants.primaryColor1);
+      value: _value,
+      onChanged: (value) {
+        setState(() => _value = value);
+      },
+      min: 0.0,
+      max: 50.0,
+      divisions: 10,
+      label: '${_value.round()}',
+      activeColor: Constants.primaryColor1,
+      thumbColor: Constants.primaryColor,
+      inactiveColor: Constants.secondaryColor2,
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -198,8 +195,11 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
               SizedBox(
                 height: 5,
               ),
-              Row(
-                children: [slider, Text("$rating % ")],
+              new Row(
+                children: [
+                  new Expanded(child: slider),
+                  Text(_value.round().toString() + '%')
+                ],
               )
             ],
           ),
@@ -418,6 +418,7 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
       },
     );
     _formData['amount'] = amountPicker.pickedAmount.toString();
+    _formData['commission_percent'] = (_value / 100);
     var response = await http.post(
         Uri.parse(
             "https://7wgwulf5j77dp6ypbnspcqxteu0rosoi.lambda-url.af-south-1.on.aws"),
@@ -428,31 +429,10 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
     if (response.statusCode == 201) {
       var payment_response = jsonDecode(response.body)['payment_response'];
 
-      var donation = jsonEncode({
-        "data": {
-          "campaign": _formData['campaign_id'],
-          "transaction_id": payment_response['TransactionId'],
-          "amount": _formData['amount'],
-          "donor_name": _formData['supporter_name'],
-          "donor_phone": _formData['payment_address'],
-          "donor_email": _formData['supporter_email'],
-          "donor_message": _formData['supporter_message']
-        }
-      });
+      showThanksDialog(
+          context, widget.campaign.thank_you_message, _formData['amount']);
 
-      var donationResponse = await http.post(
-          Uri.parse("https://cms.dev.midowe.co.mz/api/donations"),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: donation);
       Navigator.of(context).pop();
-      if (donationResponse.statusCode == 200) {
-        showThanksDialog(
-            context, widget.campaign.thank_you_message, _formData['amount']);
-      } else
-        showThanksDialog(
-            context, widget.campaign.thank_you_message, _formData['amount']);
     } else {
       Navigator.pop(context); //pop dialogti
       throw Exception("Failed to regist donation");
