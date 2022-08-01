@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
-import 'package:page_transition/page_transition.dart';
 
 import '../../models/CampaignData.dart';
 import '../../providers/campaign_provider.dart';
@@ -105,14 +103,17 @@ class _ProductsPage extends State<CampaignsPage> {
                           ),
                         ),
                         for (var campaign in snapshot.data!)
-                          CampaignListItem(
-                            campaign: campaign,
-                            onPressed: () {
-                              Helper.nextPage(
-                                  context,
-                                  CampaignProfileView(
-                                      campaign: campaign, category: null));
-                            },
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20.0),
+                            child: CampaignListItem(
+                              campaign: campaign,
+                              onPressed: () {
+                                Helper.nextPage(
+                                    context,
+                                    CampaignProfileView(
+                                        campaign: campaign, category: null));
+                              },
+                            ),
                           ),
                         SizedBox(width: 15),
                       ],

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:midowe_app/models/CampaignData.dart';
-import 'package:midowe_app/models/campaign_model.dart';
 import 'package:midowe_app/models/category_model.dart';
 import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/views/campaign_donate/campaign_donate_view.dart';

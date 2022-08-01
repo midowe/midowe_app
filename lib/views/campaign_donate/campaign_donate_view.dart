@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,12 +54,21 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
   @override
   Widget build(BuildContext context) {
     _formData['campaign_name'] = widget.campaign.title.trim();
-    _formData['campaign_id'] = widget.campaign.id.toString();
-    _formData['third_party_reference'] =
-        DateTime.now().millisecondsSinceEpoch.toString().trim();
+    _formData['campaign_id'] = widget.campaign.id;
+
     _formData['account_id'] = widget.campaign.fundraiser!.email;
     _formData['payment_method'] = 'mpesa';
     _formData['fundraiser_name'] = widget.campaign.fundraiser?.full_name;
+
+    String getRandomString(int length) {
+      const characters = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz';
+      Random random = Random();
+      return String.fromCharCodes(Iterable.generate(length,
+          (_) => characters.codeUnitAt(random.nextInt(characters.length))));
+    }
+
+    _formData['third_party_reference'] = getRandomString(6);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -417,22 +427,20 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
         return alert;
       },
     );
-    _formData['amount'] = amountPicker.pickedAmount.toString();
-    _formData['commission_percent'] = (_value / 100);
+    _formData['amount'] = amountPicker.pickedAmount;
+    _formData['tip_percent'] = (_value / 100);
     var response = await http.post(
         Uri.parse(
-            "https://7wgwulf5j77dp6ypbnspcqxteu0rosoi.lambda-url.af-south-1.on.aws"),
+            "https://eugqgyjdksk2hoi7rj6b23zjti0grskw.lambda-url.af-south-1.on.aws"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(_formData));
     if (response.statusCode == 201) {
       var payment_response = jsonDecode(response.body)['payment_response'];
-
-      showThanksDialog(
-          context, widget.campaign.thank_you_message, _formData['amount']);
-
       Navigator.of(context).pop();
+      showThanksDialog(context, widget.campaign.thank_you_message,
+          _formData['amount'].toString());
     } else {
       Navigator.pop(context); //pop dialogti
       throw Exception("Failed to regist donation");
@@ -449,64 +457,67 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      content: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image(
-            image:
-                AssetImage("assets/images/hands-holding-words-thank-you.png"),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Text(
-            "Recebemos a sua contribução",
-            style: TextStyle(
-                fontSize: 18,
-                fontStyle: FontStyle.normal,
-                fontWeight: FontWeight.w600,
-                color: Constants.primaryColor),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Montante:",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              Text(
-                amount + ' MT',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ],
-          ),
-          Text(
-            message,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
+        content: Wrap(
+      children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image(
+              image:
+                  AssetImage("assets/images/hands-holding-words-thank-you.png"),
             ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          okButton
-        ],
-      ),
-    );
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              "Recebemos a sua contribução",
+              style: TextStyle(
+                  fontSize: 18,
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.w600,
+                  color: Constants.primaryColor),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Montante:",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  amount + ' MT',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+            Text(
+              message,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            okButton
+          ],
+        ),
+      ],
+    ));
 
     // show the dialog
     showDialog(

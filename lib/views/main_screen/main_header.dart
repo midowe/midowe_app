@@ -10,7 +10,7 @@ class MainHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 155.0,
+        height: 170.0,
         child: Stack(
           children: <Widget>[
             Container(
@@ -31,51 +31,32 @@ class MainHeader extends StatelessWidget {
 
             Positioned(
               // To take AppBar Size only
-              top: 100.0,
-              left: 20.0,
-              right: 20.0,
-              child: AppBar(
-                backgroundColor: Colors.white,
-                primary: false,
-                flexibleSpace: Container(
-                    decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                  gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.topRight,
-                      colors: [
-                        Colors.blueGrey,
-                        Constants.primaryBackGround,
-                      ]),
-                )),
-                leading: Icon(Icons.search, color: Colors.grey),
-                title: TextField(
-                  controller: seachController,
-                  decoration: InputDecoration(
-                      hintText: "Pesquisar",
-                      border: InputBorder.none,
-                      hintStyle: TextStyle(color: Colors.grey)),
-                  onSubmitted: (value) {
+              top: 120.0,
+              left: 40.0,
+              right: 40.0,
+              child: TextButton(
+                  onPressed: () {
                     Navigator.push(
                       context,
                       PageTransition(
                         type: PageTransitionType.leftToRightWithFade,
                         child: CampaignsPage(
-                          query: value,
+                          query: "",
                         ),
                       ),
                     );
                   },
-                ),
-                actions: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.close, color: Colors.blueGrey),
-                    onPressed: () {
-                      seachController.clear();
-                    },
+                  style: TextButton.styleFrom(
+                    backgroundColor: Constants.secondaryColor2,
+                    primary: Constants.secondaryColor2,
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    side: BorderSide(
+                        color: Constants.primaryBackGround,
+                        width: 2.0,
+                        style: BorderStyle.solid),
                   ),
-                ],
-              ),
+                  child: Text("EXPLORAR",
+                      style: TextStyle(color: Constants.primaryBackGround))),
             )
           ],
         ));

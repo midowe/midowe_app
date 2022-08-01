@@ -6,7 +6,7 @@ class Donation {
   final String donor_phone;
   final String donor_email;
   final String donor_message;
-  final String provider_response;
+
   final String createdAt;
   final String updatedAt;
 
@@ -18,7 +18,6 @@ class Donation {
     required this.donor_phone,
     required this.donor_email,
     required this.donor_message,
-    required this.provider_response,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -34,8 +33,6 @@ class Donation {
         donor_email: json['donor_email'] == null ? "" : json['donor_email'],
         donor_message:
             json['donor_message'] == null ? "" : json['donor_message'],
-        provider_response:
-            json['provider_response'] == null ? "" : json['provider_response'],
         createdAt: json['createdAt'] == null ? "" : json['createdAt'],
         updatedAt: json['updatedAt'] == null ? "" : json['updatedAt']);
   }
