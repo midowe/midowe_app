@@ -42,12 +42,12 @@ class _CategoriesAreaState extends State<CategoriesArea> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 for (var item in snapshot.data!) {
-                  if (!item.campaigns.isEmpty)
+                  if (item.campaigns.isNotEmpty)
                     return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           for (var item in snapshot.data!)
-                            if (!item.campaigns.isEmpty)
+                            if (item.campaigns.isNotEmpty)
                               CategoryItemArea(categoryItem: item),
                           SizedBox(
                             height: 10,
@@ -82,7 +82,7 @@ class CategoryItemArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!categoryItem.campaigns.isEmpty)
+    if (categoryItem.campaigns.isNotEmpty)
       return Container(
         padding: EdgeInsets.only(top: 10.0, bottom: 0.0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

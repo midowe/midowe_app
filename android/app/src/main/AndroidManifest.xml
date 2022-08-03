@@ -7,13 +7,23 @@
             <action android:name=
                 "android.support.customtabs.action.CustomTabsService" />
         </intent>
+        <!-- If your app checks for SMS support -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="sms" />
+        </intent>
+        <!-- If your app checks for call support -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="tel" />
+        </intent>
     </queries>
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
 
    <application
-        android:label="midowe_app"
+        android:label="Midowe"
         android:icon="@mipmap/ic_launcher">
 
         <activity

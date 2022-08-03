@@ -25,19 +25,13 @@ class CampaignListItem extends StatelessWidget {
               width: 70,
               height: 70,
               decoration: BoxDecoration(
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                      color: Colors.blueGrey,
-                      blurRadius: 4.0,
-                      offset: Offset(0.0, 0.75))
-                ],
                 color: Constants.primaryBackGround,
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(0)),
                 child: FadeInImage.assetNetwork(
                     placeholder: circularProgressIndicatorSmall,
-                    image: campaign.url,
+                    image: campaign.images![0].url,
                     width: double.infinity,
                     fit: BoxFit.fitHeight),
               ),

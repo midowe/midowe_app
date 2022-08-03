@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:midowe_app/models/campaign_pending_model.dart';
-import 'package:midowe_app/models/category_model.dart';
 import 'package:midowe_app/providers/base_provider.dart';
 import 'package:http/http.dart' as http;
 import '../models/CampaignData.dart';
@@ -41,7 +40,6 @@ class CampaignProvider extends BaseProvider {
     var decodedData = jsonDecode(response.body)["data"];
 
     for (var u in decodedData) {
-      var url = u['attributes']['images']['data'][0]['attributes']['url'];
       var images = u['attributes']['images']['data'];
       var fundraiser = u['attributes']['fundraiser']['data'];
       List<CampaignImage> imageList = [];
@@ -52,7 +50,6 @@ class CampaignProvider extends BaseProvider {
       campaigns.add(CampaignData.fromJson(
           u['attributes'],
           u["id"],
-          url,
           Fundraiser.fromJson(fundraiser['attributes'], fundraiser['id']),
           imageList));
     }
@@ -72,7 +69,6 @@ class CampaignProvider extends BaseProvider {
     var decodedData = jsonDecode(response.body)["data"];
 
     for (var u in decodedData) {
-      var url = u['attributes']['images']['data'][0]['attributes']['url'];
       var images = u['attributes']['images']['data'];
       var fundraiser = u['attributes']['fundraiser']['data'];
       List<CampaignImage> imageList = [];
@@ -83,7 +79,6 @@ class CampaignProvider extends BaseProvider {
       campaigns.add(CampaignData.fromJson(
           u['attributes'],
           u["id"],
-          url,
           Fundraiser.fromJson(fundraiser['attributes'], fundraiser['id']),
           imageList));
     }
@@ -98,8 +93,6 @@ class CampaignProvider extends BaseProvider {
       campaigns.clear();
     }
     var decodedData = jsonDecode(response.body)["data"];
-    var url =
-        decodedData['attributes']['images']['data'][0]['attributes']['url'];
     var images = decodedData['attributes']['images']['data'];
     var fundraiser = decodedData['attributes']['fundraiser']['data'];
     List<CampaignImage> imageList = [];
@@ -110,48 +103,8 @@ class CampaignProvider extends BaseProvider {
     return CampaignData.fromJson(
         decodedData['attributes'],
         decodedData["id"],
-        url,
         Fundraiser.fromJson(fundraiser['attributes'], fundraiser['id']),
         imageList);
-  }
-
-  Future<List<CampaignData>> fetchFeatured() async {
-    List<CampaignData> campains = [
-      CampaignData(
-          updatedAt: '',
-          approved: true,
-          current_balance: 2000,
-          description: 'ola',
-          notes: '',
-          on_spot: true,
-          total_amount: 0.00,
-          verified: true,
-          title: '',
-          target_amount: 200,
-          thank_you_message: 'obrigado',
-          id: 1,
-          url: '',
-          verified_at: '',
-          verified_by: '',
-          createdAt: '222',
-          target_date: '',
-          images: [],
-          total_donations: 8000),
-    ];
-    return campains;
-  }
-
-  Future<List<Category>> fetchTopByCategory() async {
-    return [
-      Category(
-        id: 1,
-        name: 'Saude',
-        description: 'Saude, Medicação',
-        campaigns: [],
-        updatedAt: "",
-        createdAt: "",
-      ),
-    ];
   }
 
   Future<List<CampaignData>> fetchOfCategory(
@@ -174,7 +127,6 @@ class CampaignProvider extends BaseProvider {
     var decodedData = jsonDecode(response.body)["data"];
 
     for (var u in decodedData) {
-      var url = u['attributes']['images']['data'][0]['attributes']['url'];
       var images = u['attributes']['images']['data'];
       var fundraiser = u['attributes']['fundraiser']['data'];
       List<CampaignImage> imageList = [];
@@ -185,7 +137,6 @@ class CampaignProvider extends BaseProvider {
       campaigns.add(CampaignData.fromJson(
           u['attributes'],
           u["id"],
-          url,
           Fundraiser.fromJson(fundraiser['attributes'], fundraiser['id']),
           imageList));
     }

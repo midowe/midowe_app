@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:midowe_app/models/user_model.dart';
 import 'package:midowe_app/providers/fundraiser_provider.dart';
 
 import '../../models/Fundraiser.dart';
@@ -8,7 +7,7 @@ import '../../models/Fundraiser.dart';
 class CampaignAuthor extends StatefulWidget {
   final int campaignId;
 
-  const CampaignAuthor({Key? key,  required this.campaignId}) : super(key: key);
+  const CampaignAuthor({Key? key, required this.campaignId}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -23,7 +22,8 @@ class _CampaignAuthorState extends State<CampaignAuthor> {
   @override
   void initState() {
     super.initState();
-    this.fundraiser = fundraiserProvider.fetchFundraiserByCampaignId(widget.campaignId) as Future<Fundraiser>?;
+    this.fundraiser =
+        fundraiserProvider.fetchFundraiserByCampaignId(widget.campaignId);
   }
 
   @override

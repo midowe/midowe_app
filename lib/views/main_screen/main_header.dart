@@ -5,7 +5,7 @@ import 'package:page_transition/page_transition.dart';
 import 'campaigns_page.dart';
 
 class MainHeader extends StatelessWidget {
-  TextEditingController seachController = new TextEditingController();
+  final TextEditingController seachController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class MainHeader extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              color: Constants.secondaryColor2,
+              color: Constants.primaryColor,
               height: MediaQuery.of(context).size.height * 0.2,
               width: MediaQuery.of(context).size.width,
             ),
@@ -47,8 +47,8 @@ class MainHeader extends StatelessWidget {
                     );
                   },
                   style: TextButton.styleFrom(
-                    backgroundColor: Constants.secondaryColor2,
-                    primary: Constants.secondaryColor2,
+                    backgroundColor: Colors.white,
+                    primary: Constants.primaryColor,
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                     side: BorderSide(
                         color: Constants.primaryBackGround,
@@ -56,7 +56,7 @@ class MainHeader extends StatelessWidget {
                         style: BorderStyle.solid),
                   ),
                   child: Text("EXPLORAR",
-                      style: TextStyle(color: Constants.primaryBackGround))),
+                      style: TextStyle(color: Constants.primaryColor))),
             )
           ],
         ));

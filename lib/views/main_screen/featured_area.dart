@@ -98,7 +98,7 @@ class FeaturedItem extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(1)),
                     child: FadeInImage.memoryNetwork(
                         placeholder: kTransparentImage,
-                        image: campaign.url,
+                        image: campaign.images![0].url,
                         width: double.infinity,
                         fit: BoxFit.fitHeight),
                   ),

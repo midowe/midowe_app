@@ -5,7 +5,6 @@ import 'package:midowe_app/models/category_model.dart';
 import 'package:midowe_app/utils/constants.dart';
 import 'package:midowe_app/views/campaign_donate/campaign_donate_view.dart';
 import 'package:midowe_app/views/campaign_profile/campaign_profile.dart';
-import 'package:midowe_app/widgets/thank_you_dialog.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -90,29 +89,9 @@ class CampaignProfileView extends StatelessWidget {
     final box = context.findRenderObject() as RenderBox?;
 
     {
-      await Share.share(campaign.url,
+      await Share.share("${Constants.BASE_URL_WEB}${campaign.url}",
           subject: campaign.title,
           sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
     }
-  }
-
-  void _showSuccessDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-          child: Container(
-            height: 430,
-            child: ThankYouDialogBox(
-                amount: "100MT",
-                paymentMethod: "M-Pesa",
-                userPhone: "842058817",
-                userName: "Américo Chaquisse"),
-          ),
-        );
-      },
-    );
   }
 }

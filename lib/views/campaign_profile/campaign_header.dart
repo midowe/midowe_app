@@ -76,7 +76,7 @@ class CampaignHeader extends StatelessWidget {
                         width: 5,
                       ),
                       Text(
-                        "verificado",
+                        "Verificado",
                         style: TextStyle(
                             fontSize: 10, color: Constants.primaryColor),
                       ),
@@ -93,7 +93,7 @@ class CampaignHeader extends StatelessWidget {
               placeholder: kTransparentImage,
               width: double.infinity,
               fit: BoxFit.fitWidth,
-              image: campaign.url,
+              image: campaign.images![0].url,
             )),
       ],
     );

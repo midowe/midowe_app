@@ -26,7 +26,6 @@ class _MyAppState extends State<MyApp> {
   @override
   initState() {
     super.initState();
-    //_configureAmplify();
   }
 
   @override
@@ -57,16 +56,4 @@ class _MyAppState extends State<MyApp> {
     FlutterNativeSplash.remove();
     return WelcomeView();
   }
-
-/*  void _configureAmplify() async {
-    AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
-    await Amplify.addPlugins([authPlugin]);
-
-    try {
-      await Amplify.configure(amplifyconfig);
-    } on AmplifyAlreadyConfiguredException {
-      print(
-          "Tried to reconfigure Amplify; this can occur when your app restarts on Android.");
-    }
-  }*/
 }

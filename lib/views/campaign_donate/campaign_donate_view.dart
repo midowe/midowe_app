@@ -306,7 +306,7 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
           height: 30,
         ),
         Text(
-          "Apoiar em nome de (opcional):",
+          "Seu nome (opcional):",
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
         ),
         SizedBox(
@@ -332,7 +332,7 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
           height: 10,
         ),
         Text(
-          "Informe sue email(opcional):",
+          "Seu email (opcional):",
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
         ),
         SizedBox(
@@ -361,7 +361,7 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
           height: 10,
         ),
         Text(
-          "Deixar ficar uma mensagem (opcional):",
+          "Mensagem de apoio a campanha (opcional):",
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
         ),
         SizedBox(
@@ -429,9 +429,7 @@ class _CampaignDonateViewState extends State<CampaignDonateView> {
     );
     _formData['amount'] = amountPicker.pickedAmount;
     _formData['tip_percent'] = (_value / 100);
-    var response = await http.post(
-        Uri.parse(
-            "https://eugqgyjdksk2hoi7rj6b23zjti0grskw.lambda-url.af-south-1.on.aws"),
+    var response = await http.post(Uri.parse(Constants.BASE_URL_ACCOUNTING),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

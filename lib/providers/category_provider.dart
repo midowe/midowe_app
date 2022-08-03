@@ -30,8 +30,6 @@ class CategoryProvider extends BaseProvider {
       List<CampaignData> campaignsList = [];
 
       for (var c in campaigns) {
-        var url = c['attributes']['images']['data'][0]['attributes']['url'];
-
         var images = c['attributes']['images']['data'];
         var fundraiser = c['attributes']['fundraiser']['data'];
         List<CampaignImage> imageList = [];
@@ -42,7 +40,6 @@ class CategoryProvider extends BaseProvider {
         campaignsList.add(CampaignData.fromJson(
             c['attributes'],
             c["id"],
-            url,
             Fundraiser.fromJson(fundraiser['attributes'], fundraiser['id']),
             imageList));
       }
