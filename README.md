@@ -1,4 +1,4 @@
-Midowe - Mobile app (android & iOS)
+# Midowe - Mobile app (android & iOS)
 
 ## Generate launch icons
 
