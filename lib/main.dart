@@ -1,17 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:midowe_app/utils/application_theme.dart';
-import 'package:midowe_app/utils/constants.dart';
-import 'package:midowe_app/utils/service_locator.dart';
-import 'package:midowe_app/views/campaign_list_view.dart';
-import 'package:midowe_app/views/welcome_view.dart';
+import 'package:midowe_app/helpers/application_theme.dart';
+import 'package:midowe_app/helpers/constants.dart';
+import 'package:midowe_app/helpers/service_locator.dart';
+import 'package:midowe_app/screens/home_screen.dart';
+import 'package:midowe_app/screens/welcome_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+
 void main() {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   setupLocator();
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _MyAppState();
+  }
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,8 +50,10 @@ class MyApp extends StatelessWidget {
     final prefs = await SharedPreferences.getInstance();
     bool? accepted = prefs.getBool(Constants.PREF_ACCEPTED_TERMS);
     if (accepted != null && accepted) {
-      return CampaignListView();
+      FlutterNativeSplash.remove();
+      return HomeScreen();
     }
-    return WelcomeView();
+    FlutterNativeSplash.remove();
+    return WelcomeScreen();
   }
 }

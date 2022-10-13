@@ -1,22 +1,32 @@
+import 'package:midowe_app/models/campaign_data.dart';
+
 class Category {
   final int id;
   final String name;
   final String description;
-  final bool requireApproval;
+  final String createdAt;
+  final String updatedAt;
+
+  final List<CampaignData> campaigns;
 
   Category({
     required this.id,
     required this.name,
     required this.description,
-    required this.requireApproval,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.campaigns,
   });
 
-  factory Category.fromJson(Map<String, dynamic> json) {
+  factory Category.fromJson(
+      Map<String, dynamic> json, int id, List<CampaignData> campaigns) {
     return Category(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'],
-      requireApproval: json['requireApproval'],
+      id: id,
+      name: json['name'] == null ? "" : json['name'],
+      description: json['description'] == null ? "" : json['description'],
+      createdAt: json['createdAt'] == null ? "" : json['createdAt'],
+      updatedAt: json['updatedAt'] == null ? "" : json['updatedAt'],
+      campaigns: campaigns,
     );
   }
 }

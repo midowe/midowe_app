@@ -1,31 +1,19 @@
-import 'package:midowe_app/providers/base_provider.dart';
-
 class User {
-  final int id;
-  final String username;
-  final String email;
-  final String phone;
-  final String fullName;
+  final String name;
+  final String headline;
   final String picture;
-  final String? jwt;
 
   User({
-    required this.id,
-    required this.username,
-    required this.email,
-    required this.phone,
-    required this.fullName,
+    required this.name,
+    required this.headline,
     required this.picture,
-    this.jwt,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-        id: json['id'],
-        username: json['username'],
-        email: json['email'],
-        phone: json['phone'],
-        fullName: json['fullName'],
-        picture: BaseProvider.cmsBaseUrl + json['picture']['url']);
+      name: json['name'],
+      headline: json['headline'],
+      picture: json['picture'],
+    );
   }
 }

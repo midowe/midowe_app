@@ -1,15 +1,15 @@
 import 'dart:convert';
 
-import 'package:midowe_app/models/statistics_model.dart';
 import 'package:midowe_app/providers/base_provider.dart';
 
 class AccountingProvider extends BaseProvider {
-  Future<Statistics> getStatistics(String campaignSlug) async {
+  Future<bool> registerDonation(
+      String categoryId, String campaignId, Map<String, dynamic> body) async {
     final response =
-        await accountingGet("/statistics?campaignSlug=$campaignSlug");
+        await accountingPost("/donations/$categoryId/$campaignId", body);
 
     if (response.statusCode == 200) {
-      return Statistics.fromJson(jsonDecode(response.body));
+      return jsonDecode(response.body)['registered'];
     } else {
       throw Exception(
           "Failed to fetch statistics. Error ${response.statusCode}");

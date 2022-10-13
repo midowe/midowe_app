@@ -1,107 +1,205 @@
 import 'dart:convert';
 
-import 'package:midowe_app/models/campaign_model.dart';
+import 'package:midowe_app/models/campaign_pending_model.dart';
 import 'package:midowe_app/providers/base_provider.dart';
+import 'package:http/http.dart' as http;
+import '../models/campaign_data.dart';
+import '../models/campaign_image.dart';
+import '../models/featured_campaign.dart';
+import '../models/fundraiser.dart';
+import '../models/donation_model.dart';
+import '../helpers/constants.dart';
 
 class CampaignProvider extends BaseProvider {
-  Future<List<Campaign>> fetchFeatured() async {
-    final response = await cmsGet(
-        "/campaigns?featured=true&_sort=published_at:DESC&approved=true");
+  List<FeaturedCampaign> campaigns = [];
+
+  Future<List<FeaturedCampaign>> getAll() async {
+    var response = await http.get(Uri.parse(Constants.BASE_URL_CMS +
+        "campaigns?fields[0]=title&fields[1]=description&filters[on_spot]=true&populate[images][fields][0]=url"));
 
     if (response.statusCode == 200) {
-      final campaings = (jsonDecode(response.body) as List)
-          .map((i) => Campaign.fromJson(i))
-          .toList();
-      return campaings;
-    } else {
-      throw Exception(
-          "Failed to fetch featured campaigns. Error ${response.statusCode}");
+      campaigns.clear();
     }
+    var decodedData = jsonDecode(response.body)["data"];
+
+    for (var u in decodedData) {
+      var url = u['attributes']['images']['data'][0]['attributes']['url'];
+      campaigns.add(FeaturedCampaign.fromJson(u['attributes'], u["id"], url));
+    }
+    return campaigns;
   }
 
-  Future<List<Campaign>> fetchTopOfCategory(int categoryId) async {
-    final response = await cmsGet(
-        "/campaigns?category=$categoryId&_sort=published_at:DESC&approved=true&_limit=2");
+  Future<List<CampaignData>> getCampaignData() async {
+    List<CampaignData> campaigns = [];
+    var response = await http.get(Uri.parse(Constants.BASE_URL_CMS +
+        "campaigns?populate[0]=images&populate[1]=fundraiser&filters[on_spot]=true&filters[approved]=true&sort[1]=createdAt:desc"));
 
     if (response.statusCode == 200) {
-      final campaings = (jsonDecode(response.body) as List)
-          .map((i) => Campaign.fromJson(i))
-          .toList();
-      return campaings;
-    } else {
-      throw Exception(
-          "Failed to fetch top campaigns of category $categoryId. Error ${response.statusCode}");
+      campaigns.clear();
     }
+    var decodedData = jsonDecode(response.body)["data"];
+
+    for (var u in decodedData) {
+      var images = u['attributes']['images']['data'];
+      var fundraiser = u['attributes']['fundraiser']['data'];
+      List<CampaignImage> imageList = [];
+      for (var i in images) {
+        imageList.add(CampaignImage.fromJson(i['attributes']));
+      }
+
+      campaigns.add(CampaignData.fromJson(
+          u['attributes'],
+          u["id"],
+          Fundraiser.fromJson(fundraiser['attributes'], fundraiser['id']),
+          imageList));
+    }
+    return campaigns;
   }
 
-  Future<List<Campaign>> fetchOfCategory(
+  Future<List<CampaignData>> getCampaignByName(String name) async {
+    List<CampaignData> campaigns = [];
+    var response = await http.get(Uri.parse(Constants.BASE_URL_CMS +
+        "campaigns?populate[0]=images&populate[1]=fundraiser&filters[title]=" +
+        name +
+        "&sort[1]=createdAt:desc"));
+
+    if (response.statusCode == 200) {
+      campaigns.clear();
+    }
+    var decodedData = jsonDecode(response.body)["data"];
+
+    for (var u in decodedData) {
+      var images = u['attributes']['images']['data'];
+      var fundraiser = u['attributes']['fundraiser']['data'];
+      List<CampaignImage> imageList = [];
+      for (var i in images) {
+        imageList.add(CampaignImage.fromJson(i['attributes']));
+      }
+
+      campaigns.add(CampaignData.fromJson(
+          u['attributes'],
+          u["id"],
+          Fundraiser.fromJson(fundraiser['attributes'], fundraiser['id']),
+          imageList));
+    }
+    return campaigns;
+  }
+
+  Future<CampaignData> getOneCampaignData(String id) async {
+    var response = await http.get(Uri.parse(Constants.BASE_URL_CMS +
+        "campaigns/$id?populate[0]=category&populate[1]=fundraiser&&populate[2]=images"));
+
+    if (response.statusCode == 200) {
+      campaigns.clear();
+    }
+    var decodedData = jsonDecode(response.body)["data"];
+    var images = decodedData['attributes']['images']['data'];
+    var fundraiser = decodedData['attributes']['fundraiser']['data'];
+    List<CampaignImage> imageList = [];
+    for (var i in images) {
+      imageList.add(CampaignImage.fromJson(i['attributes']));
+    }
+
+    return CampaignData.fromJson(
+        decodedData['attributes'],
+        decodedData["id"],
+        Fundraiser.fromJson(fundraiser['attributes'], fundraiser['id']),
+        imageList);
+  }
+
+  Future<List<CampaignData>> fetchOfCategory(
     int categoryId,
-    int pageKey,
+    int page,
     int pageSize,
   ) async {
-    final response = await cmsGet(
-        "/campaigns?category=$categoryId&_sort=published_at:DESC&approved=true&_start=$pageKey&_limit=$pageSize");
+    List<CampaignData> campaigns = [];
+    var response = await http.get(Uri.parse(Constants.BASE_URL_CMS +
+        "campaigns?populate[0]=images&populate[1]=fundraiser&filters[category]=" +
+        categoryId.toString() +
+        "&sort[1]=createdAt:desc&pagination[page]=" +
+        page.toString() +
+        "&pagination[pageSize]=" +
+        pageSize.toString()));
 
     if (response.statusCode == 200) {
-      final campaings = (jsonDecode(response.body) as List)
-          .map((i) => Campaign.fromJson(i))
-          .toList();
-      return campaings;
-    } else {
-      throw Exception(
-          "Failed to fetch campaigns of category $categoryId. Error ${response.statusCode}");
+      campaigns.clear();
     }
+    var decodedData = jsonDecode(response.body)["data"];
+
+    for (var u in decodedData) {
+      var images = u['attributes']['images']['data'];
+      var fundraiser = u['attributes']['fundraiser']['data'];
+      List<CampaignImage> imageList = [];
+      for (var i in images) {
+        imageList.add(CampaignImage.fromJson(i['attributes']));
+      }
+
+      campaigns.add(CampaignData.fromJson(
+          u['attributes'],
+          u["id"],
+          Fundraiser.fromJson(fundraiser['attributes'], fundraiser['id']),
+          imageList));
+    }
+    return campaigns;
   }
 
-  Future<List<Campaign>> fetchPendingApproval(
-    int pageKey,
-    int pageSize,
+  Future<List<Donation>> fetchDonationsByCampagn(int campagnId) async {
+    List<Donation> donations = [];
+    var response = await http.get(Uri.parse(
+        Constants.BASE_URL_CMS + "donations?filters[campaign]=$campagnId"));
+
+    if (response.statusCode == 200) {
+      donations.clear();
+      var decodedData = jsonDecode(response.body)["data"];
+
+      for (var u in decodedData) {
+        var donation = Donation.fromJson(u['attributes'], u['id']);
+        donations.add(donation);
+      }
+    }
+    return donations;
+  }
+
+  Future<CampaignPending> fetchPendingApproval(
+    int lastCategoryId,
+    String lastCampaignId,
   ) async {
-    final response = await cmsGet(
-        "/campaigns?_sort=created_at:DESC&approved=false&_start=$pageKey&_limit=$pageSize");
-
-    if (response.statusCode == 200) {
-      final campaings = (jsonDecode(response.body) as List)
-          .map((i) => Campaign.fromJson(i))
-          .toList();
-      return campaings;
-    } else {
-      throw Exception(
-          "Failed to fetch pending approval campaigns. Error ${response.statusCode}");
-    }
+    return CampaignPending(0, List.empty());
   }
 
-  Future<List<Campaign>> fetchSearchCampaign(
+  Future<List<CampaignData>> fetchSearchCampaign(
     String keyword,
     int pageKey,
     int pageSize,
   ) async {
-    if (keyword.isEmpty) {
-      return List.empty();
-    }
-
-    final response = await cmsGet(
-        "/campaigns?_sort=created_at:DESC&approved=true&title_contains=$keyword&_start=$pageKey&_limit=$pageSize");
-
-    if (response.statusCode == 200) {
-      final campaings = (jsonDecode(response.body) as List)
-          .map((i) => Campaign.fromJson(i))
-          .toList();
-      return campaings;
-    } else {
-      throw Exception(
-          "Failed to fetch pending approval campaigns. Error ${response.statusCode}");
-    }
-  }
-
-  Future<int> countPendingApproval() async {
-    final response = await cmsGet("/campaigns/count?approved=false");
+    List<CampaignData> campaigns = [];
+    var response = await http.get(Uri.parse(Constants.BASE_URL_CMS +
+        "campaigns?populate[0]=images&populate[1]=fundraiser&filters[title][\$containsi]=" +
+        keyword +
+        "&sort[1]=createdAt:desc&pagination[page]=" +
+        pageKey.toString() +
+        "&pagination[pageSize]=" +
+        pageSize.toString()));
 
     if (response.statusCode == 200) {
-      return int.parse(response.body);
-    } else {
-      throw Exception(
-          "Failed to count pending approval campaigns. Error ${response.statusCode}");
+      campaigns.clear();
     }
+    var decodedData = jsonDecode(response.body)["data"];
+
+    for (var u in decodedData) {
+      var images = u['attributes']['images']['data'];
+      var fundraiser = u['attributes']['fundraiser']['data'];
+      List<CampaignImage> imageList = [];
+      for (var i in images) {
+        imageList.add(CampaignImage.fromJson(i['attributes']));
+      }
+
+      campaigns.add(CampaignData.fromJson(
+          u['attributes'],
+          u["id"],
+          Fundraiser.fromJson(fundraiser['attributes'], fundraiser['id']),
+          imageList));
+    }
+    return campaigns;
   }
 }

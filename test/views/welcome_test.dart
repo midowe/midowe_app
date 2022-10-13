@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:midowe_app/views/welcome_view.dart';
+import 'package:midowe_app/screens/welcome_screen.dart';
 
-Widget createWelcomeView() => WelcomeView();
+Widget createWelcomeView() => WelcomeScreen();
 
 void main() {
   group('Welcome view tests', () {
