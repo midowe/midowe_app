@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string
+        name="com_auth0_domain"
+        >midowe.us.auth0.com</string>
+    <string
+        name="com_auth0_scheme"
+        >https</string>
+</resources>

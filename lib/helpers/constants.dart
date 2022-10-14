@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+String sessionUserSub = "";
+
 class Constants {
   Constants._();
 
@@ -15,6 +17,10 @@ class Constants {
   static const Color secondaryColor3 = Color.fromRGBO(239, 240, 246, 1.0);
   static const Color secondaryColor4 = Color.fromRGBO(231, 227, 238, 1.0);
   static const Color palidGray = Color.fromRGBO(112, 112, 112, 1.0);
+
+  // Auth0
+  static const String AUTH0_DOMAIN = "midowe.us.auth0.com";
+  static const String AUTH0_CLIENT_ID = "JOMO4PLaodA5kzSOephDR8Ynqat4yqWZ";
 
   // DEV
   static const String BASE_URL_CMS = "https://cms.dev.midowe.co.mz/api/";

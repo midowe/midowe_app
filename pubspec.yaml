@@ -44,6 +44,7 @@ dependencies:
   page_transition: ^2.0.5
   flutter_native_splash: ^2.2.3+1
   share_plus: ^4.0.10
+  auth0_flutter: ^1.0.1
   # flutter_share_me: ^1.2.0
 
   # flutter_share_me: ^1.2.0
