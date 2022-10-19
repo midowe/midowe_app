@@ -25,12 +25,12 @@ class HomePageExplore extends StatefulWidget {
 
 class _HomePageCampaigns extends State<HomePageExplore> {
   final campaignProvider = GetIt.I.get<CampaignProvider>();
-  late Future<List<CampaignData>> campaigns;
+  late Future<List<CampaignData>> trendingCampaigns;
 
   @override
   void initState() {
     super.initState();
-    this.campaigns = campaignProvider.getCampaignData();
+    this.trendingCampaigns = campaignProvider.getTrendingCampaigns();
   }
 
   @override
@@ -64,7 +64,7 @@ class _HomePageCampaigns extends State<HomePageExplore> {
               backgroundColor: Colors.purple,
               color: Colors.white,
               child: Column(children: [
-                FeaturedArea(campaigns: campaigns),
+                FeaturedArea(campaigns: trendingCampaigns),
                 CategoriesArea(),
               ]),
               onRefresh: _pullRefresh)
@@ -74,9 +74,9 @@ class _HomePageCampaigns extends State<HomePageExplore> {
   }
 
   Future<void> _pullRefresh() async {
-    Future<List<CampaignData>> campas = campaignProvider.getCampaignData();
+    Future<List<CampaignData>> campas = campaignProvider.getTrendingCampaigns();
     setState(() {
-      campaigns = campas;
+      trendingCampaigns = campas;
     });
   }
 }
@@ -167,7 +167,7 @@ class FeaturedItem extends StatelessWidget {
                         placeholder: kTransparentImage,
                         image: campaign.images![0].url,
                         width: double.infinity,
-                        fit: BoxFit.fitHeight),
+                        fit: BoxFit.cover),
                   ),
                 ),
               ],

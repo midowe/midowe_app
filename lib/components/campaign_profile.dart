@@ -193,45 +193,6 @@ class CampaignStats extends StatelessWidget {
   }
 }
 
-class CategoryNameArea extends StatefulWidget {
-  final int categoryId;
-
-  const CategoryNameArea({Key? key, required this.categoryId})
-      : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() {
-    return _CategoryNameAreaState();
-  }
-}
-
-class _CategoryNameAreaState extends State<CategoryNameArea> {
-  final categoryProvider = GetIt.I.get<CategoryProvider>();
-  late Future<Category> category;
-
-  @override
-  void initState() {
-    super.initState();
-    this.category = categoryProvider.fetchCategoryById(widget.categoryId);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<Category>(
-      future: category,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Text(snapshot.data!.name);
-        } else if (snapshot.hasError) {
-          return Text('${snapshot.error}');
-        }
-
-        return Text("...");
-      },
-    );
-  }
-}
-
 class CampaignContent extends StatelessWidget {
   final CampaignData campaign;
 
@@ -406,7 +367,7 @@ class CampaignDonations extends StatelessWidget {
   Widget build(BuildContext context) {
     final campaignProvider = GetIt.I.get<CampaignProvider>();
     Future<List<Donation>> donations =
-        campaignProvider.fetchDonationsByCampagn(campaign.id);
+        campaignProvider.listDonationsOfCampaign(campaign.id);
 
     return Container(
       padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),

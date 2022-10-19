@@ -81,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             else
               {
-                auth0.webAuthentication().login().then(
+                auth0.webAuthentication(scheme: 'midowe').login().then(
                     (credentials) => {_setStateAndUserSub(credentials, index)})
               }
           });

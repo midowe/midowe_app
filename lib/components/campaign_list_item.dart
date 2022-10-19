@@ -33,7 +33,7 @@ class CampaignListItem extends StatelessWidget {
                     placeholder: circularProgressIndicatorSmall,
                     image: campaign.images![0].url,
                     width: double.infinity,
-                    fit: BoxFit.fitHeight),
+                    fit: BoxFit.cover),
               ),
             ),
             SizedBox(

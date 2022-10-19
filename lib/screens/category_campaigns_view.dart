@@ -99,7 +99,7 @@ class _CategoryCampaignListState extends State<CategoryCampaignList> {
       if (pageKey == 0) {
         _lastCampaign = null;
       }
-      final newItems = await campaignProvider.fetchOfCategory(
+      final newItems = await campaignProvider.listCampaignsOfCategory(
           widget.category.id, pageKey, 10);
 
       if (newItems.isNotEmpty) {

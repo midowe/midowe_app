@@ -23,16 +23,16 @@ class Constants {
   static const String AUTH0_CLIENT_ID = "JOMO4PLaodA5kzSOephDR8Ynqat4yqWZ";
 
   // DEV
-  static const String BASE_URL_CMS = "https://cms.dev.midowe.co.mz/api/";
-  static const String BASE_URL_WEB = "https://web.dev.midowe.co.mz/";
-  static const String BASE_URL_ACCOUNTING =
-      "https://eugqgyjdksk2hoi7rj6b23zjti0grskw.lambda-url.af-south-1.on.aws";
+  // static const String BASE_URL_CMS = "https://cms.dev.midowe.co.mz/api/";
+  // static const String BASE_URL_WEB = "https://web.dev.midowe.co.mz/";
+  // static const String BASE_URL_ACCOUNTING =
+  //     "https://eugqgyjdksk2hoi7rj6b23zjti0grskw.lambda-url.af-south-1.on.aws";
 
   // PRD
-  // static const String BASE_URL_CMS = "https://cms.midowe.co.mz/api/";
-  // static const String BASE_URL_WEB = "https://web.midowe.co.mz/";
-  // static const String BASE_URL_ACCOUNTING =
-  //     "https://xlhofsmgf4o3xtpleqam77sd240braxu.lambda-url.af-south-1.on.aws";
+  static const String BASE_URL_CMS = "https://cms.midowe.co.mz/api/";
+  static const String BASE_URL_WEB = "https://web.midowe.co.mz/";
+  static const String BASE_URL_ACCOUNTING =
+      "https://xlhofsmgf4o3xtpleqam77sd240braxu.lambda-url.af-south-1.on.aws";
 
   // Shared preferences
   static const String PREF_ACCEPTED_TERMS = "pref.accepted.terms";

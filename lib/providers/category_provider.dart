@@ -1,14 +1,13 @@
 import 'dart:convert';
 
 import 'package:midowe_app/models/category_model.dart';
-import 'package:midowe_app/providers/base_provider.dart';
 import 'package:http/http.dart' as http;
 import '../models/campaign_data.dart';
 import '../models/campaign_image.dart';
 import '../models/fundraiser.dart';
 import '../helpers/constants.dart';
 
-class CategoryProvider extends BaseProvider {
+class CategoryProvider {
   List<CampaignData> campaigns = [];
 
   Future<List<Category>> fetchAllCategories(
@@ -47,43 +46,5 @@ class CategoryProvider extends BaseProvider {
           .add(Category.fromJson(u['attributes'], u["id"], campaignsList));
     }
     return categories;
-  }
-
-  Future<List<Category>> fetchCategoriesfetchCategories() async {
-    return [
-      Category(
-          id: 1,
-          name: 'Saude',
-          description: 'Saude, Medicação',
-          campaigns: campaigns,
-          updatedAt: "",
-          createdAt: ""),
-      Category(
-        id: 2,
-        name: 'Musca',
-        description: 'Musca, Arte, Cultura',
-        campaigns: campaigns,
-        updatedAt: "",
-        createdAt: "",
-      ),
-      Category(
-          id: 2,
-          name: 'Projectos',
-          description: 'Iniciativas diferenes',
-          campaigns: campaigns,
-          updatedAt: "",
-          createdAt: ""),
-    ];
-  }
-
-  Future<Category> fetchCategoryById(int categoryId) async {
-    return Category(
-      id: 2,
-      name: 'Saude',
-      description: 'Saude, Medicação',
-      campaigns: campaigns,
-      updatedAt: "",
-      createdAt: "",
-    );
   }
 }
