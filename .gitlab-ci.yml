@@ -1,7 +1,7 @@
 image: mingc/android-build-box:latest
 
 stages:
-  - tes
+  - test
 
 test:
   stage: test
