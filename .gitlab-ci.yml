@@ -1,0 +1,9 @@
+image: mingc/android-build-box:latest
+
+stages:
+  - tes
+
+test:
+  stage: test
+  script:
+    - flutter --version
