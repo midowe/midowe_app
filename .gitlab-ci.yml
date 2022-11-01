@@ -11,8 +11,6 @@ variables:
 
 .android_docker_image:
   image: xetics/flutter:1.5.4-stable
-  tags:
-    - flutter-android
 
 .android_key_store:
   extends: .android_docker_image
