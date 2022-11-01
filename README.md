@@ -17,3 +17,9 @@ Run emulator
 ## Guides
 
 - Add bottom bar: https://blog.logrocket.com/how-to-build-a-bottom-navigation-bar-in-flutter/
+
+# Keystore
+
+- alias: key
+- password: senha123
+- path: ./key/keystore.jks
