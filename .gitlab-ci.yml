@@ -61,15 +61,6 @@ android_play_store_internal_and_alpha_deployment:
     - bundle exec fastlane upload_to_play_store_internal
     - bundle exec fastlane promote_internal_to_alpha
 
-app_store_submit_to_review:
-  stage: productive_deployment
-  extends: .setup_fastlane_ios
-  dependencies:
-    - ios_testflight_beta_deployment
-  script: bundle exec fastlane submit_review
-  when: manual
-  allow_failure: false
-
 android_play_store_productive_deployment:
   stage: productive_deployment
   extends: .setup_fastlane_android
