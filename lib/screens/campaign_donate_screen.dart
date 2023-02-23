@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,7 +30,7 @@ class CampaignDonateScreen extends StatefulWidget {
 
 class _CampaignDonateScreenState extends State<CampaignDonateScreen> {
   double _value = 10.0;
-  final Map<String, dynamic> _formData = {
+  Map<String, dynamic> _formData = {
     'account_id': '',
     'campaign_id': '',
     'amount': '',
@@ -253,7 +252,7 @@ class _CampaignDonateScreenState extends State<CampaignDonateScreen> {
               onPressed: () => {},
               style: TextButton.styleFrom(
                 backgroundColor: Constants.secondaryColor3,
-                primary: Constants.secondaryColor,
+                foregroundColor: Constants.secondaryColor,
                 shape: RoundedRectangleBorder(
                     side: BorderSide(
                         color: Constants.primaryColor,
@@ -428,13 +427,14 @@ class _CampaignDonateScreenState extends State<CampaignDonateScreen> {
     );
     _formData['amount'] = amountPicker.pickedAmount;
     _formData['tip_percent'] = (_value / 100);
+    _formData.removeWhere((key, value) => value.toString().isEmpty);
     var response = await http.post(Uri.parse(Constants.BASE_URL_ACCOUNTING),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(_formData));
     if (response.statusCode == 201) {
-      var payment_response = jsonDecode(response.body)['payment_response'];
+      //var payment_response = jsonDecode(response.body)['payment_response'];
       Navigator.of(context).pop();
       showThanksDialog(context, widget.campaign.thank_you_message,
           _formData['amount'].toString());
