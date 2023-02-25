@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:midowe_app/components/primary_outline_button.dart';
 import 'package:midowe_app/models/amount_model.dart';
+import 'package:midowe_app/models/payment_response.dart';
 import 'package:midowe_app/providers/accounting_provider.dart';
 import 'package:midowe_app/helpers/constants.dart';
 import 'package:midowe_app/components/amount_picker.dart';
@@ -15,6 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 import '../models/campaign_data.dart';
 import 'package:http/http.dart' as http;
+import '../components/alert_dialog.dart';
 
 class CampaignDonateScreen extends StatefulWidget {
   final CampaignData campaign;
@@ -434,13 +436,28 @@ class _CampaignDonateScreenState extends State<CampaignDonateScreen> {
         },
         body: jsonEncode(_formData));
     if (response.statusCode == 201) {
-      //var payment_response = jsonDecode(response.body)['payment_response'];
-      Navigator.of(context).pop();
-      showThanksDialog(context, widget.campaign.thank_you_message,
-          _formData['amount'].toString());
+      PaymentResponse paymentResponse = PaymentResponse.fromJson(
+          jsonDecode(response.body)['payment_response']);
+
+      if (paymentResponse.success) {
+        Navigator.of(context).pop();
+        showThanksDialog(context, widget.campaign.thank_you_message,
+            _formData['amount'].toString());
+      } else {
+        Navigator.pop(context);
+        showDialog(
+          context: context,
+          builder: (_) =>
+              AlertDialogComponent('Erro', 'Failed to regist donation'),
+        );
+      }
     } else {
-      Navigator.pop(context); //pop dialogti
-      throw Exception("Failed to regist donation");
+      Navigator.pop(context);
+      showDialog(
+        context: context,
+        builder: (_) =>
+            AlertDialogComponent('Erro', 'Failed to regist donation'),
+      );
     }
   }
 
