@@ -482,17 +482,6 @@ class _CampaignDonateScreenState extends State<CampaignDonateScreen> {
                   AssetImage("assets/images/hands-holding-words-thank-you.png"),
             ),
             SizedBox(
-              height: 5,
-            ),
-            Text(
-              "Recebemos a sua contribução",
-              style: TextStyle(
-                  fontSize: 18,
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.w600,
-                  color: Constants.primaryColor),
-            ),
-            SizedBox(
               height: 10,
             ),
             Row(
