@@ -1,0 +1,22 @@
+name: android internal release
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - feature/ci_cd
+
+jobs:
+  release_internal:
+    name: build and release to internal track
+#    if: startsWith(github.event.head_commit.message, 'release-production:') || startsWith(github.event.head_commit.message, 'release-all:')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
