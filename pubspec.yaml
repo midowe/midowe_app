@@ -48,6 +48,7 @@ dependencies:
   # flutter_share_me: ^1.2.0
 
 dev_dependencies:
+  build_runner: ^2.3.3
   flutter_launcher_icons: ^0.10.0
   flutter_test:
     sdk: flutter
