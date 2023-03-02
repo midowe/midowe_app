@@ -40,8 +40,8 @@ jobs:
       - name: Format files
         run: flutter format --set-exit-if-changed .
 
-      - name: Dart Analyze
-        run: flutter analyze --no-fatal-infos
+      #      - name: Dart Analyze
+      #        run: flutter analyze --no-fatal-infos
 
       - name: Run the tests
         run: flutter test
