@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 class PaymentRequest {
   late String account_id;
   late String campaign_id;

@@ -11,10 +11,10 @@ import 'package:midowe_app/screens/campaign_profile_screen.dart';
 
 import '../models/campaign_data.dart';
 
-class CategoryCampaignView extends StatelessWidget {
+class CategoryCampaignScreen extends StatelessWidget {
   final Category category;
 
-  CategoryCampaignView({required this.category});
+  CategoryCampaignScreen({required this.category});
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +81,6 @@ class CategoryCampaignList extends StatefulWidget {
 class _CategoryCampaignListState extends State<CategoryCampaignList> {
   static const _pageSize = 10;
   final campaignProvider = GetIt.I.get<CampaignProvider>();
-  CampaignData? _lastCampaign;
 
   final PagingController<int, CampaignData> _pagingController =
       PagingController(firstPageKey: 0);
@@ -96,15 +95,8 @@ class _CategoryCampaignListState extends State<CategoryCampaignList> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      if (pageKey == 0) {
-        _lastCampaign = null;
-      }
       final newItems = await campaignProvider.listCampaignsOfCategory(
           widget.category.id, pageKey, 10);
-
-      if (newItems.isNotEmpty) {
-        _lastCampaign = newItems.last;
-      }
 
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {

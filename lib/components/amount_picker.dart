@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:midowe_app/helpers/constants.dart';
 import 'package:midowe_app/models/amount_model.dart';
 import 'package:provider/provider.dart';
-import 'package:midowe_app/helpers/constants.dart';
 
+// ignore: must_be_immutable
 class AmountPicker extends StatefulWidget {
   int pickedAmount = 100;
 
@@ -52,11 +53,11 @@ class _AmountPicker extends State<AmountPicker> {
     return TextButton(
       onPressed: () => updateAmount(context, amount, amount == 0),
       style: TextButton.styleFrom(
+        foregroundColor: Constants.secondaryColor,
         backgroundColor:
             selectedAmount == amount || (label == "OUTRO" && otherAmount)
                 ? Constants.primaryColor
                 : Constants.secondaryColor3,
-        primary: Constants.secondaryColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
       ),
       child: Padding(

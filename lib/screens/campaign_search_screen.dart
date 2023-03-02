@@ -18,7 +18,7 @@ class CampaignSearchScreen extends StatefulWidget {
 class _CampaignSearchScreenState extends State<CampaignSearchScreen> {
   static const _pageSize = 10;
   final campaignProvider = GetIt.I.get<CampaignProvider>();
-  final seaerchInputController = TextEditingController();
+  final searchInputController = TextEditingController();
 
   final PagingController<int, CampaignData> _pagingController =
       PagingController(firstPageKey: 1);
@@ -34,7 +34,7 @@ class _CampaignSearchScreenState extends State<CampaignSearchScreen> {
   Future<void> _fetchPage(int pageKey) async {
     try {
       final newItems = await campaignProvider.fetchSearchCampaign(
-          seaerchInputController.text, pageKey, _pageSize);
+          searchInputController.text, pageKey, _pageSize);
 
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
@@ -70,9 +70,9 @@ class _CampaignSearchScreenState extends State<CampaignSearchScreen> {
                   Expanded(
                     child: TextFormField(
                       onChanged: (value) => {_pagingController.refresh()},
-                      controller: seaerchInputController,
+                      controller: searchInputController,
                       decoration: inputBorderlessRounded(
-                          "Pesquise aqui", FontAwesomeIcons.search),
+                          "Pesquise aqui", FontAwesomeIcons.magnifyingGlass),
                       textInputAction: TextInputAction.next,
                       autofocus: true,
                     ),

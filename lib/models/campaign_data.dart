@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'campaign_image.dart';
 import 'fundraiser.dart';
 

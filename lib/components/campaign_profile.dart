@@ -11,7 +11,6 @@ import 'package:midowe_app/models/category_model.dart';
 import 'package:midowe_app/models/donation_model.dart';
 import 'package:midowe_app/models/fundraiser.dart';
 import 'package:midowe_app/providers/campaign_provider.dart';
-import 'package:midowe_app/providers/category_provider.dart';
 import 'package:midowe_app/providers/fundraiser_provider.dart';
 import 'package:midowe_app/screens/image_prevew_screen.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -343,7 +342,7 @@ class CampaignContent extends StatelessWidget {
                 },
               ),
               SocialIconButton(
-                icon: Icon(FontAwesomeIcons.shareAlt),
+                icon: Icon(FontAwesomeIcons.shareNodes),
                 onPressed: () {
                   /*  flutterShareMe.shareToSystem(
                       msg:

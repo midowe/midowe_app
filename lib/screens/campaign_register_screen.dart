@@ -345,7 +345,7 @@ class _CampaignRegisterForm extends State<CampaignRegisterForm> {
   }
 
   _onCancel() {
-    _currentStep > 0 ? setState(() => _currentStep -= 1) : null;
+    setState(() => _currentStep -= 1);
   }
 
   _onFinish() {

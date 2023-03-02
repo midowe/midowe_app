@@ -1,22 +1,24 @@
 import 'dart:convert';
 import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart' as http;
+import 'package:midowe_app/components/amount_picker.dart';
+import 'package:midowe_app/components/primary_button_icon.dart';
 import 'package:midowe_app/components/primary_outline_button.dart';
+import 'package:midowe_app/helpers/constants.dart';
 import 'package:midowe_app/models/amount_model.dart';
 import 'package:midowe_app/models/payment_response.dart';
 import 'package:midowe_app/providers/accounting_provider.dart';
-import 'package:midowe_app/helpers/constants.dart';
-import 'package:midowe_app/components/amount_picker.dart';
-import 'package:midowe_app/components/primary_button_icon.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
-import '../models/campaign_data.dart';
-import 'package:http/http.dart' as http;
+
 import '../components/alert_dialog.dart';
+import '../models/campaign_data.dart';
 
 class CampaignDonateScreen extends StatefulWidget {
   final CampaignData campaign;
@@ -49,7 +51,7 @@ class _CampaignDonateScreenState extends State<CampaignDonateScreen> {
 
   final AmountPicker amountPicker = AmountPicker();
 
-  final accoutingProvider = GetIt.I.get<AccountingProvider>();
+  final accountingProvider = GetIt.I.get<AccountingProvider>();
 
   @override
   Widget build(BuildContext context) {
@@ -342,7 +344,7 @@ class _CampaignDonateScreenState extends State<CampaignDonateScreen> {
           onChanged: (value) => _formData['supporter_email'] = value.trim(),
           validator: (value) {
             if (value != null &&
-                !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                     .hasMatch(value) &&
                 value.isNotEmpty) {
               return "Introduza um email válido!";

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "224853937746",
+    "project_id": "midowe",
+    "storage_bucket": "midowe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224853937746:android:b166c9d4307f79e2da998b",
+        "android_client_info": {
+          "package_name": "mz.co.midowe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224853937746-351qc43bo3r4v9eaut447nh6nd1f9fg1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLzgTpjLpJK1ZoH1B_EW-5ciDJkmnt-rc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224853937746-351qc43bo3r4v9eaut447nh6nd1f9fg1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

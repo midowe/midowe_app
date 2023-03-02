@@ -12,7 +12,7 @@ import 'package:midowe_app/providers/campaign_provider.dart';
 import 'package:midowe_app/providers/category_provider.dart';
 import 'package:midowe_app/screens/campaign_profile_screen.dart';
 import 'package:midowe_app/screens/campaign_search_screen.dart';
-import 'package:midowe_app/screens/category_campaigns_view.dart';
+import 'package:midowe_app/screens/category_campaign_screen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -301,7 +301,7 @@ class CategoryItemArea extends StatelessWidget {
                       context,
                       PageTransition(
                         type: PageTransitionType.leftToRight,
-                        child: CategoryCampaignView(category: categoryItem),
+                        child: CategoryCampaignScreen(category: categoryItem),
                       ));
                 },
               ),
