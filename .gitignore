@@ -63,3 +63,9 @@ app.*.map.json
 lib/awsconfig.dart
 .secret-*
 **.sample
+
+# Ignore Android keys
+key.jks
+key.properties
+service_account_key.json
+android/android_keys.zip
