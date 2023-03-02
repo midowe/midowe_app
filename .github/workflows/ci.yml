@@ -9,8 +9,6 @@ on:
 
 jobs:
   build_android:
-    name: build and release to internal track
-    #    if: startsWith(github.event.head_commit.message, 'release-production:') || startsWith(github.event.head_commit.message, 'release-all:')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
