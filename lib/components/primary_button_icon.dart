@@ -20,7 +20,8 @@ class PrimaryButtonIcon extends StatelessWidget {
     return TextButton(
       onPressed: this.onPressed,
       style: TextButton.styleFrom(
-        foregroundColor: textColor, backgroundColor: backgroundColor,
+        foregroundColor: textColor,
+        backgroundColor: backgroundColor,
         padding: EdgeInsets.all(12),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       ),

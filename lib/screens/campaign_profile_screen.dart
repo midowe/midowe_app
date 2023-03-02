@@ -34,7 +34,8 @@ class CampaignProfileScreen extends StatelessWidget {
                             ));
                       },
                       style: TextButton.styleFrom(
-                        foregroundColor: Colors.white, backgroundColor: Constants.primaryColor,
+                        foregroundColor: Colors.white,
+                        backgroundColor: Constants.primaryColor,
                         padding:
                             EdgeInsets.symmetric(horizontal: 40, vertical: 12),
                       ),
@@ -57,7 +58,8 @@ class CampaignProfileScreen extends StatelessWidget {
                     TextButton(
                         onPressed: () => _onShare(context, campaign),
                         style: TextButton.styleFrom(
-                          foregroundColor: Constants.primaryBackGround, backgroundColor: Constants.primaryBackGround,
+                          foregroundColor: Constants.primaryBackGround,
+                          backgroundColor: Constants.primaryBackGround,
                           padding: EdgeInsets.symmetric(
                               horizontal: 20, vertical: 12),
                           side: BorderSide(

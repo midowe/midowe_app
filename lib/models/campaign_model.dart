@@ -33,9 +33,7 @@ class Campaign {
     required this.createdAt,
   });
 
-
-  factory Campaign.
-  fromJson(Map<String, dynamic> json) {
+  factory Campaign.fromJson(Map<String, dynamic> json) {
     return Campaign(
       categoryId: json['categoryId'],
       campaignId: json['campaignId'],
