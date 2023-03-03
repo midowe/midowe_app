@@ -45,15 +45,15 @@ jobs:
 
       #      - name: Run the tests
       #        run: flutter test
-
-      - name: Build the APK
-        run: flutter build apk --release
-
-      - name: Upload artifact to Github
-        uses: actions/upload-artifact@v1
-        with:
-          name: release-apk
-          path: build/app/outputs/apk/release/app-release.apk
+    #
+    #      - name: Build the APK
+    #        run: flutter build apk --release
+    #
+    #      - name: Upload artifact to Github
+    #        uses: actions/upload-artifact@v1
+    #        with:
+    #          name: release-apk
+    #          path: build/app/outputs/apk/release/app-release.apk
 
     # CD
   deploy_android:
@@ -86,8 +86,13 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+
       - name: Run Fastlane
-        uses: maierj/fastlane-action@v1.4.0
+        uses: maierj/fastlane-action@v3.0.0
         with:
           lane: closed_beta
           subdirectory: android
