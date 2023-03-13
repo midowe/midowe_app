@@ -72,7 +72,7 @@ class _CampaignSearchScreenState extends State<CampaignSearchScreen> {
                       onChanged: (value) => {_pagingController.refresh()},
                       controller: seaerchInputController,
                       decoration: inputBorderlessRounded(
-                          "Pesquise aqui", FontAwesomeIcons.search),
+                          "Pesquise aqui", FontAwesomeIcons.magnifyingGlass),
                       textInputAction: TextInputAction.next,
                       autofocus: true,
                     ),

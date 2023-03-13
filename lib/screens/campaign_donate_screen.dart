@@ -17,6 +17,8 @@ import 'package:transparent_image/transparent_image.dart';
 import '../models/campaign_data.dart';
 import 'package:http/http.dart' as http;
 import '../components/alert_dialog.dart';
+import 'package:flutter/gestures.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CampaignDonateScreen extends StatefulWidget {
   final CampaignData campaign;
@@ -386,7 +388,11 @@ class _CampaignDonateScreenState extends State<CampaignDonateScreen> {
     return Column(
       children: [
         SizedBox(
-          height: 30,
+          height: 15,
+        ),
+        termsAndConditionsWidget(),
+        SizedBox(
+          height: 15,
         ),
         Consumer<AmountModel>(
           builder: (context, amountModel, child) => Column(
@@ -415,7 +421,7 @@ class _CampaignDonateScreenState extends State<CampaignDonateScreen> {
           ),
           Container(
             margin: EdgeInsets.only(left: 20),
-            child: Text("Confirme o pagamento no teu telemovel"),
+            child: Text("Confirme o pagamento no seu telemovel"),
           ),
         ],
       ),
@@ -441,86 +447,142 @@ class _CampaignDonateScreenState extends State<CampaignDonateScreen> {
 
       if (paymentResponse.success) {
         Navigator.of(context).pop();
+
+        double percent = double.parse(_formData['tip_percent'].toString());
+        double amount = double.parse(_formData['amount'].toString());
+        final tip = percent * amount;
+
         showThanksDialog(context, widget.campaign.thank_you_message,
-            _formData['amount'].toString());
+            _formData['amount'].toString(), tip.toString());
       } else {
         Navigator.pop(context);
         showDialog(
           context: context,
-          builder: (_) =>
-              AlertDialogComponent('Erro', 'Failed to regist donation'),
+          builder: (_) => AlertDialogComponent(
+              'Erro', 'Não foi possível processar a doação.'),
         );
       }
     } else {
       Navigator.pop(context);
       showDialog(
         context: context,
-        builder: (_) =>
-            AlertDialogComponent('Erro', 'Failed to regist donation'),
+        builder: (_) => AlertDialogComponent(
+            'Erro', 'Não foi possível processar a doação.'),
       );
     }
   }
 
-  showThanksDialog(BuildContext context, String message, String amount) {
+  backStack() {
+    //make back to campain profile page
+    List<Route<dynamic>> routes = [];
+    Navigator.of(context).popUntil((route) {
+      routes.add(route);
+      return route.isFirst;
+    });
+  }
+
+  showThanksDialog(
+      BuildContext context, String message, String amount, String tip) {
     // set up the buttons
     PrimaryOutlineButton okButton = new PrimaryOutlineButton(
         text: "Fechar",
         onPressed: () {
-          Navigator.of(context).pop();
+          backStack();
         });
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
+        contentPadding: EdgeInsets.zero,
         content: Wrap(
-      children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image(
-              image:
-                  AssetImage("assets/images/hands-holding-words-thank-you.png"),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Column(
               children: [
-                Text(
-                  "Montante:",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  amount + ' MT',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Image(
+                        image: AssetImage(
+                            "assets/images/hands-holding-words-thank-you.png"),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-            Text(
-              message,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  margin: EdgeInsets.all(16.0),
+                  child: Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.indigo,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Montante:",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      amount + ' MT',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Text(
+                    "Gorjeta:",
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    tip + ' MT',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ]),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  margin: EdgeInsets.all(16.0),
+                  child: okButton,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+              ],
             ),
-            SizedBox(
-              height: 10,
-            ),
-            okButton
           ],
-        ),
-      ],
-    ));
+        ));
 
     // show the dialog
     showDialog(
@@ -537,5 +599,46 @@ class _CampaignDonateScreenState extends State<CampaignDonateScreen> {
       return 'Mobile Number must be of 10 digit';
     else
       return null;
+  }
+
+  Widget termsAndConditionsWidget() {
+    return Container(
+      alignment: Alignment.center,
+      padding: EdgeInsets.all(5),
+      child: Center(
+          child: Text.rich(TextSpan(
+              text: 'Ao continuar, você concorda com nossos ',
+              style: TextStyle(fontSize: 12, color: Colors.black),
+              children: <TextSpan>[
+            textSpanAction('Termos'),
+            TextSpan(
+                text: ' e ',
+                style: TextStyle(fontSize: 12, color: Colors.black),
+                children: <TextSpan>[textSpanAction('Condições')])
+          ]))),
+    );
+  }
+
+  TextSpan textSpanAction(String value) {
+    return new TextSpan(
+        text: value,
+        style: TextStyle(
+          fontSize: 12,
+          color: Colors.black,
+          decoration: TextDecoration.underline,
+        ),
+        recognizer: TapGestureRecognizer()
+          ..onTap = () {
+            _launchURL();
+          });
+  }
+
+  void _launchURL() async {
+    Uri uri = Uri.parse('https://midowe.co.mz/terms');
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      AlertDialogComponent('Erro', 'Não foi possível aceder ao link: $uri');
+    }
   }
 }
